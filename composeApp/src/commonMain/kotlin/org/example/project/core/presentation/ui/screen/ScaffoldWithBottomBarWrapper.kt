@@ -1,0 +1,35 @@
+package org.example.project.core.presentation.ui.screen
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import org.example.project.app.navigation.route.TabRoute
+import org.example.project.app.navigation.utils.NavigationManager
+import org.example.project.core.presentation.ui.screen.components.AppBottomBar
+
+@Composable
+fun ScaffoldWithBottomBarWrapper(
+    navigationManager: NavigationManager,
+    tabs: List<TabRoute>,
+    content: @Composable () -> Unit
+) {
+    Scaffold(
+        bottomBar = {
+            AppBottomBar(
+                navigationManager, tabs
+            )
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            content()
+        }
+    }
+}
