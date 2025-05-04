@@ -1,4 +1,4 @@
-package org.example.project.core.data.database.entities.feed
+package org.example.project.features.feed.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

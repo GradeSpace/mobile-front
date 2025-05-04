@@ -1,20 +1,18 @@
 package org.example.project.app.navigation.utils
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavController
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.currentBackStackEntryAsState
-import org.example.project.app.navigation.route.CalendarRoutes
-import org.example.project.app.navigation.route.FeedRoutes
-import org.example.project.app.navigation.route.ProfileRoutes
+import kotlinx.coroutines.CoroutineScope
 import org.example.project.app.navigation.route.Route
 import org.example.project.app.navigation.route.TabRoute
-import org.example.project.app.navigation.route.TasksRoutes
 
 class NavigationManager(private val navController: NavHostController) {
 
@@ -23,6 +21,19 @@ class NavigationManager(private val navController: NavHostController) {
         val backStackEntry by navController.currentBackStackEntryAsState()
         return backStackEntry?.destination
     }
+
+    @Composable
+    fun subscribeNavigationOnLifecycle(
+        navEventsBlock: suspend CoroutineScope.() -> Unit
+    ) {
+        val lifecycleOwner = LocalLifecycleOwner.current
+        LaunchedEffect(lifecycleOwner.lifecycle) {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                navEventsBlock()
+            }
+        }
+    }
+
 
     fun navigateBack() {
         navController.popBackStack()
