@@ -30,7 +30,7 @@ fun NavGraphBuilder.tabsNavGraph(navigationManager: NavigationManager) {
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = {
                 showContent = !showContent
-                navigationManager.navigateToFeedScreen(FeedRoutes.FeedMain)
+                navigationManager.navigateTo(FeedRoutes.FeedMain)
             }) {
                 Text("Click me!")
             }

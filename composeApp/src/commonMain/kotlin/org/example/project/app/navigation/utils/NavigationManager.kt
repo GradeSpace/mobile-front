@@ -24,6 +24,10 @@ class NavigationManager(private val navController: NavHostController) {
         return backStackEntry?.destination
     }
 
+    fun navigateBack() {
+        navController.popBackStack()
+    }
+
     fun navigateTo(route: Route) {
         when (route) {
             is TabRoute -> navigateToTab(route)
@@ -34,11 +38,12 @@ class NavigationManager(private val navController: NavHostController) {
     private fun navigateToTab(tab: TabRoute) {
         navController.navigate(route = tab) {
             launchSingleTop = true
+            restoreState = true
+            navController.graph.findStartDestination().route?.let { route ->
+                popUpTo(route = route) {
+                    saveState = true
+                }
+            }
         }
-    }
-
-
-    fun navigateBack() {
-        navController.popBackStack()
     }
 }
