@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 expect val platformModule: Module
 
-val sharedModule = module {
+val coreModule = module {
     single { HttpClientFactory.create(get()) }
     single {
         get<DatabaseFactory>().create()
@@ -21,6 +21,4 @@ val sharedModule = module {
     single { get<GradeSpaceDatabase>().tasksDao }
     single { get<GradeSpaceDatabase>().calendarDao }
     single { get<GradeSpaceDatabase>().profileDao }
-
-
 }

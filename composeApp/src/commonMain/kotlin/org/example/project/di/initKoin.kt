@@ -1,11 +1,19 @@
 package org.example.project.di
 
+import org.example.project.features.feed.di.feedModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
 fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
-        modules(sharedModule, platformModule)
+        modules(
+            // Основные модули
+            coreModule,
+            platformModule,
+
+            // Фича модули
+            feedModule
+        )
     }
 }

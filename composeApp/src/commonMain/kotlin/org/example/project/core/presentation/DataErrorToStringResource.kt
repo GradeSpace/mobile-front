@@ -1,9 +1,9 @@
 package org.example.project.core.presentation
 
-import com.plcoding.bookpedia.core.presentation.UiText
 import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.error_disk_full
 import mobile_front.composeapp.generated.resources.error_no_internet
+import mobile_front.composeapp.generated.resources.error_not_found
 import mobile_front.composeapp.generated.resources.error_request_timeout
 import mobile_front.composeapp.generated.resources.error_serialization
 import mobile_front.composeapp.generated.resources.error_too_many_requests
@@ -20,6 +20,7 @@ fun DataError.toUiText(): UiText {
         DataError.Remote.SERVER -> Res.string.error_unknown
         DataError.Remote.SERIALIZATION -> Res.string.error_serialization
         DataError.Remote.UNKNOWN -> Res.string.error_unknown
+        DataError.Remote.NOT_FOUND -> Res.string.error_not_found
     }
     
     return UiText.StringResourceId(stringRes)

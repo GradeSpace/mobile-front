@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <string name="description_unavailable">Description not available.</string>
-    <string name="error_disk_full">Oops, it seems like your disk is full.</string>
-    <string name="error_unknown">Oops, something went wrong.</string>
-    <string name="error_request_timeout">The request timed out.</string>
-    <string name="error_no_internet">Couldn't reach server, please check your internet connection.</string>
-    <string name="error_too_many_requests">Your quota seems to be exceeded.</string>
-    <string name="error_serialization">Couldn't parse data.</string>
+    <string name="no_description">Упс, кажется описание отсутствует...</string>
+    <string name="error_disk_full">Упс, на вашем диске нет места.</string>
+    <string name="error_unknown">Упс, что-то пошло не так.</string>
+    <string name="error_request_timeout">Время ожидания запроса вышло.</string>
+    <string name="error_no_internet">Нет доступа к серверу, проверьте Ваше подключение к интернету.</string>
+    <string name="error_too_many_requests">Слишком много запросов.</string>
+    <string name="error_serialization">Не получилось распарсить данные.</string>
+    <string name="error_not_found">404 Не найден</string>
+    <string name="before">Ранее</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="receivers">Получатели</string>
+    <string name="attachments">Приложения</string>
+    <string name="january">янв</string>
+    <string name="february">фев</string>
+    <string name="march">мар</string>
+    <string name="april">апр</string>
+    <string name="may">май</string>
+    <string name="june">июн</string>
+    <string name="july">июл</string>
+    <string name="august">авг</string>
+    <string name="september">сен</string>
+    <string name="october">окт</string>
+    <string name="november">ноя</string>
+    <string name="december">дек</string>
+
+    <string name="feed_title">Лента новостей</string>
+    <string name="description_title">Описание</string>
 </resources>
