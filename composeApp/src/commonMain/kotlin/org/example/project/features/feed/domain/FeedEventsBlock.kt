@@ -5,7 +5,7 @@ import org.example.project.core.presentation.UiText
 data class FeedEventsBlock(
     val id: Int,
     val events: List<FeedEventItem>,
-    val title: UiText,
+    val title: List<UiText>,
     val blockType: BlockType
 )
 

@@ -7,7 +7,7 @@ open class User(
     val imageUrl: String? = null,
     val uid: String? = null,
 ) {
-    override fun toString(): String {
+    fun toShortName(): String {
         fun makeInitial(text: String?): String {
             return text?.firstOrNull()?.uppercaseChar()?.plus(".") ?: ""
         }
@@ -16,8 +16,22 @@ open class User(
             append(surname)
             append(" ")
             append(makeInitial(name))
+            middleName?.let {
+                append(" ")
+                append(makeInitial(middleName))
+            }
+        }
+    }
+
+    fun toFullName(): String {
+        return buildString {
+            append(surname)
             append(" ")
-            append(makeInitial(middleName))
+            append(name)
+            middleName?.let {
+                append(" ")
+                append(middleName)
+            }
         }
     }
 }

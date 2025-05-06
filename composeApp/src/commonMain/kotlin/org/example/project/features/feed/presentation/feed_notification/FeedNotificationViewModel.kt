@@ -1,7 +1,9 @@
-package org.example.project.features.feed.presentation.feed_list
+package org.example.project.features.feed.presentation.feed_notification
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -17,14 +19,17 @@ import org.example.project.core.presentation.toUiText
 import org.example.project.features.feed.domain.FeedRepository
 import org.example.project.features.feed.navigation.FeedRoute
 
-class FeedListViewModel(
-    private val repository: FeedRepository
+class FeedNotificationViewModel(
+    private val repository: FeedRepository,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(FeedListState())
+    private val notificationId = savedStateHandle.toRoute<FeedRoute.FeedNotification>().eventId
+
+    private val _state = MutableStateFlow(FeedNotificationState())
     val state = _state.asStateFlow()
 
-    private val _navigationEvents = MutableSharedFlow<FeedListNavigationEvent>()
+    private val _navigationEvents = MutableSharedFlow<FeedNotificationNavigationEvent>()
     val navigationEvents = _navigationEvents.asSharedFlow()
 
     init {
@@ -49,25 +54,25 @@ class FeedListViewModel(
 
     private fun observeFeedList() {
         repository
-            .fetchFeedEvents()
+            .getEvent(notificationId)
             .distinctUntilChanged()
-            .onEach { events ->
+            .onEach { notification ->
                 _state.update {
                     it.copy(
-                        feedBlocks = events
+                        notificationItem = notification
                     )
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    fun onAction(action: FeedListAction) = viewModelScope.launch {
+    fun onAction(action: FeedNotificationAction) = viewModelScope.launch {
         when (action) {
-            is FeedListAction.FeedListItemClick -> _navigationEvents.emit(
-                FeedListNavigationEvent.NavigateTo(
-                    FeedRoute.FeedNotification(action.item.id)
+            is FeedNotificationAction.OnBackClick -> {
+                _navigationEvents.emit(
+                    FeedNotificationNavigationEvent.NavigateBack
                 )
-            )
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ import org.example.project.app.navigation.route.Route
 sealed interface FeedRoute : Route {
 
     @Serializable
-    data class FeedEventMain(
+    data class FeedNotification(
         val eventId: String? = null
     ) : FeedRoute
 }

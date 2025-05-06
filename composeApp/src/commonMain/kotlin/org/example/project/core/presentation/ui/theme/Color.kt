@@ -217,9 +217,10 @@ val surfaceContainerDarkHighContrast = Color(0xFF2E3036)
 val surfaceContainerHighDarkHighContrast = Color(0xFF393B41)
 val surfaceContainerHighestDarkHighContrast = Color(0xFF45474C)
 
-
-
-
-
+val ChipRed = Color(0xFFE57373)
+val ChipGreen = Color(0xFF81C784)
+val ChipBlue = Color(0xFF64B5F6)
+val ChipYellow = Color(0xFFFFD54F)
+val ChipPurple = Color(0xFFBA68C8)
 
 

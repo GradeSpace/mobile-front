@@ -1,5 +1,6 @@
 package org.example.project.app.navigation.graph
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import org.example.project.app.navigation.route.TabRoute
@@ -8,12 +9,16 @@ import org.example.project.features.feed.presentation.feed_list.FeedListScreenRo
 import org.example.project.features.feed.presentation.feed_list.FeedListViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
-fun NavGraphBuilder.tabsNavGraph(navigationManager: NavigationManager) {
+fun NavGraphBuilder.tabsNavGraph(
+    navigationManager: NavigationManager,
+    innerPadding: PaddingValues
+) {
     composable<TabRoute.FeedTab> {
         val viewModel = koinViewModel<FeedListViewModel>()
         FeedListScreenRoot(
             viewModel = viewModel,
-            navigationManager = navigationManager
+            navigationManager = navigationManager,
+            innerPadding = innerPadding
         )
     }
     composable<TabRoute.ProfileTab> {

@@ -1,20 +1,16 @@
 package org.example.project.features.feed.presentation.feed_list.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -29,19 +25,19 @@ import org.example.project.core.data.utils.formatDate
 import org.example.project.core.data.utils.formatTime
 import org.example.project.features.feed.domain.BlockType
 import org.example.project.features.feed.domain.FeedEventItem
+import org.example.project.features.feed.presentation.components.FeedActionGroup
 
 @Composable
 fun FeedListItem(
     eventItem: FeedEventItem,
     blockType: BlockType,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     ElevatedCard(
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.elevatedCardColors(
-
-        ),
-        modifier = Modifier
+        colors = CardDefaults.elevatedCardColors(),
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(24.dp))
@@ -60,12 +56,13 @@ fun FeedListItem(
                     .padding(bottom = 4.dp)
             ) {
                 Text(
-                    text = eventItem.author.toString(),
+                    text = eventItem.author.toShortName(),
                     style = MaterialTheme.typography.titleMedium,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .weight(1f)
                 )
+
                 Column(
                     horizontalAlignment = Alignment.End,
                     modifier = Modifier
@@ -93,45 +90,14 @@ fun FeedListItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            eventItem.description?.let { description ->
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+            Text(
+                text = eventItem.description.asString(),
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
             if (blockType != BlockType.OLD && eventItem.actions.isNotEmpty()) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                ) {
-                    if (eventItem.actions.size > 1) {
-                        eventItem.actions.forEach { action ->
-                            FeedListItemActionButton(
-                                title = action.actionName,
-                                action = action.action,
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .fillMaxWidth()
-                            )
-                        }
-                    } else {
-                        Spacer(
-                            modifier = Modifier
-                                .weight(0.5f)
-                                .fillMaxWidth()
-                        )
-                        FeedListItemActionButton(
-                            title = eventItem.actions[0].actionName,
-                            action = eventItem.actions[0].action,
-                            modifier = Modifier
-                                .weight(0.5f)
-                                .fillMaxWidth()
-                        )
-                    }
-                }
+                FeedActionGroup(eventItem.actions, fullWidthSingleButton = false)
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()

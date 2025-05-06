@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -17,6 +19,7 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+            freeCompilerArgs.add("-Xcontext-receivers")
         }
     }
 
@@ -34,12 +37,12 @@ kotlin {
     room {
         schemaDirectory("$projectDir/schemas")
     }
-    
+
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -80,6 +83,14 @@ kotlin {
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
+        }
+
+        commonMain {
+            kotlin {
+                compilerOptions {
+                    freeCompilerArgs.add("-Xcontext-receivers")
+                }
+            }
         }
 
         dependencies {

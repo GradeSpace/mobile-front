@@ -1,6 +1,5 @@
-package org.example.project.features.feed.presentation.feed_list.components
+package org.example.project.features.feed.presentation.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -8,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
-fun FeedListItemActionButton(
+fun FeedActionButton(
     title: String,
     action: () -> Unit,
     modifier: Modifier = Modifier
