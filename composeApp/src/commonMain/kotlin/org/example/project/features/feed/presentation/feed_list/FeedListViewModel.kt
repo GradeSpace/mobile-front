@@ -85,6 +85,9 @@ class FeedListViewModel(
             FeedListAction.OnPullToRefresh -> {
                 actualizeFeedList()
             }
+
+            FeedListAction.CreateNewNotification -> {
+            }
         }
     }
 }

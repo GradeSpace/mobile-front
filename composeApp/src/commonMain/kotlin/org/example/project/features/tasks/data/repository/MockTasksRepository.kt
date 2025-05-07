@@ -31,9 +31,8 @@ import org.example.project.core.presentation.UiText
 import org.example.project.core.presentation.asList
 import org.example.project.features.feed.data.mock.FeedTextMock
 import org.example.project.features.feed.domain.FeedAction
-import org.example.project.features.feed.domain.FeedEventItem
+import org.example.project.features.tasks.domain.TaskEventItem
 import org.example.project.features.tasks.domain.TaskStatus
-import org.example.project.features.tasks.domain.TasksEventItem
 import org.example.project.features.tasks.domain.TasksEventsBlock
 import org.example.project.features.tasks.domain.TasksEventsBlock.BlockType
 import org.example.project.features.tasks.domain.TasksRepository
@@ -41,7 +40,7 @@ import kotlin.random.Random
 
 class MockTasksRepository : TasksRepository {
 
-    private val localTasks = mutableListOf<TasksEventItem>()
+    private val localTasks = mutableListOf<TaskEventItem>()
     val localTasksBlocks = mutableListOf<TasksEventsBlock>()
 
     init {
@@ -59,7 +58,7 @@ class MockTasksRepository : TasksRepository {
         val currentDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
         for (daysAgo in 0..49) {
-            val eventDate = currentDateTime.date.minus(daysAgo, DateTimeUnit.DAY)
+            val eventDate = currentDateTime.date.minus(daysAgo % 10, DateTimeUnit.DAY)
 
             val eventTime = LocalTime(
                 hour = Random.nextInt(8, 20),
@@ -68,15 +67,10 @@ class MockTasksRepository : TasksRepository {
 
             val eventDateTime = LocalDateTime(eventDate, eventTime)
 
-            // Создаем дедлайн (от 1 до 14 дней после создания задания)
-            val deadlineDateTime = if (Random.nextBoolean()) {
-                LocalDateTime(
-                    eventDateTime.date.plus(Random.nextInt(1, 14), DateTimeUnit.DAY),
-                    eventDateTime.time
-                )
-            } else {
-                null
-            }
+            val deadlineDateTime = LocalDateTime(
+                eventDateTime.date.plus(Random.nextInt(0, 10), DateTimeUnit.DAY),
+                eventDateTime.time
+            )
 
             val tasks = (1..2).map { int ->
                 // Создаем список действий для заданий
@@ -85,7 +79,11 @@ class MockTasksRepository : TasksRepository {
                 // Определяем статус задания
                 val taskStatus = when {
                     daysAgo % 5 == 0 -> TaskStatus.Completed(eventDateTime)
-                    daysAgo % 4 == 0 -> TaskStatus.Rejected(eventDateTime, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer")
+                    daysAgo % 4 == 0 -> TaskStatus.Rejected(
+                        eventDateTime,
+                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer"
+                    )
+
                     daysAgo % 3 == 0 -> TaskStatus.UnderCheck(eventDateTime)
                     daysAgo % 2 == 0 -> TaskStatus.Issued(eventDateTime)
                     else -> TaskStatus.NotIssued(eventDateTime)
@@ -101,6 +99,7 @@ class MockTasksRepository : TasksRepository {
                             )
                         )
                     }
+
                     is TaskStatus.Issued -> {
                         actionsList.add(
                             FeedAction.ButtonAction(
@@ -109,6 +108,7 @@ class MockTasksRepository : TasksRepository {
                             )
                         )
                     }
+
                     is TaskStatus.UnderCheck -> {
                         actionsList.add(
                             FeedAction.PerformedAction(
@@ -116,6 +116,7 @@ class MockTasksRepository : TasksRepository {
                             )
                         )
                     }
+
                     is TaskStatus.Rejected -> {
                         actionsList.add(
                             FeedAction.PerformedAction(
@@ -129,6 +130,7 @@ class MockTasksRepository : TasksRepository {
                             )
                         )
                     }
+
                     is TaskStatus.Completed -> {
                         actionsList.add(
                             FeedAction.PerformedAction(
@@ -152,7 +154,7 @@ class MockTasksRepository : TasksRepository {
                     )
                 }
 
-                TasksEventItem(
+                TaskEventItem(
                     id = "task_$daysAgo ($int)",
                     title = FeedTextMock.getRandomTitle(),
                     description = if (int == 1) {
@@ -162,16 +164,25 @@ class MockTasksRepository : TasksRepository {
                     },
                     author = mockUser,
                     lastUpdateDateTime = eventDateTime,
-                    attachments = if (daysAgo % 3 == 0) {
-                        listOf(
+                    attachments = Attachment.FileType.entries
+                        .mapIndexed { index, type ->
                             Attachment.FileAttachment(
-                                url = "https://example.com/task_$daysAgo",
-                                fileName = "Задание ${daysAgo + 1}.pdf",
+                                url = "https://example.com/attachment_$daysAgo#$index",
+                                fileName = type.toString(),
                                 fileSize = Random.nextLong(100000, 500000),
-                                fileType = Attachment.FileType.PDF
+                                fileType = type
                             )
-                        )
-                    } else emptyList(),
+                        }.plus(
+                            Attachment.FileType.entries
+                                .mapIndexed { index, type ->
+                                    Attachment.FileAttachment(
+                                        url = "https://example.com/attachment_$daysAgo#$index",
+                                        fileName = type.toString(),
+                                        fileSize = Random.nextLong(100000, 500000),
+                                        fileType = type
+                                    )
+                                }
+                        ),
                     receivers = listOf(
                         "ИУ9-62Б",
                         "ИУ9-61Б"
@@ -328,7 +339,7 @@ class MockTasksRepository : TasksRepository {
         }
     }
 
-    override fun getTask(eventId: String?): Flow<TasksEventItem?> {
+    override fun getTask(eventId: String?): Flow<TaskEventItem?> {
         return flow {
             emit(localTasks.firstOrNull { it.id == eventId })
         }
@@ -341,28 +352,13 @@ class MockTasksRepository : TasksRepository {
         return Result.Success(Unit)
     }
 
-    override suspend fun actualizeTask(): EmptyResult<DataError.Remote> {
+    override suspend fun actualizeTask(eventId: String?): EmptyResult<DataError.Remote> {
         return Result.Success(Unit)
     }
 
-    override suspend fun createTask(event: FeedEventItem): EmptyResult<DataError> {
+    override suspend fun createTask(event: TaskEventItem): EmptyResult<DataError> {
         // Преобразуем FeedEventItem в TasksEventItem
-        if (event is TasksEventItem) {
-            localTasks.add(event)
-        } else {
-            // Создаем новое задание на основе FeedEventItem
-            val newTask = TasksEventItem(
-                id = event.id,
-                title = event.title,
-                description = event.description,
-                author = event.author,
-                lastUpdateDateTime = event.lastUpdateDateTime,
-                attachments = event.attachments,
-                receivers = event.receivers,
-                status = TaskStatus.NotIssued()
-            )
-            localTasks.add(newTask)
-        }
+        localTasks.add(event)
 
         updateTasksBlocks()
         return Result.Success(Unit)

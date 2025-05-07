@@ -237,7 +237,7 @@ class FeedMockRepository : FeedRepository {
         }
     }
 
-    override suspend fun actualizeEvent(): EmptyResult<DataError.Remote> {
+    override suspend fun actualizeEvent(notificationId: String?): EmptyResult<DataError.Remote> {
         return Result.Success(Unit)
     }
 

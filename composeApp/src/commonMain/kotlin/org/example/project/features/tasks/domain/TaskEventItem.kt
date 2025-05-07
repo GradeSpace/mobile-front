@@ -9,7 +9,7 @@ import org.example.project.core.data.model.note.GradeRange
 import org.example.project.core.data.model.user.User
 import org.example.project.core.presentation.UiText
 
-data class TasksEventItem(
+data class TaskEventItem(
     override val id: String,
     override val title: String,
     override val description: UiText = UiText.StringResourceId(Res.string.no_description),

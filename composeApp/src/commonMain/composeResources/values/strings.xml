@@ -27,13 +27,13 @@
     <string name="december">дек</string>
 
     <string name="feed_title">Лента новостей</string>
-    <string name="current_tasks">Текущие задания</string>
+    <string name="current_tasks">Текущие</string>
     <string name="tasks">Задания</string>
-    <string name="completed_tasks">Выполненные задания</string>
-    <string name="rejected_tasks">Отклоненные задания</string>
-    <string name="given_tasks">Выданные задания</string>
-    <string name="not_given_tasks">Невыданные задания</string>
-    <string name="under_check">Задания на проверке</string>
+    <string name="completed_tasks">Выполненные</string>
+    <string name="rejected_tasks">Отклоненные</string>
+    <string name="given_tasks">Выданные</string>
+    <string name="not_given_tasks">Не выданные</string>
+    <string name="under_check">На проверке</string>
     <string name="description_title">Описание</string>
     <string name="submit_before">Сдать до</string>
     <string name="under_check_since">На проверке с</string>

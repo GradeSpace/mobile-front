@@ -11,10 +11,10 @@ import org.example.project.app.navigation.route.CalendarRoutes
 import org.example.project.app.navigation.route.Graph
 import org.example.project.app.navigation.route.ProfileRoutes
 import org.example.project.app.navigation.route.TabRoute
-import org.example.project.app.navigation.route.TasksRoutes
 import org.example.project.app.navigation.utils.NavigationManager
 import org.example.project.features.feed.navigation.FeedRoute
 import org.example.project.features.feed.navigation.feedNavGraph
+import org.example.project.features.tasks.navigation.TasksRoute
 import org.example.project.features.tasks.navigation.tasksNavGraph
 
 @Composable
@@ -49,7 +49,7 @@ fun RootNavGraph(
         }
 
         navigation<Graph.TasksGraph>(
-            startDestination = TasksRoutes.TasksMain
+            startDestination = TasksRoute.TaskScreen()
         ) {
             tasksNavGraph(navigationManager)
         }

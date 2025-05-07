@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -35,6 +34,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.toLocalDateTime
 import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.completed_tasks
 import mobile_front.composeapp.generated.resources.current_tasks
@@ -53,6 +56,7 @@ import org.example.project.core.data.utils.formatDate
 import org.example.project.core.data.utils.formatDateTime
 import org.example.project.core.data.utils.formatTime
 import org.example.project.core.domain.EventItemTimeFormat
+import org.example.project.core.presentation.ui.common.DesktopRefreshButton
 import org.example.project.core.presentation.ui.common.EventListItem
 import org.example.project.core.presentation.ui.common.TitleChip
 import org.example.project.features.tasks.domain.TaskStatus
@@ -99,12 +103,17 @@ fun TasksListScreen(
                 title = {
                     Text(
                         text = stringResource(Res.string.tasks),
-                        style = MaterialTheme.typography.headlineSmall
+                        style = MaterialTheme.typography.headlineSmall,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .fillMaxWidth()
                     )
                 },
                 actions = {
                     IconButton(
-                        onClick = { onAction(TasksListAction.ToggleFilterMenu) }
+                        onClick = { onAction(TasksListAction.ToggleFilterMenu) },
+                        enabled = state.tasksBlocks.isNotEmpty()
                     ) {
                         Icon(
                             imageVector = vectorResource(Res.drawable.i24_filters),
@@ -137,6 +146,10 @@ fun TasksListScreen(
                             )
                         }
                     }
+
+                    DesktopRefreshButton {
+                        onAction(TasksListAction.OnPullToRefresh)
+                    }
                 },
             )
         }
@@ -155,7 +168,7 @@ fun TasksListScreen(
             ) {
                 val modifier = Modifier
                     .padding(horizontal = 12.dp)
-                    .widthIn(max = 600.dp)
+                    .fillMaxWidth()
 
 
                 if (state.tasksBlocks.isNotEmpty() &&
@@ -186,7 +199,6 @@ fun TasksListScreen(
                 }
                 var prevBlockType: BlockType? = null
                 state.tasksBlocks.forEach { block ->
-
                     if (
                         block.blockType == BlockType.COMPLETED_TASKS &&
                         prevBlockType != BlockType.COMPLETED_TASKS
@@ -270,6 +282,20 @@ fun TasksListScreen(
                                         ),
                                         modifier = Modifier.padding(top = 8.dp)
                                     )
+                                    Text(
+                                        text = buildString {
+                                            append(stringResource(Res.string.submit_before))
+                                            append(": ")
+                                            if (event.deadLine != null) {
+                                                append(event.deadLine.formatDateTime())
+                                            } else {
+                                                append(stringResource(Res.string.deadline_not_specified))
+                                            }
+                                        },
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onErrorContainer,
+                                        modifier = Modifier.padding(top = 8.dp)
+                                    )
                                 }
 
                                 is TaskStatus.UnderCheck -> {
@@ -284,6 +310,22 @@ fun TasksListScreen(
                                 }
 
                                 is TaskStatus.Issued -> {
+                                    val deadlineColor = if (event.deadLine != null) {
+                                        val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                                        val deadline = event.deadLine
+
+                                        when {
+                                            deadline < now -> MaterialTheme.colorScheme.error
+
+                                            deadline.date.minus(now.date).days <= 1 ->
+                                                MaterialTheme.colorScheme.error.copy(alpha = 0.7f)
+
+                                            else -> MaterialTheme.colorScheme.onPrimaryContainer
+                                        }
+                                    } else {
+                                        MaterialTheme.colorScheme.onPrimaryContainer
+                                    }
+
                                     Text(
                                         text = buildString {
                                             append(stringResource(Res.string.submit_before))
@@ -295,10 +337,11 @@ fun TasksListScreen(
                                             }
                                         },
                                         style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.primary,
+                                        color = deadlineColor,
                                         modifier = Modifier.padding(top = 8.dp)
                                     )
                                 }
+
 
                                 is TaskStatus.NotIssued -> {
                                     Text(

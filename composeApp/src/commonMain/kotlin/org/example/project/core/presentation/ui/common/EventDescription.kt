@@ -1,6 +1,7 @@
 package org.example.project.core.presentation.ui.common
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,7 +29,8 @@ import org.jetbrains.compose.resources.stringResource
 fun EventDescription(
     description: UiText,
     lastUpdateTime: LocalDateTime,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit = { },
 ) {
     Card(
         shape = RoundedCornerShape(24.dp),
@@ -85,6 +87,8 @@ fun EventDescription(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 4.dp)
             )
+
+            content()
         }
     }
 }

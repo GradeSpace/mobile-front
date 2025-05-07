@@ -1,4 +1,4 @@
-package org.example.project.features.feed.presentation.feed_notification
+package org.example.project.features.tasks.presentation.task_screen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -18,39 +18,43 @@ import kotlinx.coroutines.launch
 import org.example.project.core.domain.onError
 import org.example.project.core.domain.onSuccess
 import org.example.project.core.presentation.toUiText
-import org.example.project.features.feed.domain.FeedRepository
-import org.example.project.features.feed.navigation.FeedRoute
+import org.example.project.features.tasks.domain.TasksRepository
+import org.example.project.features.tasks.navigation.TasksRoute
 
-class FeedNotificationViewModel(
-    private val repository: FeedRepository,
+class TaskScreenViewModel(
+    private val repository: TasksRepository,
     private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+): ViewModel() {
 
-    private val notificationId = savedStateHandle.toRoute<FeedRoute.FeedNotification>().eventId
+    private val taskId = savedStateHandle.toRoute<TasksRoute.TaskScreen>().taskId
 
-    private val _state = MutableStateFlow(FeedNotificationState())
+    private val _state = MutableStateFlow(TaskScreenState())
     val state = _state.asStateFlow()
 
-    private val _navigationEvents = MutableSharedFlow<FeedNotificationNavigationEvent>()
+    private val _navigationEvents = MutableSharedFlow<TaskScreenNavigationEvent>()
     val navigationEvents = _navigationEvents.asSharedFlow()
 
     private var actualizeJob: Job? = null
     private var observeJob: Job? = null
 
     init {
-        observeFeedList()
-        actualizeNotification()
+        observerTask()
+        actualizeTask()
     }
 
-    private fun actualizeNotification() {
+    private fun actualizeTask() {
         actualizeJob?.cancel()
         actualizeJob = viewModelScope.launch {
-            _state.update { it.copy(isRefreshing = true) }
-            delay(1000)
-            repository.actualizeEvent(notificationId)
+            _state.update {
+                it.copy(
+                    isRefreshing = true
+                )
+            }
+            delay(1000L)
+            repository.actualizeTask(taskId)
                 .onSuccess {
-                    observeFeedList()
                     _state.update { it.copy(isRefreshing = false) }
+                    observerTask()
                 }
                 .onError { error ->
                     _state.update {
@@ -63,31 +67,30 @@ class FeedNotificationViewModel(
         }
     }
 
-    private fun observeFeedList() {
+    private fun observerTask() {
         observeJob?.cancel()
         observeJob = repository
-            .getEvent(notificationId)
+            .getTask(taskId)
             .distinctUntilChanged()
-            .onEach { notification ->
+            .onEach { task ->
                 _state.update {
                     it.copy(
-                        notificationItem = notification
+                        taskItem = task
                     )
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    fun onAction(action: FeedNotificationAction) = viewModelScope.launch {
+    fun onAction(action: TaskScreenAction) = viewModelScope.launch {
         when (action) {
-            is FeedNotificationAction.OnBackClick -> {
+            is TaskScreenAction.OnBackClick -> {
                 _navigationEvents.emit(
-                    FeedNotificationNavigationEvent.NavigateBack
+                    TaskScreenNavigationEvent.NavigateBack
                 )
             }
-
-            FeedNotificationAction.OnPullToRefresh -> {
-                actualizeNotification()
+            is TaskScreenAction.OnPullToRefresh -> {
+                actualizeTask()
             }
         }
     }

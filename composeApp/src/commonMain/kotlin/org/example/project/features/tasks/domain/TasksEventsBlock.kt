@@ -4,7 +4,7 @@ import org.example.project.core.presentation.UiText
 
 data class TasksEventsBlock(
     val id: Int,
-    val tasks: List<TasksEventItem>,
+    val tasks: List<TaskEventItem>,
     val title: List<UiText>,
     val blockType: BlockType
 ) {

@@ -13,7 +13,7 @@ fun NotificationScreenPreview() {
     GradeSpaceTheme {
         FeedNotificationScreen(
             state = FeedNotificationState(
-                isLoading = false,
+                isRefreshing = false,
                 error = null,
                 notificationItem = FeedMockRepository().localEvents[1]
             ),

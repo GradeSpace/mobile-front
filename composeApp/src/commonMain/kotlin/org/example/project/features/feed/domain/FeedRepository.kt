@@ -11,7 +11,7 @@ interface FeedRepository {
 
     suspend fun actualizeEvents(): EmptyResult<DataError.Remote>
 
-    suspend fun actualizeEvent(): EmptyResult<DataError.Remote>
+    suspend fun actualizeEvent(notificationId: String?): EmptyResult<DataError.Remote>
 
     suspend fun createEvent(event: FeedEventItem): EmptyResult<DataError>
 }

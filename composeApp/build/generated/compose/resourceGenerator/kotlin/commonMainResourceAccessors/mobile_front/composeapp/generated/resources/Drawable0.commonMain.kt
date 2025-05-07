@@ -9,8 +9,14 @@ private object CommonMainDrawable0 {
   public val compose_multiplatform: DrawableResource by 
       lazy { init_compose_multiplatform() }
 
+  public val i24_acute: DrawableResource by 
+      lazy { init_i24_acute() }
+
   public val i24_calendar: DrawableResource by 
       lazy { init_i24_calendar() }
+
+  public val i24_cancel: DrawableResource by 
+      lazy { init_i24_cancel() }
 
   public val i24_description_outline: DrawableResource by 
       lazy { init_i24_description_outline() }
@@ -38,12 +44,17 @@ private object CommonMainDrawable0 {
 
   public val i24_tasks: DrawableResource by 
       lazy { init_i24_tasks() }
+
+  public val i24_timer_off: DrawableResource by 
+      lazy { init_i24_timer_off() }
 }
 
 @InternalResourceApi
 internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, DrawableResource>) {
   map.put("compose_multiplatform", CommonMainDrawable0.compose_multiplatform)
+  map.put("i24_acute", CommonMainDrawable0.i24_acute)
   map.put("i24_calendar", CommonMainDrawable0.i24_calendar)
+  map.put("i24_cancel", CommonMainDrawable0.i24_cancel)
   map.put("i24_description_outline", CommonMainDrawable0.i24_description_outline)
   map.put("i24_docs_outline", CommonMainDrawable0.i24_docs_outline)
   map.put("i24_draft_outline", CommonMainDrawable0.i24_draft_outline)
@@ -53,6 +64,7 @@ internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, Drawab
   map.put("i24_pdf_outline", CommonMainDrawable0.i24_pdf_outline)
   map.put("i24_profile", CommonMainDrawable0.i24_profile)
   map.put("i24_tasks", CommonMainDrawable0.i24_tasks)
+  map.put("i24_timer_off", CommonMainDrawable0.i24_timer_off)
 }
 
 internal val Res.drawable.compose_multiplatform: DrawableResource
@@ -67,6 +79,17 @@ private fun init_compose_multiplatform(): DrawableResource =
     )
 )
 
+internal val Res.drawable.i24_acute: DrawableResource
+  get() = CommonMainDrawable0.i24_acute
+
+private fun init_i24_acute(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_acute",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(),
+    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_acute.xml", -1, -1),
+    )
+)
+
 internal val Res.drawable.i24_calendar: DrawableResource
   get() = CommonMainDrawable0.i24_calendar
 
@@ -76,6 +99,17 @@ private fun init_i24_calendar(): DrawableResource =
     setOf(
       org.jetbrains.compose.resources.ResourceItem(setOf(),
     "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_calendar.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_cancel: DrawableResource
+  get() = CommonMainDrawable0.i24_cancel
+
+private fun init_i24_cancel(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_cancel",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(),
+    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_cancel.xml", -1, -1),
     )
 )
 
@@ -180,5 +214,17 @@ private fun init_i24_tasks(): DrawableResource = org.jetbrains.compose.resources
     setOf(
       org.jetbrains.compose.resources.ResourceItem(setOf(),
     "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_tasks.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_timer_off: DrawableResource
+  get() = CommonMainDrawable0.i24_timer_off
+
+private fun init_i24_timer_off(): DrawableResource =
+    org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_timer_off",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(),
+    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_timer_off.xml", -1, -1),
     )
 )
