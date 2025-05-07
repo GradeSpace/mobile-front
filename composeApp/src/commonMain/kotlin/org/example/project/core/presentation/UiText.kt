@@ -19,3 +19,5 @@ sealed interface UiText {
         }
     }
 }
+
+fun UiText.asList() = listOf(this)

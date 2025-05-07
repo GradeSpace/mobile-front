@@ -27,5 +27,21 @@
     <string name="december">дек</string>
 
     <string name="feed_title">Лента новостей</string>
+    <string name="current_tasks">Текущие</string>
+    <string name="tasks">Задания</string>
+    <string name="completed_tasks">Выполненные</string>
+    <string name="rejected_tasks">Отклоненные</string>
+    <string name="given_tasks">Выданные</string>
+    <string name="not_given_tasks">Не выданные</string>
+    <string name="under_check">На проверке</string>
     <string name="description_title">Описание</string>
+    <string name="submit_before">Сдать до</string>
+    <string name="under_check_since">На проверке с</string>
+    <string name="task_not_issued">Задание еще не выдано</string>
+    <string name="task_will_be_issued">Задание будет выдано</string>
+    <string name="note">Оценка</string>
+    <string name="not_specified">не указана</string>
+    <string name="deadline_not_specified">срок не указан</string>
+
+    <string name="reason">Причина</string>
 </resources>

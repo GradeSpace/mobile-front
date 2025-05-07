@@ -2,6 +2,8 @@ package org.example.project.features.feed.presentation.feed_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -15,7 +17,8 @@ import org.example.project.core.domain.onError
 import org.example.project.core.domain.onSuccess
 import org.example.project.core.presentation.toUiText
 import org.example.project.features.feed.domain.FeedRepository
-import org.example.project.features.feed.navigation.FeedRoute
+import org.example.project.features.feed.navigation.FeedRoute.FeedNotification
+import org.example.project.features.feed.presentation.feed_list.FeedListNavigationEvent.NavigateTo
 
 class FeedListViewModel(
     private val repository: FeedRepository
@@ -27,28 +30,38 @@ class FeedListViewModel(
     private val _navigationEvents = MutableSharedFlow<FeedListNavigationEvent>()
     val navigationEvents = _navigationEvents.asSharedFlow()
 
+    private var actualizeJob: Job? = null
+    private var observeJob: Job? = null
+
     init {
         observeFeedList()
         actualizeFeedList()
     }
 
-    private fun actualizeFeedList() = viewModelScope.launch {
-        repository.actualizeEvents()
-            .onSuccess {
-                _state.update { it.copy(isLoading = false) }
-            }
-            .onError { error ->
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        error = error.toUiText()
-                    )
+    private fun actualizeFeedList() {
+        actualizeJob?.cancel()
+        actualizeJob = viewModelScope.launch {
+            _state.update { it.copy(isRefreshing = true) }
+            delay(1000L)
+            repository.actualizeEvents()
+                .onSuccess {
+                    observeFeedList()
+                    _state.update { it.copy(isRefreshing = false) }
                 }
-            }
+                .onError { error ->
+                    _state.update {
+                        it.copy(
+                            isRefreshing = false,
+                            error = error.toUiText()
+                        )
+                    }
+                }
+        }
     }
 
     private fun observeFeedList() {
-        repository
+        observeJob?.cancel()
+        observeJob = repository
             .fetchFeedEvents()
             .distinctUntilChanged()
             .onEach { events ->
@@ -64,10 +77,17 @@ class FeedListViewModel(
     fun onAction(action: FeedListAction) = viewModelScope.launch {
         when (action) {
             is FeedListAction.FeedListItemClick -> _navigationEvents.emit(
-                FeedListNavigationEvent.NavigateTo(
-                    FeedRoute.FeedNotification(action.item.id)
+                NavigateTo(
+                    FeedNotification(action.item.id)
                 )
             )
+
+            FeedListAction.OnPullToRefresh -> {
+                actualizeFeedList()
+            }
+
+            FeedListAction.CreateNewNotification -> {
+            }
         }
     }
 }

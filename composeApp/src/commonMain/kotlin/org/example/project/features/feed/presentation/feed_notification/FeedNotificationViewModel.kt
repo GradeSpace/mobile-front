@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -32,28 +34,38 @@ class FeedNotificationViewModel(
     private val _navigationEvents = MutableSharedFlow<FeedNotificationNavigationEvent>()
     val navigationEvents = _navigationEvents.asSharedFlow()
 
+    private var actualizeJob: Job? = null
+    private var observeJob: Job? = null
+
     init {
         observeFeedList()
-        actualizeFeedList()
+        actualizeNotification()
     }
 
-    private fun actualizeFeedList() = viewModelScope.launch {
-        repository.actualizeEvents()
-            .onSuccess {
-                _state.update { it.copy(isLoading = false) }
-            }
-            .onError { error ->
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        error = error.toUiText()
-                    )
+    private fun actualizeNotification() {
+        actualizeJob?.cancel()
+        actualizeJob = viewModelScope.launch {
+            _state.update { it.copy(isRefreshing = true) }
+            delay(1000)
+            repository.actualizeEvent(notificationId)
+                .onSuccess {
+                    observeFeedList()
+                    _state.update { it.copy(isRefreshing = false) }
                 }
-            }
+                .onError { error ->
+                    _state.update {
+                        it.copy(
+                            isRefreshing = false,
+                            error = error.toUiText()
+                        )
+                    }
+                }
+        }
     }
 
     private fun observeFeedList() {
-        repository
+        observeJob?.cancel()
+        observeJob = repository
             .getEvent(notificationId)
             .distinctUntilChanged()
             .onEach { notification ->
@@ -72,6 +84,10 @@ class FeedNotificationViewModel(
                 _navigationEvents.emit(
                     FeedNotificationNavigationEvent.NavigateBack
                 )
+            }
+
+            FeedNotificationAction.OnPullToRefresh -> {
+                actualizeNotification()
             }
         }
     }
