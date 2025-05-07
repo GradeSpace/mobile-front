@@ -24,6 +24,9 @@ private object CommonMainDrawable0 {
   public val i24_event: DrawableResource by 
       lazy { init_i24_event() }
 
+  public val i24_filters: DrawableResource by 
+      lazy { init_i24_filters() }
+
   public val i24_image_outline: DrawableResource by 
       lazy { init_i24_image_outline() }
 
@@ -45,6 +48,7 @@ internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, Drawab
   map.put("i24_docs_outline", CommonMainDrawable0.i24_docs_outline)
   map.put("i24_draft_outline", CommonMainDrawable0.i24_draft_outline)
   map.put("i24_event", CommonMainDrawable0.i24_event)
+  map.put("i24_filters", CommonMainDrawable0.i24_filters)
   map.put("i24_image_outline", CommonMainDrawable0.i24_image_outline)
   map.put("i24_pdf_outline", CommonMainDrawable0.i24_pdf_outline)
   map.put("i24_profile", CommonMainDrawable0.i24_profile)
@@ -119,6 +123,17 @@ private fun init_i24_event(): DrawableResource = org.jetbrains.compose.resources
     setOf(
       org.jetbrains.compose.resources.ResourceItem(setOf(),
     "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_event.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_filters: DrawableResource
+  get() = CommonMainDrawable0.i24_filters
+
+private fun init_i24_filters(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_filters",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(),
+    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_filters.xml", -1, -1),
     )
 )
 

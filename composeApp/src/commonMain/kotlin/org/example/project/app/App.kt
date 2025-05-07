@@ -1,6 +1,8 @@
 package org.example.project.app
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import org.example.project.app.navigation.graph.RootNavGraph
 import org.example.project.app.navigation.route.TabRoute
@@ -12,7 +14,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App() {
-    GradeSpaceTheme{
+    GradeSpaceTheme {
         val navController = rememberNavController()
         val navigationManager = NavigationManager(navController)
 
@@ -25,7 +27,7 @@ fun App() {
                 TabRoute.ProfileTab
             )
         ) { innerPadding ->
-            RootNavGraph(navController, innerPadding = innerPadding)
+            RootNavGraph(navController, modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()))
         }
     }
 }

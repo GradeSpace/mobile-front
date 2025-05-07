@@ -35,14 +35,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.compose.ChipBlue
-import com.example.compose.ChipGreen
-import com.example.compose.ChipPurple
-import com.example.compose.ChipRed
-import com.example.compose.ChipYellow
 import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.receivers
 import org.example.project.core.presentation.ui.common.ReceiverChip
+import org.example.project.core.presentation.ui.theme.ChipBlue
+import org.example.project.core.presentation.ui.theme.ChipGreen
+import org.example.project.core.presentation.ui.theme.ChipPurple
+import org.example.project.core.presentation.ui.theme.ChipRed
+import org.example.project.core.presentation.ui.theme.ChipYellow
 import org.jetbrains.compose.resources.stringResource
 
 val chipColors = listOf(

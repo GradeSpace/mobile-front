@@ -47,6 +47,10 @@ fun LocalDateTime.formatDate(withYear: Boolean = false): String {
     )
 }
 
+fun LocalDateTime.formatDateTime(): String {
+    return "${this  .formatDate()} • ${this.formatTime()}"
+}
+
 fun getMonthResourceName(month: Month): StringResource? {
     return when (month) {
         Month.JANUARY -> Res.string.january

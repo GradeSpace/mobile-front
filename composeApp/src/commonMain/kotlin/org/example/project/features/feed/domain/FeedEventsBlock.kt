@@ -7,9 +7,10 @@ data class FeedEventsBlock(
     val events: List<FeedEventItem>,
     val title: List<UiText>,
     val blockType: BlockType
-)
-
-enum class BlockType {
-    DEFAULT,
-    OLD
+) {
+    enum class BlockType {
+        DEFAULT,
+        OLD
+    }
 }
+

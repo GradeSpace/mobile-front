@@ -1,16 +1,17 @@
-package org.example.project.features.feed.presentation.feed_list.components
+package org.example.project.core.presentation.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -21,22 +22,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.example.project.core.data.model.event.EventItem
 import org.example.project.core.data.utils.formatDate
 import org.example.project.core.data.utils.formatTime
-import org.example.project.features.feed.domain.BlockType
-import org.example.project.features.feed.domain.FeedEventItem
-import org.example.project.features.feed.presentation.components.FeedActionGroup
+import org.example.project.core.domain.EventItemTimeFormat
 
 @Composable
-fun FeedListItem(
-    eventItem: FeedEventItem,
-    blockType: BlockType,
+fun EventListItem(
+    eventItem: EventItem,
+    timeFormat: EventItemTimeFormat,
+    onClick: () -> Unit,
+    colors: CardColors = CardDefaults.elevatedCardColors(),
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    bottomContent: @Composable ColumnScope.() -> Unit
 ) {
     ElevatedCard(
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.elevatedCardColors(),
+        colors = colors,
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -69,14 +71,14 @@ fun FeedListItem(
                         .weight(1f)
                 ) {
                     Text(
-                        text = eventItem.dateTime.formatTime(),
+                        text = eventItem.lastUpdateDateTime.formatTime(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.labelMedium
                     )
-                    if (blockType == BlockType.OLD) {
+                    if (timeFormat == EventItemTimeFormat.FULL) {
                         Text(
-                            text = eventItem.dateTime.formatDate(withYear = true),
+                            text = eventItem.lastUpdateDateTime.formatDate(withYear = true),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.bodySmall
@@ -96,20 +98,7 @@ fun FeedListItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            if (blockType != BlockType.OLD && eventItem.actions.isNotEmpty()) {
-                FeedActionGroup(eventItem.actions, fullWidthSingleButton = false)
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(4.dp)
-                )
-            } else {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(12.dp)
-                )
-            }
+            bottomContent()
         }
     }
 }

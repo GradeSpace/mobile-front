@@ -1,8 +1,8 @@
 package org.example.project.app.navigation.graph
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -15,11 +15,12 @@ import org.example.project.app.navigation.route.TasksRoutes
 import org.example.project.app.navigation.utils.NavigationManager
 import org.example.project.features.feed.navigation.FeedRoute
 import org.example.project.features.feed.navigation.feedNavGraph
+import org.example.project.features.tasks.navigation.tasksNavGraph
 
 @Composable
 fun RootNavGraph(
     navController: NavHostController = rememberNavController(),
-    innerPadding: PaddingValues
+    modifier: Modifier = Modifier
 ) {
     val navigationManager = remember {
         NavigationManager(navController)
@@ -32,7 +33,7 @@ fun RootNavGraph(
         navigation<Graph.TabsGraph>(
             startDestination = TabRoute.FeedTab
         ) {
-            tabsNavGraph(navigationManager, innerPadding)
+            tabsNavGraph(navigationManager, modifier)
         }
 
         navigation<Graph.FeedGraph>(

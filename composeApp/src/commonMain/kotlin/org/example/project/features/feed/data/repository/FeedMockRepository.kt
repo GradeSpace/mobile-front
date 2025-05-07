@@ -22,10 +22,10 @@ import org.example.project.core.domain.EmptyResult
 import org.example.project.core.domain.Result
 import org.example.project.core.presentation.UiText
 import org.example.project.features.feed.data.mock.FeedTextMock
-import org.example.project.features.feed.domain.BlockType
 import org.example.project.features.feed.domain.FeedAction
 import org.example.project.features.feed.domain.FeedEventItem
 import org.example.project.features.feed.domain.FeedEventsBlock
+import org.example.project.features.feed.domain.FeedEventsBlock.BlockType
 import org.example.project.features.feed.domain.FeedRepository
 import kotlin.random.Random
 
@@ -34,8 +34,11 @@ class FeedMockRepository : FeedRepository {
     val localEvents = mutableListOf<FeedEventItem>()
     val localEventsBlocks = mutableListOf<FeedEventsBlock>()
 
-    // В методе init класса FeedMockRepository
     init {
+        init()
+    }
+
+    private fun init() {
         val mockUser = User(
             uid = "user1",
             name = "Иван",
@@ -92,7 +95,7 @@ class FeedMockRepository : FeedRepository {
                         UiText.StringResourceId(Res.string.no_description)
                     },
                     author = mockUser,
-                    dateTime = eventDateTime,
+                    lastUpdateDateTime = eventDateTime,
                     attachments = if (daysAgo % 3 == 0) Attachment.FileType.entries
                         .mapIndexed { index, type ->
                             Attachment.FileAttachment(
@@ -138,7 +141,7 @@ class FeedMockRepository : FeedRepository {
 
         // Группируем события по датам
         val groupedEvents = localEvents.groupBy { event ->
-            val eventDate = event.dateTime.date
+            val eventDate = event.lastUpdateDateTime.date
 
             when {
                 eventDate == currentDate -> "today"
@@ -155,7 +158,7 @@ class FeedMockRepository : FeedRepository {
                 FeedEventsBlock(
                     id = blockId++,
                     title = listOf(UiText.StringResourceId(Res.string.today)),
-                    events = todayEvents.sortedByDescending { it.dateTime },
+                    events = todayEvents.sortedByDescending { it.lastUpdateDateTime },
                     blockType = BlockType.DEFAULT
                 )
             )
@@ -167,7 +170,7 @@ class FeedMockRepository : FeedRepository {
                 FeedEventsBlock(
                     id = blockId++,
                     title = listOf(UiText.StringResourceId(Res.string.yesterday)),
-                    events = yesterdayEvents.sortedByDescending { it.dateTime },
+                    events = yesterdayEvents.sortedByDescending { it.lastUpdateDateTime },
                     blockType = BlockType.DEFAULT
                 )
             )
@@ -206,7 +209,7 @@ class FeedMockRepository : FeedRepository {
                     FeedEventsBlock(
                         id = blockId++,
                         title = titleList,
-                        events = monthEvents.sortedByDescending { it.dateTime },
+                        events = monthEvents.sortedByDescending { it.lastUpdateDateTime },
                         blockType = BlockType.OLD
                     )
                 )
@@ -220,6 +223,9 @@ class FeedMockRepository : FeedRepository {
     }
 
     override suspend fun actualizeEvents(): EmptyResult<DataError.Remote> {
+        localEvents.clear()
+        localEventsBlocks.clear()
+        init()
         return Result.Success(Unit)
     }
 

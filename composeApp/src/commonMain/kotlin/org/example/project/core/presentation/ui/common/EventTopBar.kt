@@ -1,4 +1,4 @@
-package org.example.project.features.feed.presentation.feed_notification.components
+package org.example.project.core.presentation.ui.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -20,11 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.example.project.features.feed.domain.FeedEventItem
+import org.example.project.core.data.model.event.EventItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotificationTopBar(event: FeedEventItem, onNavigateBackClick: () -> Unit) {
+fun EventTopBar(event: EventItem, onNavigateBackClick: () -> Unit) {
     TopAppBar(
         title = {
             Column(

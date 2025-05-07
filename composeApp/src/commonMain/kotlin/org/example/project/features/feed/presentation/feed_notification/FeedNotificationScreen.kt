@@ -16,9 +16,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.example.project.app.navigation.utils.NavigationManager
 import org.example.project.core.presentation.ui.common.EventAttachments
 import org.example.project.core.presentation.ui.common.EventDescription
+import org.example.project.core.presentation.ui.common.EventTopBar
 import org.example.project.features.feed.presentation.feed_notification.components.EventReceivers
 import org.example.project.features.feed.presentation.feed_notification.components.NotificationBottomBar
-import org.example.project.features.feed.presentation.feed_notification.components.NotificationTopBar
 
 @Composable
 fun FeedNotificationScreenRoot(
@@ -54,7 +54,7 @@ fun FeedNotificationScreen(
                 )
             },
             topBar = {
-                NotificationTopBar(state.notificationItem) {
+                EventTopBar(state.notificationItem) {
                     onAction(FeedNotificationAction.OnBackClick)
                 }
             },
@@ -76,6 +76,7 @@ fun FeedNotificationScreen(
                 )
                 EventDescription(
                     state.notificationItem.description,
+                    state.notificationItem.lastUpdateDateTime,
                     modifier = Modifier
                         .padding(bottom = 12.dp)
                 )
