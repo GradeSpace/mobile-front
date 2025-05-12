@@ -60,6 +60,17 @@ fun LocalDateTime.formatDateTime(
     return "${this  .formatDate(withYear)} • ${this.formatTime(withSeconds)}"
 }
 
+fun buildTimeDiap(startTime: LocalDateTime?, endTime: LocalDateTime?): String {
+    return buildString {
+        startTime?.let {
+            append(it.formatTime())
+        }
+        endTime?.let {
+            append(" – ${endTime.formatTime()}")
+        }
+    }
+}
+
 fun getMonthResourceName(month: Month): StringResource? {
     return when (month) {
         Month.JANUARY -> Res.string.january

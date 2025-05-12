@@ -230,7 +230,9 @@ fun CalendarScreen(
                                 )
                             ] ?: emptyList()
                         },
-                        onLessonClick = {},
+                        onLessonClick = { lesson ->
+                            onAction(CalendarScreenAction.OnLessonClick(lesson))
+                        },
                         modifier = modifier
                             .fillMaxWidth()
                     )

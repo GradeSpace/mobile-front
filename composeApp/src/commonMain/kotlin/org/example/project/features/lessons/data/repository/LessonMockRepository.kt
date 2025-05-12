@@ -13,6 +13,7 @@ import kotlinx.datetime.toLocalDateTime
 import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.no_description
 import org.example.project.core.data.model.attachment.Attachment
+import org.example.project.core.data.model.event.EventLocation
 import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
@@ -22,7 +23,6 @@ import org.example.project.features.feed.data.mock.FeedTextMock
 import org.example.project.features.lessons.domain.AttendanceStatus
 import org.example.project.features.lessons.domain.LessonBlocks
 import org.example.project.features.lessons.domain.LessonEventItem
-import org.example.project.features.lessons.domain.LessonLocation
 import org.example.project.features.lessons.domain.LessonRepository
 import org.example.project.features.lessons.domain.LessonStatus
 import kotlin.random.Random
@@ -101,11 +101,11 @@ class LessonMockRepository : LessonRepository {
                 // Determine if lesson is online or offline
                 val isOnline = Random.nextBoolean()
                 val location = if (isOnline) {
-                    LessonLocation(
+                    EventLocation(
                         lessonUrl = "https://meet.example.com/lesson-${lessonDate}-${lessonIndex}"
                     )
                 } else {
-                    LessonLocation(
+                    EventLocation(
                         cabinet = "${Random.nextInt(100, 500)}"
                     )
                 }

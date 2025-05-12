@@ -15,9 +15,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -26,27 +23,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import mobile_front.composeapp.generated.resources.Res
-import mobile_front.composeapp.generated.resources.i24_schedule
+import mobile_front.composeapp.generated.resources.check_in
 import mobile_front.composeapp.generated.resources.ic_no_lessons
 import mobile_front.composeapp.generated.resources.no_lessons_for_today
 import org.example.project.Platform
 import org.example.project.core.domain.EventItemTimeFormat
 import org.example.project.core.presentation.ui.common.EventListItem
-import org.example.project.features.lessons.domain.AttendanceStatus
 import org.example.project.features.lessons.domain.LessonEventItem
-import org.example.project.features.lessons.domain.LessonStatus
+import org.example.project.features.lessons.presentation.common.toAttendanceInfo
+import org.example.project.features.lessons.presentation.common.toStatusInfo
 import org.example.project.getPlatform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun LessonSlider(
@@ -92,6 +83,7 @@ fun LessonSlider(
                     EventListItem(
                         eventItem = lesson,
                         timeFormat = EventItemTimeFormat.Lesson(
+                            lesson.startTime,
                             lesson.endTime,
                             lesson.location
                         ),
@@ -99,56 +91,9 @@ fun LessonSlider(
                         modifier = Modifier
                             .padding(bottom = 8.dp, start = 16.dp, end = 16.dp)
                     ) {
-                        // Определяем информацию о статусе занятия
-                        val lessonStatusInfo = when (lesson.lessonStatus) {
-                            is LessonStatus.NotStarted -> LessonStatusInfo(
-                                text = "Занятие еще не началось",
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                style = MaterialTheme.typography.bodyMedium,
-                                icon = vectorResource(Res.drawable.i24_schedule)
-                            )
-                            is LessonStatus.InProgress -> LessonStatusInfo(
-                                text = "Занятие идет прямо сейчас",
-                                color = MaterialTheme.colorScheme.primary,
-                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                                icon = Icons.Default.PlayArrow
-                            )
-                            is LessonStatus.Finished -> LessonStatusInfo(
-                                text = "Занятие завершилось",
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                style = MaterialTheme.typography.bodyMedium,
-                                icon = Icons.Default.Done
-                            )
-                        }
+                        val lessonStatusInfo = lesson.lessonStatus.toStatusInfo()
 
-                        // Определяем информацию о статусе посещения
-                        val attendanceStatusInfo = when (lesson.attendanceStatus) {
-                            is AttendanceStatus.NotAttended -> AttendanceStatusInfo(
-                                text = when (lesson.lessonStatus) {
-                                    is LessonStatus.NotStarted -> "Отметка о посещении недоступна"
-                                    is LessonStatus.InProgress -> null
-                                    is LessonStatus.Finished -> "Вы не посетили это занятие"
-                                },
-                                color = when (lesson.lessonStatus) {
-                                    is LessonStatus.NotStarted -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
-                                    else -> MaterialTheme.colorScheme.error
-                                },
-                                style = MaterialTheme.typography.labelMedium,
-                                showButton = lesson.lessonStatus is LessonStatus.InProgress
-                            )
-                            is AttendanceStatus.AttendanceOnCheck -> AttendanceStatusInfo(
-                                text = "Вы отметились, ожидайте подтверждения",
-                                color = MaterialTheme.colorScheme.tertiary,
-                                style = MaterialTheme.typography.labelMedium.copy(fontStyle = FontStyle.Italic),
-                                showButton = false
-                            )
-                            is AttendanceStatus.Attended -> AttendanceStatusInfo(
-                                text = "Вы посетили это занятие",
-                                color = MaterialTheme.colorScheme.primary,
-                                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
-                                showButton = false
-                            )
-                        }
+                        val attendanceStatusInfo = lesson.attendanceStatus.toAttendanceInfo(lesson.lessonStatus)
 
                         Column(
                             verticalArrangement = Arrangement.SpaceBetween,
@@ -191,7 +136,7 @@ fun LessonSlider(
                                     ),
                                     modifier = Modifier.align(Alignment.End)
                                 ) {
-                                    Text("Отметиться")
+                                    Text(stringResource(Res.string.check_in))
                                 }
                             }
 
@@ -203,17 +148,3 @@ fun LessonSlider(
         }
     }
 }
-
-private data class LessonStatusInfo(
-    val text: String,
-    val color: Color,
-    val style: TextStyle,
-    val icon: ImageVector
-)
-
-private data class AttendanceStatusInfo(
-    val text: String? = null,
-    val color: Color,
-    val style: TextStyle,
-    val showButton: Boolean
-)

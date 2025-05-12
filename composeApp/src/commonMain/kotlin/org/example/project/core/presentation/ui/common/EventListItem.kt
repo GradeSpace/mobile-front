@@ -24,6 +24,7 @@ import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.cab
 import mobile_front.composeapp.generated.resources.online
 import org.example.project.core.data.model.event.EventItem
+import org.example.project.core.data.utils.buildTimeDiap
 import org.example.project.core.data.utils.formatDate
 import org.example.project.core.data.utils.formatTime
 import org.example.project.core.domain.EventItemTimeFormat
@@ -73,12 +74,7 @@ fun EventListItem(
 
                         is EventItemTimeFormat.Lesson -> {
                             Text(
-                                text = buildString {
-                                    append(eventItem.lastUpdateDateTime.formatTime())
-                                    timeFormat.endTime?.let {
-                                        append(" – ${timeFormat.endTime.formatTime()}")
-                                    }
-                                },
+                                text = buildTimeDiap(timeFormat.startTime, timeFormat.endTime),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 style = MaterialTheme.typography.labelMedium

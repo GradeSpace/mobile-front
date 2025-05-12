@@ -6,5 +6,5 @@ import org.example.project.app.navigation.route.Route
 sealed interface LessonRoutes : Route {
 
     @Serializable
-    data class Lesson(val lessonId: String? = null) : LessonRoutes
+    data class Lesson(val eventId: String? = null) : LessonRoutes
 }

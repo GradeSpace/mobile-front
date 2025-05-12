@@ -13,8 +13,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.CoroutineScope
 import org.example.project.app.navigation.route.Route
 import org.example.project.app.navigation.route.TabRoute
+import org.example.project.core.domain.EmptyResult
+import org.example.project.core.domain.NavigationError
 
-class NavigationManager(private val navController: NavHostController) {
+class NavigationManager(val navController: NavHostController) {
 
     @Composable
     fun currentDestination(): NavDestination? {
@@ -58,3 +60,5 @@ class NavigationManager(private val navController: NavHostController) {
         }
     }
 }
+
+expect fun NavigationManager.openUrl(url: String): EmptyResult<NavigationError>

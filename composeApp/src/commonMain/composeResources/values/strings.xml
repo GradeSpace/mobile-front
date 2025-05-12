@@ -50,11 +50,15 @@
     <string name="under_check_since">На проверке с</string>
     <string name="task_not_issued">Задание еще не выдано</string>
     <string name="task_will_be_issued">Задание будет выдано</string>
+    <string name="deadline_expired">Дедлайн истек!</string>
+    <string name="min">Мин</string>
+    <string name="max">Макс</string>
     <string name="note">Оценка</string>
     <string name="not_specified">не указана</string>
     <string name="deadline_not_specified">срок не указан</string>
     <string name="no_lessons_for_today">На сегодня занятий нет</string>
     <string name="reason">Причина</string>
+    <string name="check_in">Отметиться</string>
 
     <string name="cab">каб.</string>
     <string name="online">онлайн</string>

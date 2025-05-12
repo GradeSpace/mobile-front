@@ -56,7 +56,7 @@ fun TaskDeadlineDisplay(
             remainingSeconds = remaining.inWholeSeconds
 
             countdownText = when {
-                remainingSeconds <= 0 -> "Дедлайн истек"
+                remainingSeconds <= 0 -> "Дедлайн истек!"
                 remainingSeconds < 86400 -> { // Less than a day
                     val hours = remainingSeconds / 3600
                     val minutes = (remainingSeconds % 3600) / 60

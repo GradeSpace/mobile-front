@@ -39,6 +39,9 @@ private object CommonMainDrawable0 {
   public val i24_image_outline: DrawableResource by 
       lazy { init_i24_image_outline() }
 
+  public val i24_open_in_new: DrawableResource by 
+      lazy { init_i24_open_in_new() }
+
   public val i24_pdf_outline: DrawableResource by 
       lazy { init_i24_pdf_outline() }
 
@@ -57,6 +60,12 @@ private object CommonMainDrawable0 {
   public val i24_today: DrawableResource by 
       lazy { init_i24_today() }
 
+  public val i24_video_call: DrawableResource by 
+      lazy { init_i24_video_call() }
+
+  public val i24_videocam: DrawableResource by 
+      lazy { init_i24_videocam() }
+
   public val ic_no_lessons: DrawableResource by 
       lazy { init_ic_no_lessons() }
 }
@@ -74,12 +83,15 @@ internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, Drawab
   map.put("i24_event", CommonMainDrawable0.i24_event)
   map.put("i24_filters", CommonMainDrawable0.i24_filters)
   map.put("i24_image_outline", CommonMainDrawable0.i24_image_outline)
+  map.put("i24_open_in_new", CommonMainDrawable0.i24_open_in_new)
   map.put("i24_pdf_outline", CommonMainDrawable0.i24_pdf_outline)
   map.put("i24_profile", CommonMainDrawable0.i24_profile)
   map.put("i24_schedule", CommonMainDrawable0.i24_schedule)
   map.put("i24_tasks", CommonMainDrawable0.i24_tasks)
   map.put("i24_timer_off", CommonMainDrawable0.i24_timer_off)
   map.put("i24_today", CommonMainDrawable0.i24_today)
+  map.put("i24_video_call", CommonMainDrawable0.i24_video_call)
+  map.put("i24_videocam", CommonMainDrawable0.i24_videocam)
   map.put("ic_no_lessons", CommonMainDrawable0.ic_no_lessons)
 }
 
@@ -211,6 +223,18 @@ private fun init_i24_image_outline(): DrawableResource =
     )
 )
 
+internal val Res.drawable.i24_open_in_new: DrawableResource
+  get() = CommonMainDrawable0.i24_open_in_new
+
+private fun init_i24_open_in_new(): DrawableResource =
+    org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_open_in_new",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(),
+    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_open_in_new.xml", -1, -1),
+    )
+)
+
 internal val Res.drawable.i24_pdf_outline: DrawableResource
   get() = CommonMainDrawable0.i24_pdf_outline
 
@@ -277,6 +301,30 @@ private fun init_i24_today(): DrawableResource = org.jetbrains.compose.resources
     setOf(
       org.jetbrains.compose.resources.ResourceItem(setOf(),
     "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_today.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_video_call: DrawableResource
+  get() = CommonMainDrawable0.i24_video_call
+
+private fun init_i24_video_call(): DrawableResource =
+    org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_video_call",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(),
+    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_video_call.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_videocam: DrawableResource
+  get() = CommonMainDrawable0.i24_videocam
+
+private fun init_i24_videocam(): DrawableResource =
+    org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_videocam",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(),
+    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_videocam.xml", -1, -1),
     )
 )
 
