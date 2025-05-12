@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -22,10 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.cab
+import mobile_front.composeapp.generated.resources.online
 import org.example.project.core.data.model.event.EventItem
 import org.example.project.core.data.utils.formatDate
 import org.example.project.core.data.utils.formatTime
 import org.example.project.core.domain.EventItemTimeFormat
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun EventListItem(
@@ -40,14 +42,11 @@ fun EventListItem(
         shape = RoundedCornerShape(24.dp),
         colors = colors,
         modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
             .clip(RoundedCornerShape(24.dp))
             .clickable { onClick() }
     ) {
         Column(
             modifier = Modifier
-                .wrapContentSize()
                 .padding(start = 16.dp, end = 16.dp, top = 12.dp)
         ) {
             Row(
@@ -70,19 +69,56 @@ fun EventListItem(
                     modifier = Modifier
                         .weight(1f)
                 ) {
-                    Text(
-                        text = eventItem.lastUpdateDateTime.formatTime(),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                    if (timeFormat == EventItemTimeFormat.FULL) {
-                        Text(
-                            text = eventItem.lastUpdateDateTime.formatDate(withYear = true),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.bodySmall
-                        )
+                    when (timeFormat) {
+
+                        is EventItemTimeFormat.Lesson -> {
+                            Text(
+                                text = buildString {
+                                    append(eventItem.lastUpdateDateTime.formatTime())
+                                    timeFormat.endTime?.let {
+                                        append(" – ${timeFormat.endTime.formatTime()}")
+                                    }
+                                },
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                            timeFormat.location?.let { location ->
+                                location.cabinet?.let { cab ->
+                                    Text(
+                                        text = "${stringResource(Res.string.cab)} $cab",
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
+                                }
+                                location.lessonUrl?.let { cab ->
+                                    Text(
+                                        text = stringResource(Res.string.online),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
+                                }
+                            }
+                        }
+
+                        else -> {
+                            Text(
+                                text = eventItem.lastUpdateDateTime.formatTime(),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                            if (timeFormat is EventItemTimeFormat.Full) {
+                                Text(
+                                    text = eventItem.lastUpdateDateTime.formatDate(withYear = true),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -98,6 +134,11 @@ fun EventListItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+        }
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+        ) {
             bottomContent()
         }
     }

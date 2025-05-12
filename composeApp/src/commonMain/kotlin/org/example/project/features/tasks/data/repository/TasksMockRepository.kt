@@ -38,7 +38,7 @@ import org.example.project.features.tasks.domain.TasksEventsBlock.BlockType
 import org.example.project.features.tasks.domain.TasksRepository
 import kotlin.random.Random
 
-class MockTasksRepository : TasksRepository {
+class TasksMockRepository : TasksRepository {
 
     private val localTasks = mutableListOf<TaskEventItem>()
     val localTasksBlocks = mutableListOf<TasksEventsBlock>()

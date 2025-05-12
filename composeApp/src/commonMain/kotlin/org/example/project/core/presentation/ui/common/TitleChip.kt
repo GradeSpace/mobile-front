@@ -22,6 +22,7 @@ fun TitleChip(
 
     Surface(
         shape = RoundedCornerShape(50),
+        shadowElevation = 1.dp,
         color = containerColor,
         modifier = modifier
             .wrapContentWidth()

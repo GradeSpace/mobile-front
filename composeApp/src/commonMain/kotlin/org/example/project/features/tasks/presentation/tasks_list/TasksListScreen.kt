@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -113,7 +114,6 @@ fun TasksListScreen(
                 actions = {
                     IconButton(
                         onClick = { onAction(TasksListAction.ToggleFilterMenu) },
-                        enabled = state.tasksBlocks.isNotEmpty()
                     ) {
                         Icon(
                             imageVector = vectorResource(Res.drawable.i24_filters),
@@ -188,15 +188,17 @@ fun TasksListScreen(
                                 .fillMaxWidth()
                         )
                     }
+
+                    item {
+                        Spacer(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .height(8.dp)
+                        )
+                    }
                 }
 
-                item {
-                    Spacer(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .height(8.dp)
-                    )
-                }
+
                 var prevBlockType: BlockType? = null
                 state.tasksBlocks.forEach { block ->
                     if (
@@ -214,6 +216,11 @@ fun TasksListScreen(
                                 modifier = Modifier
                                     .padding(horizontal = 24.dp)
                                     .fillMaxWidth()
+                            )
+                            Spacer(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .height(8.dp)
                             )
                         }
                     }
@@ -234,7 +241,7 @@ fun TasksListScreen(
                             event.id
                         }
                     ) { i, event ->
-                        val timeFormat = EventItemTimeFormat.FULL
+                        val timeFormat = EventItemTimeFormat.Full
                         EventListItem(
                             eventItem = event,
                             timeFormat = timeFormat,
@@ -248,6 +255,8 @@ fun TasksListScreen(
                             modifier = modifier
                                 .padding(bottom = 8.dp)
                                 .height(IntrinsicSize.Min)
+                                .fillMaxWidth()
+                                .wrapContentHeight()
                         ) {
                             when (val status = event.status) {
                                 is TaskStatus.Completed -> {
@@ -345,8 +354,8 @@ fun TasksListScreen(
 
                                 is TaskStatus.NotIssued -> {
                                     Text(
-                                        text = if (event.deadLine != null) {
-                                            "${stringResource(Res.string.task_will_be_issued)}: ${event.deadLine.formatDateTime()}"
+                                        text = if (status.dateTime != null) {
+                                            "${stringResource(Res.string.task_will_be_issued)}: ${status.dateTime.formatDateTime()}"
                                         } else stringResource(Res.string.task_not_issued),
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,

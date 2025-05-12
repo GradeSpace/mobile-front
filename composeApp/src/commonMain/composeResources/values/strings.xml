@@ -13,6 +13,8 @@
     <string name="yesterday">Вчера</string>
     <string name="receivers">Получатели</string>
     <string name="attachments">Приложения</string>
+
+
     <string name="january">янв</string>
     <string name="february">фев</string>
     <string name="march">мар</string>
@@ -25,9 +27,18 @@
     <string name="october">окт</string>
     <string name="november">ноя</string>
     <string name="december">дек</string>
+    <string name="mon">пн</string>
+    <string name="tue">вт</string>
+    <string name="wed">ср</string>
+    <string name="thu">чт</string>
+    <string name="fri">пт</string>
+    <string name="sat">сб</string>
+    <string name="sun">вс</string>
+    <string name="week_accusative">неделя</string>
 
     <string name="feed_title">Лента новостей</string>
     <string name="current_tasks">Текущие</string>
+    <string name="calendar">Календарь</string>
     <string name="tasks">Задания</string>
     <string name="completed_tasks">Выполненные</string>
     <string name="rejected_tasks">Отклоненные</string>
@@ -42,6 +53,9 @@
     <string name="note">Оценка</string>
     <string name="not_specified">не указана</string>
     <string name="deadline_not_specified">срок не указан</string>
-
+    <string name="no_lessons_for_today">На сегодня занятий нет</string>
     <string name="reason">Причина</string>
+
+    <string name="cab">каб.</string>
+    <string name="online">онлайн</string>
 </resources>
