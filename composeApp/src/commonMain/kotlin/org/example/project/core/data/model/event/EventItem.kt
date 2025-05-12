@@ -13,4 +13,5 @@ interface EventItem {
     val lastUpdateDateTime: LocalDateTime
     val attachments: List<Attachment>
     val receivers: List<String>
+    val location: EventLocation?
 }

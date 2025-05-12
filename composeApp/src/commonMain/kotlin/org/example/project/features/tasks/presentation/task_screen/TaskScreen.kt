@@ -23,6 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.max
+import mobile_front.composeapp.generated.resources.min
 import org.example.project.Platform
 import org.example.project.app.navigation.utils.NavigationManager
 import org.example.project.core.presentation.ui.common.DesktopRefreshButton
@@ -32,6 +35,7 @@ import org.example.project.core.presentation.ui.common.EventTopBar
 import org.example.project.features.feed.presentation.feed_notification.components.EventReceivers
 import org.example.project.features.tasks.presentation.task_screen.components.TaskInfoDisplay
 import org.example.project.getPlatform
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TaskRootScreen(
@@ -95,8 +99,8 @@ fun TaskScreen(
                         .padding(bottom = 12.dp)
                 )
                 EventDescription(
-                    state.taskItem.description,
-                    state.taskItem.lastUpdateDateTime,
+                    description = state.taskItem.description,
+                    lastUpdateTime = state.taskItem.lastUpdateDateTime,
                     modifier = Modifier
                         .padding(bottom = 12.dp)
                 ) {
@@ -110,7 +114,7 @@ fun TaskScreen(
                             ) {
                                 grade.minGrade?.let { minGrade ->
                                     Text(
-                                        text = "Мин: $minGrade",
+                                        text = "${stringResource(Res.string.min)}: $minGrade",
                                         style = MaterialTheme.typography.labelLarge.copy(
                                             color = MaterialTheme.colorScheme.error,
                                             fontWeight = FontWeight.Medium
@@ -121,7 +125,7 @@ fun TaskScreen(
 
                                 grade.maxGrade?.let { maxGrade ->
                                     Text(
-                                        text = "Макс: $maxGrade",
+                                        text = "${stringResource(Res.string.max)}: $maxGrade",
                                         style = MaterialTheme.typography.labelLarge.copy(
                                             color = MaterialTheme.colorScheme.primary,
                                             fontWeight = FontWeight.Medium

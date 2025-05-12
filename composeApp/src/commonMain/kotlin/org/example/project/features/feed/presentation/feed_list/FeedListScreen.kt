@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -102,6 +103,7 @@ fun FeedListScreen(
             isRefreshing = state.isRefreshing,
             onRefresh = { onAction(FeedListAction.OnPullToRefresh) },
             modifier = Modifier
+                .statusBarsPadding()
                 .padding(
                     top = if (getPlatform() == Platform.Desktop) {
                         innerPadding.calculateTopPadding()
@@ -115,7 +117,6 @@ fun FeedListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .statusBarsPadding()
                     .padding(horizontal = 16.dp)
 
             ) {
@@ -162,14 +163,16 @@ fun FeedListScreen(
                         EventListItem(
                             eventItem = event,
                             timeFormat = if (block.blockType == BlockType.OLD) {
-                                EventItemTimeFormat.FULL
-                            } else EventItemTimeFormat.COMPACT,
+                                EventItemTimeFormat.Full
+                            } else EventItemTimeFormat.Compact,
                             onClick = {
                                 onAction(FeedListAction.FeedListItemClick(event))
                             },
                             modifier = Modifier
                                 .padding(bottom = 8.dp)
                                 .height(IntrinsicSize.Min)
+                                .fillMaxWidth()
+                                .wrapContentHeight()
                         ) {
                             if (block.blockType != BlockType.OLD && event.actions.isNotEmpty()) {
                                 FeedActionGroup(event.actions, fullWidthSingleButton = false)

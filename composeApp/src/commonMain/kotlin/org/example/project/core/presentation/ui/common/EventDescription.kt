@@ -20,8 +20,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.LocalDateTime
 import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.cab
 import mobile_front.composeapp.generated.resources.description_title
+import mobile_front.composeapp.generated.resources.online
+import org.example.project.core.data.utils.buildTimeDiap
 import org.example.project.core.data.utils.formatDateTime
+import org.example.project.core.data.utils.formatTime
+import org.example.project.core.domain.EventItemTimeFormat
 import org.example.project.core.presentation.UiText
 import org.jetbrains.compose.resources.stringResource
 
@@ -29,6 +34,7 @@ import org.jetbrains.compose.resources.stringResource
 fun EventDescription(
     description: UiText,
     lastUpdateTime: LocalDateTime,
+    timeFormat: EventItemTimeFormat = EventItemTimeFormat.Full,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit = { },
 ) {
@@ -62,15 +68,39 @@ fun EventDescription(
                     color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Start
                 )
-                Text(
-                    text = lastUpdateTime.formatDateTime(),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                    textAlign = TextAlign.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 3.dp)
-                )
+
+                val timeAndLocationInfo = when (timeFormat) {
+                    EventItemTimeFormat.Compact -> lastUpdateTime.formatTime()
+                    EventItemTimeFormat.Full -> lastUpdateTime.formatDateTime()
+                    is EventItemTimeFormat.Lesson -> buildString {
+                        append(
+                            buildTimeDiap(
+                                timeFormat.startTime,
+                                timeFormat.endTime
+                            )
+                        )
+                        timeFormat.location?.cabinet?.let { cab ->
+                            appendLine()
+                            append("${stringResource(Res.string.cab)} $cab")
+                        }
+                        timeFormat.location?.lessonUrl?.let { url ->
+                            appendLine()
+                            append(stringResource(Res.string.online))
+                        }
+                    }
+                }
+                Column {
+                    Text(
+                        text = timeAndLocationInfo,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
+                        textAlign = TextAlign.End,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 3.dp)
+                    )
+
+                }
             }
 
             HorizontalDivider(

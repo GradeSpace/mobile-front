@@ -1,9 +1,15 @@
 package org.example.project.core.data.utils
 
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
+import kotlinx.datetime.daysUntil
 import kotlinx.datetime.format
 import kotlinx.datetime.format.char
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.minus
 import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.april
 import mobile_front.composeapp.generated.resources.august
@@ -54,6 +60,17 @@ fun LocalDateTime.formatDateTime(
     return "${this  .formatDate(withYear)} • ${this.formatTime(withSeconds)}"
 }
 
+fun buildTimeDiap(startTime: LocalDateTime?, endTime: LocalDateTime?): String {
+    return buildString {
+        startTime?.let {
+            append(it.formatTime())
+        }
+        endTime?.let {
+            append(" – ${endTime.formatTime()}")
+        }
+    }
+}
+
 fun getMonthResourceName(month: Month): StringResource? {
     return when (month) {
         Month.JANUARY -> Res.string.january
@@ -70,4 +87,17 @@ fun getMonthResourceName(month: Month): StringResource? {
         Month.DECEMBER -> Res.string.december
         else -> null
     }
+}
+
+fun LocalDate.startOfWeek(mondayFirst: Boolean = true): LocalDate {
+    val firstDay = if (mondayFirst) DayOfWeek.MONDAY else DayOfWeek.SUNDAY
+    val currentIso = this.dayOfWeek.isoDayNumber
+    val offset = currentIso - firstDay.isoDayNumber
+    return this.minus(offset, DateTimeUnit.DAY)
+}
+
+fun LocalDate.weeksUntil(other: LocalDate, mondayFirst: Boolean = true): Int {
+    val thisWeekStart = this.startOfWeek(mondayFirst)
+    val otherWeekStart = other.startOfWeek(mondayFirst)
+    return thisWeekStart.daysUntil(otherWeekStart) / 7
 }

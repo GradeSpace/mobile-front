@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -35,12 +36,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.completed_tasks
 import mobile_front.composeapp.generated.resources.current_tasks
+import mobile_front.composeapp.generated.resources.deadline_expired
 import mobile_front.composeapp.generated.resources.deadline_not_specified
 import mobile_front.composeapp.generated.resources.i24_filters
 import mobile_front.composeapp.generated.resources.not_specified
@@ -113,7 +116,6 @@ fun TasksListScreen(
                 actions = {
                     IconButton(
                         onClick = { onAction(TasksListAction.ToggleFilterMenu) },
-                        enabled = state.tasksBlocks.isNotEmpty()
                     ) {
                         Icon(
                             imageVector = vectorResource(Res.drawable.i24_filters),
@@ -131,7 +133,11 @@ fun TasksListScreen(
                                         Checkbox(
                                             checked = state.enabledBlockTypes.contains(blockType),
                                             onCheckedChange = {
-                                                onAction(TasksListAction.ToggleBlockTypeFilter(blockType))
+                                                onAction(
+                                                    TasksListAction.ToggleBlockTypeFilter(
+                                                        blockType
+                                                    )
+                                                )
                                             }
                                         )
                                         Text(
@@ -188,15 +194,16 @@ fun TasksListScreen(
                                 .fillMaxWidth()
                         )
                     }
+
+                    item {
+                        Spacer(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .height(8.dp)
+                        )
+                    }
                 }
 
-                item {
-                    Spacer(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .height(8.dp)
-                    )
-                }
                 var prevBlockType: BlockType? = null
                 state.tasksBlocks.forEach { block ->
                     if (
@@ -214,6 +221,11 @@ fun TasksListScreen(
                                 modifier = Modifier
                                     .padding(horizontal = 24.dp)
                                     .fillMaxWidth()
+                            )
+                            Spacer(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .height(8.dp)
                             )
                         }
                     }
@@ -234,7 +246,7 @@ fun TasksListScreen(
                             event.id
                         }
                     ) { i, event ->
-                        val timeFormat = EventItemTimeFormat.FULL
+                        val timeFormat = EventItemTimeFormat.Full
                         EventListItem(
                             eventItem = event,
                             timeFormat = timeFormat,
@@ -248,7 +260,10 @@ fun TasksListScreen(
                             modifier = modifier
                                 .padding(bottom = 8.dp)
                                 .height(IntrinsicSize.Min)
+                                .fillMaxWidth()
+                                .wrapContentHeight()
                         ) {
+                            val deadlineInfo = event.deadLine.toDeadlineInfo()
                             when (val status = event.status) {
                                 is TaskStatus.Completed -> {
                                     if (event.grade != null) {
@@ -283,15 +298,7 @@ fun TasksListScreen(
                                         modifier = Modifier.padding(top = 8.dp)
                                     )
                                     Text(
-                                        text = buildString {
-                                            append(stringResource(Res.string.submit_before))
-                                            append(": ")
-                                            if (event.deadLine != null) {
-                                                append(event.deadLine.formatDateTime())
-                                            } else {
-                                                append(stringResource(Res.string.deadline_not_specified))
-                                            }
-                                        },
+                                        text = deadlineInfo.text,
                                         style = MaterialTheme.typography.labelMedium,
                                         color = MaterialTheme.colorScheme.onErrorContainer,
                                         modifier = Modifier.padding(top = 8.dp)
@@ -310,43 +317,18 @@ fun TasksListScreen(
                                 }
 
                                 is TaskStatus.Issued -> {
-                                    val deadlineColor = if (event.deadLine != null) {
-                                        val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-                                        val deadline = event.deadLine
-
-                                        when {
-                                            deadline < now -> MaterialTheme.colorScheme.error
-
-                                            deadline.date.minus(now.date).days <= 1 ->
-                                                MaterialTheme.colorScheme.error.copy(alpha = 0.7f)
-
-                                            else -> MaterialTheme.colorScheme.onPrimaryContainer
-                                        }
-                                    } else {
-                                        MaterialTheme.colorScheme.onPrimaryContainer
-                                    }
-
                                     Text(
-                                        text = buildString {
-                                            append(stringResource(Res.string.submit_before))
-                                            append(": ")
-                                            if (event.deadLine != null) {
-                                                append(event.deadLine.formatDateTime())
-                                            } else {
-                                                append(stringResource(Res.string.deadline_not_specified))
-                                            }
-                                        },
+                                        text = deadlineInfo.text,
                                         style = MaterialTheme.typography.bodyMedium,
-                                        color = deadlineColor,
+                                        color = deadlineInfo.color,
                                         modifier = Modifier.padding(top = 8.dp)
                                     )
                                 }
 
-
                                 is TaskStatus.NotIssued -> {
                                     Text(
-                                        text = if (event.deadLine != null) {
-                                            "${stringResource(Res.string.task_will_be_issued)}: ${event.deadLine.formatDateTime()}"
+                                        text = if (status.dateTime != null) {
+                                            "${stringResource(Res.string.task_will_be_issued)}: ${status.dateTime.formatDateTime()}"
                                         } else stringResource(Res.string.task_not_issued),
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -373,7 +355,48 @@ fun TasksListScreen(
 }
 
 @Composable
-fun getContainerColor(blockType: BlockType): Color {
+private fun LocalDateTime?.toDeadlineInfo(): DeadlineInfo {
+    if (this == null) {
+        return DeadlineInfo(
+            text = buildString {
+                append(stringResource(Res.string.submit_before))
+                append(": ")
+                append(stringResource(Res.string.deadline_not_specified))
+            },
+            color = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    }
+    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val deadlineColor = when {
+        this < now -> MaterialTheme.colorScheme.onErrorContainer
+
+        this.date.minus(now.date).days <= 1 ->
+            MaterialTheme.colorScheme.error
+
+        else -> MaterialTheme.colorScheme.onPrimaryContainer
+    }
+    val deadlineText = when {
+        this < now -> stringResource(Res.string.deadline_expired)
+        else -> buildString {
+            append(stringResource(Res.string.submit_before))
+            append(": ")
+            append(this@toDeadlineInfo.formatDateTime())
+        }
+    }
+
+    return DeadlineInfo(
+        text = deadlineText,
+        color = deadlineColor
+    )
+}
+
+private data class DeadlineInfo(
+    val text: String,
+    val color: Color
+)
+
+@Composable
+private fun getContainerColor(blockType: BlockType): Color {
     return when (blockType) {
         BlockType.COMPLETED_TASKS -> MaterialTheme.colorScheme.secondaryContainer
         BlockType.REJECTED_TASKS -> MaterialTheme.colorScheme.errorContainer
@@ -384,7 +407,7 @@ fun getContainerColor(blockType: BlockType): Color {
 }
 
 @Composable
-fun getContentColor(blockType: BlockType): Color {
+private fun getContentColor(blockType: BlockType): Color {
     return when (blockType) {
         BlockType.COMPLETED_TASKS -> MaterialTheme.colorScheme.onSecondaryContainer
         BlockType.REJECTED_TASKS -> MaterialTheme.colorScheme.onErrorContainer
