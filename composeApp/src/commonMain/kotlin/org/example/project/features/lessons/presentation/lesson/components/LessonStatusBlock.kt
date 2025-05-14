@@ -16,10 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.check_in
 import org.example.project.features.lessons.domain.AttendanceStatus
 import org.example.project.features.lessons.domain.LessonStatus
 import org.example.project.features.lessons.presentation.common.toAttendanceInfo
 import org.example.project.features.lessons.presentation.common.toStatusInfo
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LessonStatusBlock(
@@ -81,7 +84,7 @@ fun LessonStatusBlock(
                     ),
                     modifier = Modifier.align(Alignment.Start)
                 ) {
-                    Text("Отметиться")
+                    Text(stringResource(Res.string.check_in))
                 }
             }
         }

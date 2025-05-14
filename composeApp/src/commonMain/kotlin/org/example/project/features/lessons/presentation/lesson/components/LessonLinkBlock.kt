@@ -18,7 +18,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.connect
 import mobile_front.composeapp.generated.resources.i24_open_in_new
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 
 @Composable
@@ -61,7 +63,7 @@ fun LessonLinkBlock(
                 )
             ) {
                 Text(
-                    text = "Подключиться",
+                    text = stringResource(Res.string.connect),
                     style = MaterialTheme.typography.labelLarge
                 )
                 Icon(

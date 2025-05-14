@@ -75,6 +75,8 @@ kotlin {
             implementation(libs.bundles.coil)
 
             implementation(libs.kotlinx.datetime)
+            implementation(libs.androidx.datastore.preferences)
+            implementation(libs.androidx.datastore)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

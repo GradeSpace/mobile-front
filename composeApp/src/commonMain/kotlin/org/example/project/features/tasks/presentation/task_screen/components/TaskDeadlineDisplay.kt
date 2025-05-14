@@ -30,9 +30,15 @@ import kotlinx.datetime.format
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toInstant
 import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.day
+import mobile_front.composeapp.generated.resources.deadline
+import mobile_front.composeapp.generated.resources.deadline_expired
+import mobile_front.composeapp.generated.resources.hour
 import mobile_front.composeapp.generated.resources.i24_acute
 import mobile_front.composeapp.generated.resources.i24_timer_off
+import mobile_front.composeapp.generated.resources.remained
 import org.example.project.core.data.utils.formatDateTime
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import kotlin.time.Duration.Companion.seconds
 
@@ -49,6 +55,10 @@ fun TaskDeadlineDisplay(
     var remainingSeconds by remember { mutableLongStateOf(0L) }
     var countdownText by remember { mutableStateOf("") }
 
+    val deadlineExpiredText = stringResource(Res.string.deadline_expired)
+    val dayText = stringResource(Res.string.day)
+    val hourText = stringResource(Res.string.hour)
+
     LaunchedEffect(Unit) {
         while (true) {
             val now = Clock.System.now()
@@ -56,7 +66,7 @@ fun TaskDeadlineDisplay(
             remainingSeconds = remaining.inWholeSeconds
 
             countdownText = when {
-                remainingSeconds <= 0 -> "Дедлайн истек!"
+                remainingSeconds <= 0 -> deadlineExpiredText
                 remainingSeconds < 86400 -> { // Less than a day
                     val hours = remainingSeconds / 3600
                     val minutes = (remainingSeconds % 3600) / 60
@@ -83,7 +93,7 @@ fun TaskDeadlineDisplay(
                 else -> {
                     val days = remainingSeconds / 86400
                     val hours = (remainingSeconds % 86400) / 3600
-                    "$days дн. $hours ч."
+                    "$days $dayText. $hours $hourText."
                 }
             }
 
@@ -138,7 +148,7 @@ fun TaskDeadlineDisplay(
                     if (isExpired) {
                         // For expired deadlines
                         Text(
-                            text = "Дедлайн истек!",
+                            text = stringResource(Res.string.deadline_expired),
                             style = MaterialTheme.typography.labelLarge,
                             color = contentColor
                         )
@@ -152,13 +162,13 @@ fun TaskDeadlineDisplay(
                     } else {
                         // For active deadlines
                         Text(
-                            text = "Дедлайн: ${deadline.formatDateTime()}",
+                            text = "${stringResource(Res.string.deadline)}: ${deadline.formatDateTime()}",
                             style = MaterialTheme.typography.labelLarge,
                             color = contentColor
                         )
 
                         Text(
-                            text = "Осталось: $countdownText",
+                            text = "${stringResource(Res.string.remained)}: $countdownText",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = contentColor

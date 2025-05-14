@@ -9,6 +9,8 @@ import org.example.project.features.feed.presentation.feed_list.FeedListScreenRo
 import org.example.project.features.feed.presentation.feed_list.FeedListViewModel
 import org.example.project.features.lessons.presentation.calendar.CalendarScreenRoot
 import org.example.project.features.lessons.presentation.calendar.CalendarViewModel
+import org.example.project.features.profile.presentation.profile_main.ProfileScreenRoot
+import org.example.project.features.profile.presentation.profile_main.ProfileViewModel
 import org.example.project.features.tasks.presentation.tasks_list.TasksListScreenRoot
 import org.example.project.features.tasks.presentation.tasks_list.TasksListViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -26,7 +28,12 @@ fun NavGraphBuilder.tabsNavGraph(
         )
     }
     composable<TabRoute.ProfileTab> {
-
+        val viewModel = koinViewModel<ProfileViewModel>()
+        ProfileScreenRoot(
+            viewModel = viewModel,
+            navigationManager = navigationManager,
+            modifier = modifier
+        )
     }
     composable<TabRoute.TasksTab> {
         val viewModel = koinViewModel<TasksListViewModel>()

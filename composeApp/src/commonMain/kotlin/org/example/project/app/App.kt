@@ -10,11 +10,17 @@ import org.example.project.app.navigation.utils.NavigationManager
 import org.example.project.core.presentation.ui.screen.ScaffoldWithBottomBarWrapper
 import org.example.project.core.presentation.ui.theme.GradeSpaceTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
 fun App() {
-    GradeSpaceTheme {
+    val appViewModel = koinViewModel<AppViewModel>()
+    val isDarkThemeEnabled = rememberAppTheme(appViewModel)
+
+    GradeSpaceTheme(
+        darkTheme = isDarkThemeEnabled
+    ) {
         val navController = rememberNavController()
         val navigationManager = NavigationManager(navController)
 

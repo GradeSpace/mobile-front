@@ -6,6 +6,7 @@ open class User(
     val middleName: String? = null,
     val imageUrl: String? = null,
     val uid: String? = null,
+    val role: UserRole = UserRole.Undefined
 ) {
     fun toShortName(): String {
         fun makeInitial(text: String?): String {
@@ -34,4 +35,5 @@ open class User(
             }
         }
     }
+
 }
