@@ -13,9 +13,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.LocalDateTime
+import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.accepted
+import mobile_front.composeapp.generated.resources.issue_time_not_specified
+import mobile_front.composeapp.generated.resources.issued
+import mobile_front.composeapp.generated.resources.no_note
+import mobile_front.composeapp.generated.resources.not_issued
+import mobile_front.composeapp.generated.resources.not_specified
+import mobile_front.composeapp.generated.resources.points
+import mobile_front.composeapp.generated.resources.reason
+import mobile_front.composeapp.generated.resources.rejected
+import mobile_front.composeapp.generated.resources.since
+import mobile_front.composeapp.generated.resources.under_check
 import org.example.project.core.data.model.note.GradeRange
 import org.example.project.core.data.utils.formatDateTime
 import org.example.project.features.tasks.domain.TaskStatus
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TaskInfoDisplay(
@@ -48,11 +61,11 @@ fun TaskInfoDisplay(
 @Composable
 private fun NotIssuedStatusDisplay(status: TaskStatus.NotIssued) {
     StatusCard(
-        title = "Будет выдано",
+        title = stringResource(Res.string.not_issued),
         content = if (status.dateTime != null) {
             status.dateTime.formatDateTime()
         } else {
-            "Время выдачи не указано"
+            stringResource(Res.string.issue_time_not_specified)
         },
         backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -62,11 +75,11 @@ private fun NotIssuedStatusDisplay(status: TaskStatus.NotIssued) {
 @Composable
 private fun IssuedStatusDisplay(status: TaskStatus.Issued) {
     StatusCard(
-        title = "Выдано",
+        title = stringResource(Res.string.issued),
         content = if (status.dateTime != null) {
             status.dateTime.formatDateTime()
         } else {
-            "Время выдачи не указано"
+            stringResource(Res.string.issue_time_not_specified)
         },
         backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
         contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -76,11 +89,11 @@ private fun IssuedStatusDisplay(status: TaskStatus.Issued) {
 @Composable
 private fun UnderCheckStatusDisplay(status: TaskStatus.UnderCheck) {
     StatusCard(
-        title = "На проверке",
+        title = stringResource(Res.string.under_check),
         content = if (status.dateTime != null) {
-            "с ${status.dateTime.formatDateTime()}"
+            "${stringResource(Res.string.since)} ${status.dateTime.formatDateTime()}"
         } else {
-            "Время отправки не указано"
+            stringResource(Res.string.issue_time_not_specified)
         },
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -90,15 +103,15 @@ private fun UnderCheckStatusDisplay(status: TaskStatus.UnderCheck) {
 @Composable
 private fun RejectedStatusDisplay(status: TaskStatus.Rejected) {
     StatusCard(
-        title = "Отклонено",
+        title = stringResource(Res.string.rejected),
         content = if (status.reason.isNullOrBlank()) {
             if (status.dateTime != null) {
                 status.dateTime.formatDateTime()
             } else {
-                "Причина не указана"
+                "${stringResource(Res.string.reason)} ${stringResource(Res.string.not_specified)}"
             }
         } else {
-            "Причина: ${status.reason}"
+            "${stringResource(Res.string.reason)}: ${status.reason}"
         },
         backgroundColor = MaterialTheme.colorScheme.errorContainer,
         contentColor = MaterialTheme.colorScheme.onErrorContainer,
@@ -108,14 +121,14 @@ private fun RejectedStatusDisplay(status: TaskStatus.Rejected) {
 @Composable
 private fun CompletedStatusDisplay(status: TaskStatus.Completed, grade: GradeRange?) {
     StatusCard(
-        title = "Зачтено",
+        title = stringResource(Res.string.accepted),
         content = if (grade != null) {
-            "Баллы: ${grade.currentGrade}/${grade.maxGrade}"
+            "${stringResource(Res.string.points)}: ${grade.currentGrade}/${grade.maxGrade}"
         } else {
             if (status.dateTime != null) {
                 status.dateTime.formatDateTime()
             } else {
-                "Без оценки"
+                stringResource(Res.string.no_note)
             }
         },
         backgroundColor = MaterialTheme.colorScheme.primaryContainer,

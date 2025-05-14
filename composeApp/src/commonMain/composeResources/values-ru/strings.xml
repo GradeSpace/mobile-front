@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="no_description">Упс, кажется описание отсутствует...</string>
+    <string name="error_disk_full">Упс, на вашем диске нет места.</string>
+    <string name="error_unknown">Упс, что-то пошло не так.</string>
+    <string name="error_request_timeout">Время ожидания запроса вышло.</string>
+    <string name="error_no_internet">Нет доступа к серверу, проверьте Ваше подключение к интернету.</string>
+    <string name="error_too_many_requests">Слишком много запросов.</string>
+    <string name="error_serialization">Не получилось распарсить данные.</string>
+    <string name="error_not_found">404 Не найден</string>
+    <string name="before">Ранее</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="receivers">Получатели</string>
+    <string name="attachments">Приложения</string>
+    <string name="press_to_open">Нажмите, чтобы открыть</string>
+
+
+    <string name="january">янв</string>
+    <string name="february">фев</string>
+    <string name="march">мар</string>
+    <string name="april">апр</string>
+    <string name="may">май</string>
+    <string name="june">июн</string>
+    <string name="july">июл</string>
+    <string name="august">авг</string>
+    <string name="september">сен</string>
+    <string name="october">окт</string>
+    <string name="november">ноя</string>
+    <string name="december">дек</string>
+    <string name="mon">пн</string>
+    <string name="tue">вт</string>
+    <string name="wed">ср</string>
+    <string name="thu">чт</string>
+    <string name="fri">пт</string>
+    <string name="sat">сб</string>
+    <string name="sun">вс</string>
+    <string name="week_accusative">неделя</string>
+    <string name="day">дн</string>
+    <string name="hour">ч</string>
+    <string name="minute">мин</string>
+    <string name="second">сек</string>
+
+
+    <string name="feed_title">Лента новостей</string>
+    <string name="current_tasks">Текущие</string>
+    <string name="calendar">Календарь</string>
+    <string name="tasks">Задания</string>
+    <string name="completed_tasks">Выполненные</string>
+    <string name="rejected_tasks">Отклоненные</string>
+    <string name="rejected">Отклоненно</string>
+    <string name="given_tasks">Выданные</string>
+    <string name="not_given_tasks">Не выданные</string>
+    <string name="under_check">На проверке</string>
+    <string name="description_title">Описание</string>
+    <string name="submit_before">Сдать до</string>
+    <string name="under_check_since">На проверке с</string>
+    <string name="task_not_issued">Задание еще не выдано</string>
+    <string name="task_will_be_issued">Задание будет выдано</string>
+    <string name="will_be_issued">Будет выдано</string>
+    <string name="issued">Выдано</string>
+    <string name="not_issued">Не выдано</string>
+    <string name="issue_time_not_specified">Время выдачи не указано</string>
+    <string name="since">с</string>
+    <string name="deadline_expired">Дедлайн истек!</string>
+    <string name="no_note">Без оценки</string>
+    <string name="deadline">Дедлайн</string>
+    <string name="remained">Осталось</string>
+    <string name="notes">Без оценки</string>
+    <string name="min">Мин</string>
+    <string name="max">Макс</string>
+    <string name="note">Оценка</string>
+    <string name="not_specified">не указана</string>
+    <string name="accepted">Зачтено</string>
+    <string name="points">Баллы</string>
+    <string name="deadline_not_specified">срок не указан</string>
+    <string name="no_lessons_for_today">На сегодня занятий нет</string>
+    <string name="reason">Причина</string>
+    <string name="check_in">Отметиться</string>
+
+    <string name="lesson_not_started">Занятие еще не началось</string>
+    <string name="lesson_in_progress">Занятие идет прямо сейчас</string>
+    <string name="lesson_ended">Занятие завершилось</string>
+    <string name="no_checkin_allowed">Отметка о посещении недоступна"</string>
+    <string name="lesson_missed">Вы не посетили это занятие</string>
+    <string name="checked_id_wait_for_verification">Вы отметились, ожидайте подтверждения</string>
+    <string name="lesson_visited">Вы посетили это занятие</string>
+
+    <string name="cab">каб.</string>
+    <string name="online">онлайн</string>
+
+    <string name="personal_data">Данные</string>
+    <string name="language">Язык</string>
+    <string name="russian">Русский</string>
+    <string name="english">Английский</string>
+    <string name="theme">Тема</string>
+    <string name="dark_mode">Темная</string>
+    <string name="light_mode">Светлая</string>
+    <string name="system_mode">Системная</string>
+    <string name="logout">Выход</string>
+    <string name="student">Студент</string>
+    <string name="tutor">Преподаватель</string>
+    <string name="user">Пользователь</string>
+
+    <string name="connect">Подключиться</string>
+
+    <string name="language_change">Смена языка</string>
+    <string name="theme_change">Смена темы</string>
+</resources>

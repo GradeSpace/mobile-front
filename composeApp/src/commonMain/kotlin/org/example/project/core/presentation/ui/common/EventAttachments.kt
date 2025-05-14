@@ -36,6 +36,7 @@ import mobile_front.composeapp.generated.resources.i24_docs_outline
 import mobile_front.composeapp.generated.resources.i24_draft_outline
 import mobile_front.composeapp.generated.resources.i24_image_outline
 import mobile_front.composeapp.generated.resources.i24_pdf_outline
+import mobile_front.composeapp.generated.resources.press_to_open
 import org.example.project.core.data.model.attachment.Attachment
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -154,7 +155,7 @@ fun Attachment(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "$fileSize • Нажмите, чтобы открыть",
+                        text = "$fileSize • ${stringResource(Res.string.press_to_open)}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
