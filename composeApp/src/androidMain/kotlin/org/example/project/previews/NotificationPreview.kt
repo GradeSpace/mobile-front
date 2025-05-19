@@ -6,6 +6,7 @@ import org.example.project.core.presentation.ui.theme.GradeSpaceTheme
 import org.example.project.features.feed.data.repository.FeedMockRepository
 import org.example.project.features.feed.presentation.feed_notification.FeedNotificationScreen
 import org.example.project.features.feed.presentation.feed_notification.FeedNotificationState
+import org.koin.compose.koinInject
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
@@ -15,7 +16,9 @@ fun NotificationScreenPreview() {
             state = FeedNotificationState(
                 isRefreshing = false,
                 error = null,
-                notificationItem = FeedMockRepository().localEvents[1]
+                notificationItem = FeedMockRepository(
+                    koinInject()
+                ).localEvents[1]
             ),
             onAction = {}
         )

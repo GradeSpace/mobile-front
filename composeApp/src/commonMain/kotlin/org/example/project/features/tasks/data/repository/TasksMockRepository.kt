@@ -170,7 +170,8 @@ class TasksMockRepository : TasksRepository {
                                 url = "https://example.com/attachment_$daysAgo#$index",
                                 fileName = type.toString(),
                                 fileSize = Random.nextLong(100000, 500000),
-                                fileType = type
+                                fileType = type,
+                                id = index.toString()
                             )
                         }.plus(
                             Attachment.FileType.entries
@@ -179,7 +180,8 @@ class TasksMockRepository : TasksRepository {
                                         url = "https://example.com/attachment_$daysAgo#$index",
                                         fileName = type.toString(),
                                         fileSize = Random.nextLong(100000, 500000),
-                                        fileType = type
+                                        fileType = type,
+                                        id = index.toString()
                                     )
                                 }
                         ),

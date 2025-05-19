@@ -14,6 +14,7 @@ import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.no_description
 import mobile_front.composeapp.generated.resources.today
 import mobile_front.composeapp.generated.resources.yesterday
+import org.example.project.core.data.datastore.DataStorePreferences
 import org.example.project.core.data.model.attachment.Attachment
 import org.example.project.core.data.model.user.User
 import org.example.project.core.data.utils.getMonthResourceName
@@ -21,6 +22,15 @@ import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
 import org.example.project.core.domain.Result
 import org.example.project.core.presentation.UiText
+import org.example.project.features.feed.data.database.clearNotificationDraft
+import org.example.project.features.feed.data.database.getNotificationDraftAttachments
+import org.example.project.features.feed.data.database.getNotificationDraftDescription
+import org.example.project.features.feed.data.database.getNotificationDraftReceivers
+import org.example.project.features.feed.data.database.getNotificationDraftTitle
+import org.example.project.features.feed.data.database.saveNotificationDraftAttachments
+import org.example.project.features.feed.data.database.saveNotificationDraftDescription
+import org.example.project.features.feed.data.database.saveNotificationDraftReceivers
+import org.example.project.features.feed.data.database.saveNotificationDraftTitle
 import org.example.project.features.feed.data.mock.FeedTextMock
 import org.example.project.features.feed.domain.FeedAction
 import org.example.project.features.feed.domain.FeedEventItem
@@ -29,7 +39,9 @@ import org.example.project.features.feed.domain.FeedEventsBlock.BlockType
 import org.example.project.features.feed.domain.FeedRepository
 import kotlin.random.Random
 
-class FeedMockRepository : FeedRepository {
+class FeedMockRepository(
+    private val dataStorePreferences: DataStorePreferences
+) : FeedRepository {
 
     val localEvents = mutableListOf<FeedEventItem>()
     val localEventsBlocks = mutableListOf<FeedEventsBlock>()
@@ -37,6 +49,43 @@ class FeedMockRepository : FeedRepository {
     init {
         init()
     }
+
+    override suspend fun getNotificationDraftTitle(): String {
+        return dataStorePreferences.getNotificationDraftTitle()
+    }
+
+    override suspend fun saveNotificationDraftTitle(title: String) {
+        dataStorePreferences.saveNotificationDraftTitle(title)
+    }
+
+    override suspend fun getNotificationDraftDescription(): String {
+        return dataStorePreferences.getNotificationDraftDescription()
+    }
+
+    override suspend fun saveNotificationDraftDescription(description: String) {
+        dataStorePreferences.saveNotificationDraftDescription(description)
+    }
+
+    override suspend fun getNotificationDraftReceivers(): List<String> {
+        return dataStorePreferences.getNotificationDraftReceivers()
+    }
+
+    override suspend fun saveNotificationDraftReceivers(receivers: List<String>) {
+        dataStorePreferences.saveNotificationDraftReceivers(receivers)
+    }
+
+    override suspend fun getNotificationDraftAttachments(): List<Attachment> {
+        return dataStorePreferences.getNotificationDraftAttachments()
+    }
+
+    override suspend fun saveNotificationDraftAttachments(attachments: List<Attachment>) {
+        dataStorePreferences.saveNotificationDraftAttachments(attachments)
+    }
+
+    override suspend fun clearNotificationDraft() {
+        dataStorePreferences.clearNotificationDraft()
+    }
+
 
     private fun init() {
         val mockUser = User(
@@ -102,7 +151,8 @@ class FeedMockRepository : FeedRepository {
                                 url = "https://example.com/attachment_$daysAgo#$index",
                                 fileName = type.toString(),
                                 fileSize = Random.nextLong(100000, 500000),
-                                fileType = type
+                                fileType = type,
+                                id = index.toString()
                             )
                         }.plus(
                             Attachment.FileType.entries
@@ -111,7 +161,8 @@ class FeedMockRepository : FeedRepository {
                                         url = "https://example.com/attachment_$daysAgo#$index",
                                         fileName = type.toString(),
                                         fileSize = Random.nextLong(100000, 500000),
-                                        fileType = type
+                                        fileType = type,
+                                        id = index.toString()
                                     )
                                 }
                         ) else emptyList(),
@@ -214,6 +265,14 @@ class FeedMockRepository : FeedRepository {
                     )
                 )
             }
+    }
+
+    override fun fetchReceivers(): Flow<List<String>> {
+        return flow {
+            emit(listOf(
+                "ИУ9-62Б", "ИУ9-61Б", "ТралалелоТралала", "Баллерино Капучино"
+            ))
+        }
     }
 
     override fun fetchFeedEvents(): Flow<List<FeedEventsBlock>> {

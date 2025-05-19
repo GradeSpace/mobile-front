@@ -6,6 +6,7 @@ import org.example.project.core.presentation.ui.theme.GradeSpaceTheme
 import org.example.project.features.feed.data.repository.FeedMockRepository
 import org.example.project.features.feed.presentation.feed_list.FeedListScreen
 import org.example.project.features.feed.presentation.feed_list.FeedListState
+import org.koin.compose.koinInject
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
@@ -15,7 +16,9 @@ fun FeedListScreenPreview() {
             state = FeedListState(
                 isLoading = false,
                 error = null,
-                feedBlocks = FeedMockRepository().localEventsBlocks
+                feedBlocks = FeedMockRepository(
+                    koinInject()
+                ).localEventsBlocks
             ),
             onAction = {}
         )

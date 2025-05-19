@@ -17,6 +17,7 @@ import org.example.project.core.domain.onError
 import org.example.project.core.domain.onSuccess
 import org.example.project.core.presentation.toUiText
 import org.example.project.features.feed.domain.FeedRepository
+import org.example.project.features.feed.navigation.FeedRoute
 import org.example.project.features.feed.navigation.FeedRoute.FeedNotification
 import org.example.project.features.feed.presentation.feed_list.FeedListNavigationEvent.NavigateTo
 
@@ -87,6 +88,7 @@ class FeedListViewModel(
             }
 
             FeedListAction.CreateNewNotification -> {
+                _navigationEvents.emit(NavigateTo(FeedRoute.NotificationCreate))
             }
         }
     }

@@ -9,4 +9,7 @@ sealed interface FeedRoute : Route {
     data class FeedNotification(
         val eventId: String? = null
     ) : FeedRoute
+
+    @Serializable
+    data object NotificationCreate : FeedRoute
 }
