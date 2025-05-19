@@ -141,7 +141,8 @@ class LessonMockRepository : LessonRepository {
                                 url = "https://example.com/lesson_${lessonDate}_${lessonIndex}_attachment_$index",
                                 fileName = "Материал ${index + 1}.$fileType",
                                 fileSize = Random.nextLong(100000, 5000000),
-                                fileType = fileType
+                                fileType = fileType,
+                                id = index.toString()
                             )
                         }
                     } else {

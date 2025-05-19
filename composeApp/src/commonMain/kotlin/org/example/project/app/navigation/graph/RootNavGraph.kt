@@ -1,7 +1,6 @@
 package org.example.project.app.navigation.graph
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,7 +9,6 @@ import androidx.navigation.navigation
 import org.example.project.app.navigation.route.Graph
 import org.example.project.app.navigation.route.ProfileRoutes
 import org.example.project.app.navigation.route.TabRoute
-import org.example.project.app.navigation.utils.NavigationManager
 import org.example.project.features.feed.navigation.FeedRoute
 import org.example.project.features.feed.navigation.feedNavGraph
 import org.example.project.features.lessons.navigation.LessonRoutes
@@ -23,10 +21,6 @@ fun RootNavGraph(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier
 ) {
-    val navigationManager = remember {
-        NavigationManager(navController)
-    }
-
     NavHost(
         navController = navController,
         startDestination = Graph.TabsGraph,
@@ -34,31 +28,31 @@ fun RootNavGraph(
         navigation<Graph.TabsGraph>(
             startDestination = TabRoute.FeedTab
         ) {
-            tabsNavGraph(navigationManager, modifier)
+            tabsNavGraph(modifier)
         }
 
         navigation<Graph.FeedGraph>(
             startDestination = FeedRoute.FeedNotification()
         ) {
-            feedNavGraph(navigationManager)
+            feedNavGraph()
         }
 
         navigation<Graph.ProfileGraph>(
             startDestination = ProfileRoutes.ProfileMain
         ) {
-            profileNavGraph(navigationManager)
+            profileNavGraph()
         }
 
         navigation<Graph.TasksGraph>(
             startDestination = TasksRoute.TaskScreen()
         ) {
-            tasksNavGraph(navigationManager)
+            tasksNavGraph()
         }
 
         navigation<Graph.CalendarGraph>(
             startDestination = LessonRoutes.Lesson()
         ) {
-            lessonsNavGraph(navigationManager)
+            lessonsNavGraph()
         }
     }
 }

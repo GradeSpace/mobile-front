@@ -2,9 +2,6 @@
 
 package mobile_front.composeapp.generated.resources
 
-import kotlin.OptIn
-import kotlin.String
-import kotlin.collections.MutableMap
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.InternalResourceApi
 
@@ -14,6 +11,12 @@ private object CommonMainDrawable0 {
 
   public val i24_acute: DrawableResource by 
       lazy { init_i24_acute() }
+
+  public val i24_add_a_photo: DrawableResource by 
+      lazy { init_i24_add_a_photo() }
+
+  public val i24_attach_file: DrawableResource by 
+      lazy { init_i24_attach_file() }
 
   public val i24_calendar: DrawableResource by 
       lazy { init_i24_calendar() }
@@ -63,6 +66,12 @@ private object CommonMainDrawable0 {
   public val i24_pdf_outline: DrawableResource by 
       lazy { init_i24_pdf_outline() }
 
+  public val i24_photo_camera: DrawableResource by 
+      lazy { init_i24_photo_camera() }
+
+  public val i24_photo_library: DrawableResource by 
+      lazy { init_i24_photo_library() }
+
   public val i24_profile: DrawableResource by 
       lazy { init_i24_profile() }
 
@@ -95,6 +104,8 @@ private object CommonMainDrawable0 {
 internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, DrawableResource>) {
   map.put("compose_multiplatform", CommonMainDrawable0.compose_multiplatform)
   map.put("i24_acute", CommonMainDrawable0.i24_acute)
+  map.put("i24_add_a_photo", CommonMainDrawable0.i24_add_a_photo)
+  map.put("i24_attach_file", CommonMainDrawable0.i24_attach_file)
   map.put("i24_calendar", CommonMainDrawable0.i24_calendar)
   map.put("i24_cancel", CommonMainDrawable0.i24_cancel)
   map.put("i24_dark_mode", CommonMainDrawable0.i24_dark_mode)
@@ -111,6 +122,8 @@ internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, Drawab
   map.put("i24_manage_accounts", CommonMainDrawable0.i24_manage_accounts)
   map.put("i24_open_in_new", CommonMainDrawable0.i24_open_in_new)
   map.put("i24_pdf_outline", CommonMainDrawable0.i24_pdf_outline)
+  map.put("i24_photo_camera", CommonMainDrawable0.i24_photo_camera)
+  map.put("i24_photo_library", CommonMainDrawable0.i24_photo_library)
   map.put("i24_profile", CommonMainDrawable0.i24_profile)
   map.put("i24_routine", CommonMainDrawable0.i24_routine)
   map.put("i24_schedule", CommonMainDrawable0.i24_schedule)
@@ -125,12 +138,10 @@ internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, Drawab
 internal val Res.drawable.compose_multiplatform: DrawableResource
   get() = CommonMainDrawable0.compose_multiplatform
 
-private fun init_compose_multiplatform(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_compose_multiplatform(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:compose_multiplatform",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/compose-multiplatform.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/compose-multiplatform.xml", -1, -1),
     )
 )
 
@@ -140,20 +151,37 @@ internal val Res.drawable.i24_acute: DrawableResource
 private fun init_i24_acute(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_acute",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_acute.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_acute.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_add_a_photo: DrawableResource
+  get() = CommonMainDrawable0.i24_add_a_photo
+
+private fun init_i24_add_a_photo(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_add_a_photo",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_add_a_photo.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_attach_file: DrawableResource
+  get() = CommonMainDrawable0.i24_attach_file
+
+private fun init_i24_attach_file(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_attach_file",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_attach_file.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_calendar: DrawableResource
   get() = CommonMainDrawable0.i24_calendar
 
-private fun init_i24_calendar(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_calendar(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_calendar",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_calendar.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_calendar.xml", -1, -1),
     )
 )
 
@@ -163,68 +191,57 @@ internal val Res.drawable.i24_cancel: DrawableResource
 private fun init_i24_cancel(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_cancel",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_cancel.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_cancel.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_dark_mode: DrawableResource
   get() = CommonMainDrawable0.i24_dark_mode
 
-private fun init_i24_dark_mode(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_dark_mode(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_dark_mode",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_dark_mode.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_dark_mode.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_date_range: DrawableResource
   get() = CommonMainDrawable0.i24_date_range
 
-private fun init_i24_date_range(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_date_range(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_date_range",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_date_range.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_date_range.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_description_outline: DrawableResource
   get() = CommonMainDrawable0.i24_description_outline
 
-private fun init_i24_description_outline(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_description_outline(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_description_outline",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_description_outline.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_description_outline.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_docs_outline: DrawableResource
   get() = CommonMainDrawable0.i24_docs_outline
 
-private fun init_i24_docs_outline(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_docs_outline(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_docs_outline",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_docs_outline.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_docs_outline.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_draft_outline: DrawableResource
   get() = CommonMainDrawable0.i24_draft_outline
 
-private fun init_i24_draft_outline(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_draft_outline(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_draft_outline",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_draft_outline.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_draft_outline.xml", -1, -1),
     )
 )
 
@@ -234,8 +251,7 @@ internal val Res.drawable.i24_event: DrawableResource
 private fun init_i24_event(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_event",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_event.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_event.xml", -1, -1),
     )
 )
 
@@ -245,44 +261,37 @@ internal val Res.drawable.i24_filters: DrawableResource
 private fun init_i24_filters(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_filters",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_filters.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_filters.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_image_outline: DrawableResource
   get() = CommonMainDrawable0.i24_image_outline
 
-private fun init_i24_image_outline(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_image_outline(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_image_outline",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_image_outline.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_image_outline.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_language: DrawableResource
   get() = CommonMainDrawable0.i24_language
 
-private fun init_i24_language(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_language(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_language",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_language.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_language.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_light_mode: DrawableResource
   get() = CommonMainDrawable0.i24_light_mode
 
-private fun init_i24_light_mode(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_light_mode(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_light_mode",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_light_mode.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_light_mode.xml", -1, -1),
     )
 )
 
@@ -292,44 +301,57 @@ internal val Res.drawable.i24_logout: DrawableResource
 private fun init_i24_logout(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_logout",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_logout.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_logout.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_manage_accounts: DrawableResource
   get() = CommonMainDrawable0.i24_manage_accounts
 
-private fun init_i24_manage_accounts(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_manage_accounts(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_manage_accounts",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_manage_accounts.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_manage_accounts.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_open_in_new: DrawableResource
   get() = CommonMainDrawable0.i24_open_in_new
 
-private fun init_i24_open_in_new(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_open_in_new(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_open_in_new",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_open_in_new.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_open_in_new.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_pdf_outline: DrawableResource
   get() = CommonMainDrawable0.i24_pdf_outline
 
-private fun init_i24_pdf_outline(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_pdf_outline(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_pdf_outline",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_pdf_outline.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_pdf_outline.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_photo_camera: DrawableResource
+  get() = CommonMainDrawable0.i24_photo_camera
+
+private fun init_i24_photo_camera(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_photo_camera",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_photo_camera.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_photo_library: DrawableResource
+  get() = CommonMainDrawable0.i24_photo_library
+
+private fun init_i24_photo_library(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_photo_library",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_photo_library.xml", -1, -1),
     )
 )
 
@@ -339,8 +361,7 @@ internal val Res.drawable.i24_profile: DrawableResource
 private fun init_i24_profile(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_profile",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_profile.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_profile.xml", -1, -1),
     )
 )
 
@@ -350,20 +371,17 @@ internal val Res.drawable.i24_routine: DrawableResource
 private fun init_i24_routine(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_routine",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_routine.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_routine.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_schedule: DrawableResource
   get() = CommonMainDrawable0.i24_schedule
 
-private fun init_i24_schedule(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_schedule(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_schedule",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_schedule.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_schedule.xml", -1, -1),
     )
 )
 
@@ -373,20 +391,17 @@ internal val Res.drawable.i24_tasks: DrawableResource
 private fun init_i24_tasks(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_tasks",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_tasks.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_tasks.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_timer_off: DrawableResource
   get() = CommonMainDrawable0.i24_timer_off
 
-private fun init_i24_timer_off(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_timer_off(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_timer_off",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_timer_off.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_timer_off.xml", -1, -1),
     )
 )
 
@@ -396,43 +411,36 @@ internal val Res.drawable.i24_today: DrawableResource
 private fun init_i24_today(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_today",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_today.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_today.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_video_call: DrawableResource
   get() = CommonMainDrawable0.i24_video_call
 
-private fun init_i24_video_call(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_video_call(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_video_call",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_video_call.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_video_call.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.i24_videocam: DrawableResource
   get() = CommonMainDrawable0.i24_videocam
 
-private fun init_i24_videocam(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_i24_videocam(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:i24_videocam",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_videocam.xml", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_videocam.xml", -1, -1),
     )
 )
 
 internal val Res.drawable.ic_no_lessons: DrawableResource
   get() = CommonMainDrawable0.ic_no_lessons
 
-private fun init_ic_no_lessons(): DrawableResource =
-    org.jetbrains.compose.resources.DrawableResource(
+private fun init_ic_no_lessons(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
   "drawable:ic_no_lessons",
     setOf(
-      org.jetbrains.compose.resources.ResourceItem(setOf(),
-    "composeResources/mobile_front.composeapp.generated.resources/drawable/ic_no_lessons.png", -1, -1),
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/ic_no_lessons.png", -1, -1),
     )
 )
