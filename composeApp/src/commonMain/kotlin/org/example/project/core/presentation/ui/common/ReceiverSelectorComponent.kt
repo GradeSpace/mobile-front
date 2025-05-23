@@ -66,13 +66,13 @@ private val chipColors = listOf(
 fun ReceiverSelectorComponent(
     availableReceivers: List<String>,
     selectedReceivers: List<String>,
+    maxReceivers: Int = 50,
     onReceiverSelected: (String) -> Unit,
     onReceiverDeselected: (String) -> Unit,
     modifier: Modifier = Modifier,
     onShowReceiversList: ((List<String>, (String) -> Unit) -> Unit)? = null
 ) {
     var showAvailableReceivers by remember { mutableStateOf(false) }
-    val maxReceivers = 10
     val canAddMore = selectedReceivers.size < maxReceivers
 
     Column(modifier = modifier) {

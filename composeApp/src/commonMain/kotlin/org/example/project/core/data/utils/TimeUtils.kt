@@ -53,6 +53,20 @@ fun LocalDateTime.formatDate(withYear: Boolean = false): String {
     )
 }
 
+fun LocalDate.formatDate(withYear: Boolean = false): String {
+    return this.format(
+        LocalDate.Format {
+            dayOfMonth()
+            char('/')
+            monthNumber()
+            if (withYear) {
+                char('/')
+                year()
+            }
+        }
+    )
+}
+
 fun LocalDateTime.formatDateTime(
     withYear: Boolean = false,
     withSeconds: Boolean = false

@@ -6,6 +6,7 @@ import org.example.project.core.presentation.ui.theme.GradeSpaceTheme
 import org.example.project.features.lessons.data.repository.LessonMockRepository
 import org.example.project.features.lessons.presentation.calendar.CalendarScreen
 import org.example.project.features.lessons.presentation.calendar.CalendarScreenState
+import org.koin.compose.koinInject
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
@@ -14,7 +15,7 @@ fun CalendarPreview() {
         CalendarScreen(
             state = CalendarScreenState(
                 isRefreshing = false,
-                lessonBlocks = LessonMockRepository().localLessonBlocks
+                lessonBlocks = LessonMockRepository(koinInject()).localLessonBlocks
             ),
             onAction = {}
         )

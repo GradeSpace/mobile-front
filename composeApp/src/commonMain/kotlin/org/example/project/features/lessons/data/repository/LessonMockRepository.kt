@@ -12,6 +12,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import mobile_front.composeapp.generated.resources.Res
 import mobile_front.composeapp.generated.resources.no_description
+import org.example.project.core.data.datastore.DataStorePreferences
 import org.example.project.core.data.model.attachment.Attachment
 import org.example.project.core.data.model.event.EventLocation
 import org.example.project.core.data.model.user.User
@@ -20,14 +21,43 @@ import org.example.project.core.domain.EmptyResult
 import org.example.project.core.domain.Result
 import org.example.project.core.presentation.UiText
 import org.example.project.features.feed.data.mock.FeedTextMock
+import org.example.project.features.lessons.data.database.clearLessonDraft
+import org.example.project.features.lessons.data.database.getLessonCreateDraft
+import org.example.project.features.lessons.data.database.getLessonDraftAttachments
+import org.example.project.features.lessons.data.database.getLessonDraftDate
+import org.example.project.features.lessons.data.database.getLessonDraftDescription
+import org.example.project.features.lessons.data.database.getLessonDraftEndTime
+import org.example.project.features.lessons.data.database.getLessonDraftOfflinePlace
+import org.example.project.features.lessons.data.database.getLessonDraftOnlineLink
+import org.example.project.features.lessons.data.database.getLessonDraftReceivers
+import org.example.project.features.lessons.data.database.getLessonDraftStartTime
+import org.example.project.features.lessons.data.database.getLessonDraftSubject
+import org.example.project.features.lessons.data.database.getLessonDraftTitle
+import org.example.project.features.lessons.data.database.isLessonDraftOfflineLocationEnabled
+import org.example.project.features.lessons.data.database.isLessonDraftOnlineLocationEnabled
+import org.example.project.features.lessons.data.database.saveLessonDraftAttachments
+import org.example.project.features.lessons.data.database.saveLessonDraftDate
+import org.example.project.features.lessons.data.database.saveLessonDraftDescription
+import org.example.project.features.lessons.data.database.saveLessonDraftEndTime
+import org.example.project.features.lessons.data.database.saveLessonDraftOfflineLocationEnabled
+import org.example.project.features.lessons.data.database.saveLessonDraftOfflinePlace
+import org.example.project.features.lessons.data.database.saveLessonDraftOnlineLink
+import org.example.project.features.lessons.data.database.saveLessonDraftOnlineLocationEnabled
+import org.example.project.features.lessons.data.database.saveLessonDraftReceivers
+import org.example.project.features.lessons.data.database.saveLessonDraftStartTime
+import org.example.project.features.lessons.data.database.saveLessonDraftSubject
+import org.example.project.features.lessons.data.database.saveLessonDraftTitle
 import org.example.project.features.lessons.domain.AttendanceStatus
 import org.example.project.features.lessons.domain.LessonBlocks
+import org.example.project.features.lessons.domain.LessonCreateDraft
 import org.example.project.features.lessons.domain.LessonEventItem
 import org.example.project.features.lessons.domain.LessonRepository
 import org.example.project.features.lessons.domain.LessonStatus
 import kotlin.random.Random
 
-class LessonMockRepository : LessonRepository {
+class LessonMockRepository(
+    private val dataStorePreferences: DataStorePreferences
+) : LessonRepository {
 
     private val localLessons = mutableListOf<LessonEventItem>()
     val localLessonBlocks = mutableMapOf<LocalDate, List<LessonEventItem>>()
@@ -203,5 +233,117 @@ class LessonMockRepository : LessonRepository {
         localLessons.add(event)
         updateLessonBlocks()
         return Result.Success(Unit)
+    }
+
+    override suspend fun getLessonDraftTitle(): String? {
+        return dataStorePreferences.getLessonDraftTitle()
+    }
+
+    override suspend fun saveLessonDraftTitle(title: String) {
+        dataStorePreferences.saveLessonDraftTitle(title)
+    }
+
+    override suspend fun getLessonDraftSubject(): String? {
+        return dataStorePreferences.getLessonDraftSubject()
+    }
+
+    override suspend fun saveLessonDraftSubject(subject: String) {
+        dataStorePreferences.saveLessonDraftSubject(subject)
+    }
+
+    override suspend fun getLessonDraftDescription(): String? {
+        return dataStorePreferences.getLessonDraftDescription()
+    }
+
+    override suspend fun saveLessonDraftDescription(description: String) {
+        dataStorePreferences.saveLessonDraftDescription(description)
+    }
+
+    override suspend fun getLessonDraftReceivers(): List<String>? {
+        return dataStorePreferences.getLessonDraftReceivers()
+    }
+
+    override suspend fun saveLessonDraftReceivers(receivers: List<String>) {
+        dataStorePreferences.saveLessonDraftReceivers(receivers)
+    }
+
+    override suspend fun getLessonDraftAttachments(): List<Attachment>? {
+        return dataStorePreferences.getLessonDraftAttachments()
+    }
+
+    override suspend fun saveLessonDraftAttachments(attachments: List<Attachment>) {
+        dataStorePreferences.saveLessonDraftAttachments(attachments)
+    }
+
+    override suspend fun getLessonDraftDate(): LocalDate? {
+        return dataStorePreferences.getLessonDraftDate()
+    }
+
+    override suspend fun saveLessonDraftDate(date: LocalDate?) {
+        dataStorePreferences.saveLessonDraftDate(date)
+    }
+
+    override suspend fun getLessonDraftStartTime(): LocalDateTime? {
+        return dataStorePreferences.getLessonDraftStartTime()
+    }
+
+    override suspend fun saveLessonDraftStartTime(time: LocalDateTime?) {
+        dataStorePreferences.saveLessonDraftStartTime(time)
+    }
+
+    override suspend fun getLessonDraftEndTime(): LocalDateTime? {
+        return dataStorePreferences.getLessonDraftEndTime()
+    }
+
+    override suspend fun saveLessonDraftEndTime(time: LocalDateTime?) {
+        dataStorePreferences.saveLessonDraftEndTime(time)
+    }
+
+    override suspend fun isLessonDraftOnlineLocationEnabled(): Boolean {
+        return dataStorePreferences.isLessonDraftOnlineLocationEnabled()
+    }
+
+    override suspend fun saveLessonDraftOnlineLocationEnabled(enabled: Boolean) {
+        dataStorePreferences.saveLessonDraftOnlineLocationEnabled(enabled)
+    }
+
+    override suspend fun isLessonDraftOfflineLocationEnabled(): Boolean {
+        return dataStorePreferences.isLessonDraftOfflineLocationEnabled()
+    }
+
+    override suspend fun saveLessonDraftOfflineLocationEnabled(enabled: Boolean) {
+        dataStorePreferences.saveLessonDraftOfflineLocationEnabled(enabled)
+    }
+
+    override suspend fun getLessonDraftOnlineLink(): String? {
+        return dataStorePreferences.getLessonDraftOnlineLink()
+    }
+
+    override suspend fun saveLessonDraftOnlineLink(link: String) {
+        dataStorePreferences.saveLessonDraftOnlineLink(link)
+    }
+
+    override suspend fun getLessonDraftOfflinePlace(): String? {
+        return dataStorePreferences.getLessonDraftOfflinePlace()
+    }
+
+    override suspend fun saveLessonDraftOfflinePlace(place: String) {
+        dataStorePreferences.saveLessonDraftOfflinePlace(place)
+    }
+
+    override suspend fun getLessonCreateDraft(): LessonCreateDraft {
+        return dataStorePreferences.getLessonCreateDraft()
+    }
+
+    override suspend fun clearLessonDraft() {
+        dataStorePreferences.clearLessonDraft()
+    }
+
+    override fun fetchReceivers(): Flow<List<String>> {
+        return flow {
+            emit(listOf(
+                "ИУ9-62Б", "ИУ9-61Б", "ИУ9-11М", "ИУ9-12М", "ИУ9-31Б", "ИУ9-32Б"
+            ))
+        }
     }
 }

@@ -24,10 +24,10 @@ fun CalendarDialog(
     onDateChange: (Long?) -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    val initSelDayInMills = date.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+    val initSelDayInMills = date.atStartOfDayIn(TimeZone.UTC).toEpochMilliseconds()
 
-    val startDateMillis = startDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-    val endDateMillis = endDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+    val startDateMillis = startDate.atStartOfDayIn(TimeZone.UTC).toEpochMilliseconds()
+    val endDateMillis = endDate.atStartOfDayIn(TimeZone.UTC).toEpochMilliseconds()
 
     val selectableDates = object : SelectableDates {
         override fun isSelectableDate(utcTimeMillis: Long): Boolean {
