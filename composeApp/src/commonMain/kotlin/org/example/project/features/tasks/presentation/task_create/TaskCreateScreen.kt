@@ -1,4 +1,4 @@
-package org.example.project.features.feed.presentation.notification_create
+package org.example.project.features.tasks.presentation.task_create
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -48,11 +49,14 @@ import org.example.project.core.presentation.ui.common.AddAttachmentsSectionComp
 import org.example.project.core.presentation.ui.common.AttachmentSourceBottomSheet
 import org.example.project.core.presentation.ui.common.LimitedTextField
 import org.example.project.core.presentation.ui.common.ReceiverSelectorComponent
+import org.example.project.features.tasks.presentation.task_create.components.TaskDateTimeSection
+import org.example.project.features.tasks.presentation.task_create.components.TaskGradeSection
+import org.example.project.features.tasks.presentation.task_create.components.TaskVariantsSection
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun NotificationCreateRootScreen(
-    viewModel: NotificationCreateViewModel,
+fun TaskCreateScreenRoot(
+    viewModel: TaskCreateViewModel,
     navigationManager: NavigationManager,
     uiEventsManager: UiEventsManager
 ) {
@@ -60,9 +64,10 @@ fun NotificationCreateRootScreen(
     navigationManager.subscribeNavigationOnLifecycle {
         navigationEvents.collect { navEvent ->
             when (navEvent) {
-                is NotificationCreateNavigationEvent.NavigateBack ->
+                is TaskCreateNavigationEvent.NavigateBack ->
                     navigationManager.navigateBack()
-                is NotificationCreateNavigationEvent.OpenFile ->
+
+                is TaskCreateNavigationEvent.OpenFile ->
                     navigationManager.openAttachment(navEvent.attachment)
             }
         }
@@ -72,7 +77,7 @@ fun NotificationCreateRootScreen(
     uiEventsManager.subscribeEventsOnLifecycle {
         uiEvents.collect { uiEvent ->
             when (uiEvent) {
-                is NotificationCreateUiEvent.ShowErrorSnackbar -> uiEventsManager.showSnackBar(
+                is TaskCreateUiEvent.ShowErrorSnackbar -> uiEventsManager.showSnackBar(
                     uiEvent.snackbar
                 )
             }
@@ -80,14 +85,14 @@ fun NotificationCreateRootScreen(
     }
 
     val state by viewModel.state.collectAsStateWithLifecycle()
-    NotificationCreateScreen(state, viewModel::onAction)
+    TaskCreateScreen(state, viewModel::onAction)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotificationCreateScreen(
-    state: NotificationCreateState,
-    onAction: (NotificationCreateAction) -> Unit
+fun TaskCreateScreen(
+    state: TaskCreateState,
+    onAction: (TasksCreateAction) -> Unit
 ) {
     val scrollState = rememberScrollState()
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -106,7 +111,7 @@ fun NotificationCreateScreen(
         isVisible = isAttachmentBottomSheetVisible,
         onDismiss = { isAttachmentBottomSheetVisible = false }
     ) { source ->
-        onAction(NotificationCreateAction.OnSourceSelected(source))
+        onAction(TasksCreateAction.OnSourceSelected(source))
         isAttachmentBottomSheetVisible = false
     }
 
@@ -115,7 +120,7 @@ fun NotificationCreateScreen(
             TopAppBar(
                 title = { Text(stringResource(Res.string.create_notification)) },
                 navigationIcon = {
-                    IconButton(onClick = { onAction(NotificationCreateAction.OnBackClick) }) {
+                    IconButton(onClick = { onAction(TasksCreateAction.OnBackClick) }) {
                         Icon(
                             Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = stringResource(Res.string.back)
@@ -124,7 +129,7 @@ fun NotificationCreateScreen(
                 },
                 actions = {
                     IconButton(
-                        onClick = { onAction(NotificationCreateAction.OnSendClick) },
+                        onClick = { onAction(TasksCreateAction.OnSendClick) },
                         enabled = state.title.isNotEmpty() && state.titleError == null &&
                             state.descriptionError == null && state.pickedReceivers.isNotEmpty()
                     ) {
@@ -147,7 +152,7 @@ fun NotificationCreateScreen(
         ) {
             LimitedTextField(
                 value = state.title,
-                onValueChange = { onAction(NotificationCreateAction.OnTitleChange(it)) },
+                onValueChange = { onAction(TasksCreateAction.OnTitleChange(it)) },
                 label = stringResource(Res.string.title),
                 placeholder = stringResource(Res.string.title_placeholder),
                 maxLength = 40,
@@ -162,7 +167,7 @@ fun NotificationCreateScreen(
 
             LimitedTextField(
                 value = state.description,
-                onValueChange = { onAction(NotificationCreateAction.OnDescriptionChange(it)) },
+                onValueChange = { onAction(TasksCreateAction.OnDescriptionChange(it)) },
                 label = stringResource(Res.string.description),
                 placeholder = stringResource(Res.string.description_placeholder),
                 maxLength = 5000,
@@ -178,16 +183,51 @@ fun NotificationCreateScreen(
             ReceiverSelectorComponent(
                 availableReceivers = state.availableReceivers,
                 selectedReceivers = state.pickedReceivers,
-                onReceiverSelected = { onAction(NotificationCreateAction.OnReceiverSelected(it)) },
-                onReceiverDeselected = { onAction(NotificationCreateAction.OnReceiverDeselected(it)) },
+                onReceiverSelected = { onAction(TasksCreateAction.OnReceiverSelected(it)) },
+                onReceiverDeselected = { onAction(TasksCreateAction.OnReceiverDeselected(it)) },
                 modifier = Modifier.padding(vertical = 8.dp)
             )
+
+            TaskGradeSection(
+                gradeRange = state.gradeRange,
+                onGradeRangeChange = { onAction(TasksCreateAction.OnGradeRangeChange(it)) },
+            )
+
+            TaskDateTimeSection(
+                deadline = state.deadline,
+                issueTime = state.issueTime,
+                onDeadlineChange = { onAction(TasksCreateAction.OnDeadlineChange(it)) },
+                onIssueTimeChange = { onAction(TasksCreateAction.OnIssueTimeChange(it)) },
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            TaskVariantsSection(
+                variantDistributionMode = state.variantDistributionMode,
+                variants = state.variants,
+                availableReceivers = state.pickedReceivers,
+                onVariantDistributionModeChange = {
+                    onAction(
+                        TasksCreateAction.OnVariantDistributionModeChange(
+                            it
+                        )
+                    )
+                },
+                onVariantsChange = { onAction(TasksCreateAction.OnVariantsChange(it)) },
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant,
+                thickness = 1.dp,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
 
             AddAttachmentsSectionComponent(
                 attachments = state.attachments,
                 onAddAttachment = { isAttachmentBottomSheetVisible = true },
-                onRemoveAttachment = { onAction(NotificationCreateAction.OnRemoveAttachment(it)) },
-                onAttachmentClick = { onAction(NotificationCreateAction.OnAttachmentClick(it))}
+                onRemoveAttachment = { onAction(TasksCreateAction.OnRemoveAttachment(it)) },
+                onAttachmentClick = { onAction(TasksCreateAction.OnAttachmentClick(it)) }
             )
 
             state.error?.let {
@@ -204,6 +244,7 @@ fun NotificationCreateScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
         }
     }
 }

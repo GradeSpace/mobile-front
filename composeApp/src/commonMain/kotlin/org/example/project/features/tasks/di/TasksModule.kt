@@ -2,6 +2,7 @@ package org.example.project.features.tasks.di
 
 import org.example.project.features.tasks.data.repository.TasksMockRepository
 import org.example.project.features.tasks.domain.TasksRepository
+import org.example.project.features.tasks.presentation.task_create.TaskCreateViewModel
 import org.example.project.features.tasks.presentation.task_screen.TaskScreenViewModel
 import org.example.project.features.tasks.presentation.tasks_list.TasksListViewModel
 import org.koin.core.module.dsl.singleOf
@@ -13,4 +14,5 @@ val tasksModule = module {
     singleOf(::TasksMockRepository).bind<TasksRepository>()
     viewModelOf(::TasksListViewModel)
     viewModelOf(::TaskScreenViewModel)
+    viewModelOf(::TaskCreateViewModel)
 }

@@ -37,6 +37,7 @@ import mobile_front.composeapp.generated.resources.i24_draft_outline
 import mobile_front.composeapp.generated.resources.i24_image_outline
 import mobile_front.composeapp.generated.resources.i24_pdf_outline
 import mobile_front.composeapp.generated.resources.press_to_open
+import org.example.project.core.data.model.Action
 import org.example.project.core.data.model.attachment.Attachment
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -89,6 +90,7 @@ fun EventAttachments(
 @Composable
 fun Attachment(
     attachment: Attachment,
+    onClick: Action = {},
     modifier: Modifier = Modifier
 ) {
     val fileType = when (attachment) {
@@ -113,6 +115,7 @@ fun Attachment(
                 RoundedCornerShape(16.dp)
             )
             .clickable {
+                onClick()
             }
     ) {
         Row(

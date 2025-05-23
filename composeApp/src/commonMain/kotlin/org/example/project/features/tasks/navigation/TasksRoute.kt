@@ -9,4 +9,7 @@ sealed interface TasksRoute : Route {
     data class TaskScreen(
         val taskId: String? = null
     ) : TasksRoute
+
+    @Serializable
+    data object TaskCreate : TasksRoute
 }

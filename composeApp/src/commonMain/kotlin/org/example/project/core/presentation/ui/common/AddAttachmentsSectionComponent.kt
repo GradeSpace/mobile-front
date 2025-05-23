@@ -1,6 +1,7 @@
-package org.example.project.features.feed.presentation.notification_create.components
+package org.example.project.core.presentation.ui.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,19 +31,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.add_attachment
+import mobile_front.composeapp.generated.resources.attachments
+import mobile_front.composeapp.generated.resources.remove_attachment
 import org.example.project.core.data.model.attachment.Attachment
-import org.example.project.core.presentation.ui.common.Attachment
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AddAttachmentsSectionComponent(
     attachments: List<Attachment>,
     onAddAttachment: () -> Unit,
     onRemoveAttachment: (Attachment) -> Unit,
+    onAttachmentClick: (Attachment) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         Text(
-            text = "Вложения",
+            text = stringResource(Res.string.attachments),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(bottom = 8.dp)
         )
@@ -69,7 +75,8 @@ fun AddAttachmentsSectionComponent(
                                 modifier = modifier
                                     .padding(vertical = 4.dp)
                                     .size(150.dp)
-                                    .clip(RoundedCornerShape(16.dp)),
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .clickable { onAttachmentClick(attachment) },
                             )
 
                             IconButton(
@@ -84,7 +91,7 @@ fun AddAttachmentsSectionComponent(
                             ) {
                                 Icon(
                                     Icons.Default.Close,
-                                    contentDescription = "Удалить вложение"
+                                    contentDescription = stringResource(Res.string.remove_attachment)
                                 )
                             }
                         }
@@ -102,9 +109,13 @@ fun AddAttachmentsSectionComponent(
                         Box {
                             Attachment(
                                 attachment = attachment,
+                                onClick = {
+                                    onAttachmentClick(attachment)
+                                },
                                 modifier = Modifier
                                     .widthIn(min = 300.dp, max = 500.dp)
                                     .padding(vertical = 4.dp)
+
                             )
 
                             IconButton(
@@ -119,7 +130,7 @@ fun AddAttachmentsSectionComponent(
                             ) {
                                 Icon(
                                     Icons.Default.Close,
-                                    contentDescription = "Удалить вложение"
+                                    contentDescription = stringResource(Res.string.remove_attachment)
                                 )
                             }
                         }
@@ -136,7 +147,7 @@ fun AddAttachmentsSectionComponent(
         ) {
             Icon(Icons.Default.Add, contentDescription = null)
             Spacer(Modifier.width(8.dp))
-            Text("Добавить вложение")
+            Text(stringResource(Res.string.add_attachment))
         }
     }
 }

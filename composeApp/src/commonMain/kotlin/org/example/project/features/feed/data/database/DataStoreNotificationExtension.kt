@@ -15,33 +15,33 @@ private const val NOTIFICATION_DRAFT_RECEIVERS_KEY = "notification_draft_receive
 private const val NOTIFICATION_DRAFT_ATTACHMENTS_KEY = "notification_draft_attachments_key"
 
 // Title
-suspend fun DataStorePreferences.getNotificationDraftTitle(): String {
+internal suspend fun DataStorePreferences.getNotificationDraftTitle(): String {
     return getString(NOTIFICATION_DRAFT_TITLE_KEY, "")
 }
 
-suspend fun DataStorePreferences.saveNotificationDraftTitle(title: String) {
+internal suspend fun DataStorePreferences.saveNotificationDraftTitle(title: String) {
     setString(NOTIFICATION_DRAFT_TITLE_KEY, title)
 }
 
-fun DataStorePreferences.getNotificationDraftTitleFlow(): Flow<String> {
+internal fun DataStorePreferences.getNotificationDraftTitleFlow(): Flow<String> {
     return getStringFlow(NOTIFICATION_DRAFT_TITLE_KEY, "")
 }
 
 // Description
-suspend fun DataStorePreferences.getNotificationDraftDescription(): String {
+internal suspend fun DataStorePreferences.getNotificationDraftDescription(): String {
     return getString(NOTIFICATION_DRAFT_DESCRIPTION_KEY, "")
 }
 
-suspend fun DataStorePreferences.saveNotificationDraftDescription(description: String) {
+internal suspend fun DataStorePreferences.saveNotificationDraftDescription(description: String) {
     setString(NOTIFICATION_DRAFT_DESCRIPTION_KEY, description)
 }
 
-fun DataStorePreferences.getNotificationDraftDescriptionFlow(): Flow<String> {
+internal fun DataStorePreferences.getNotificationDraftDescriptionFlow(): Flow<String> {
     return getStringFlow(NOTIFICATION_DRAFT_DESCRIPTION_KEY, "")
 }
 
 // Receivers
-suspend fun DataStorePreferences.getNotificationDraftReceivers(): List<String> {
+internal suspend fun DataStorePreferences.getNotificationDraftReceivers(): List<String> {
     val receiversJson = getString(NOTIFICATION_DRAFT_RECEIVERS_KEY, "[]")
     return try {
         Json.decodeFromString(receiversJson)
@@ -50,12 +50,12 @@ suspend fun DataStorePreferences.getNotificationDraftReceivers(): List<String> {
     }
 }
 
-suspend fun DataStorePreferences.saveNotificationDraftReceivers(receivers: List<String>) {
+internal suspend fun DataStorePreferences.saveNotificationDraftReceivers(receivers: List<String>) {
     val receiversJson = Json.encodeToString(receivers)
     setString(NOTIFICATION_DRAFT_RECEIVERS_KEY, receiversJson)
 }
 
-fun DataStorePreferences.getNotificationDraftReceiversFlow(): Flow<List<String>> {
+internal fun DataStorePreferences.getNotificationDraftReceiversFlow(): Flow<List<String>> {
     return getStringFlow(NOTIFICATION_DRAFT_RECEIVERS_KEY, "[]").map { json ->
         try {
             Json.decodeFromString<List<String>>(json)
@@ -66,7 +66,7 @@ fun DataStorePreferences.getNotificationDraftReceiversFlow(): Flow<List<String>>
 }
 
 // Attachments
-suspend fun DataStorePreferences.getNotificationDraftAttachments(): List<Attachment> {
+internal suspend fun DataStorePreferences.getNotificationDraftAttachments(): List<Attachment> {
     val attachmentsJson = getString(NOTIFICATION_DRAFT_ATTACHMENTS_KEY, "[]")
     return try {
         Json.decodeFromString(attachmentsJson)
@@ -75,12 +75,12 @@ suspend fun DataStorePreferences.getNotificationDraftAttachments(): List<Attachm
     }
 }
 
-suspend fun DataStorePreferences.saveNotificationDraftAttachments(attachments: List<Attachment>) {
+internal suspend fun DataStorePreferences.saveNotificationDraftAttachments(attachments: List<Attachment>) {
     val attachmentsJson = Json.encodeToString(attachments)
     setString(NOTIFICATION_DRAFT_ATTACHMENTS_KEY, attachmentsJson)
 }
 
-fun DataStorePreferences.getNotificationDraftAttachmentsFlow(): Flow<List<Attachment>> {
+internal fun DataStorePreferences.getNotificationDraftAttachmentsFlow(): Flow<List<Attachment>> {
     return getStringFlow(NOTIFICATION_DRAFT_ATTACHMENTS_KEY, "[]").map { json ->
         try {
             Json.decodeFromString<List<Attachment>>(json)
@@ -91,7 +91,7 @@ fun DataStorePreferences.getNotificationDraftAttachmentsFlow(): Flow<List<Attach
 }
 
 // Clear all draft data
-suspend fun DataStorePreferences.clearNotificationDraft() {
+internal suspend fun DataStorePreferences.clearNotificationDraft() {
     remove(NOTIFICATION_DRAFT_TITLE_KEY)
     remove(NOTIFICATION_DRAFT_DESCRIPTION_KEY)
     remove(NOTIFICATION_DRAFT_RECEIVERS_KEY)

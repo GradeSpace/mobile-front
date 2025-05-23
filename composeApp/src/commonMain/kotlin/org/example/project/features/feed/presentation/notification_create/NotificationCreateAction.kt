@@ -12,4 +12,5 @@ sealed interface NotificationCreateAction {
     data class OnReceiverDeselected(val receiver: String) : NotificationCreateAction
     data class OnSourceSelected(val source: AttachmentSource) : NotificationCreateAction
     data class OnRemoveAttachment(val attachment: Attachment) : NotificationCreateAction
+    data class OnAttachmentClick(val attachment: Attachment) : NotificationCreateAction
 }

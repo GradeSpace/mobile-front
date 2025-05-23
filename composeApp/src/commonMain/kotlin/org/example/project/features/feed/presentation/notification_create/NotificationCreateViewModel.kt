@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.dialogs.FileKitType
+import io.github.vinceglb.filekit.dialogs.FileKitType.File
 import io.github.vinceglb.filekit.dialogs.openFilePicker
 import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.name
@@ -25,7 +26,7 @@ import kotlinx.datetime.Clock.System
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.example.project.app.navigation.launchers.openCameraPicker
-import org.example.project.core.data.model.attachment.Attachment
+import org.example.project.core.data.model.attachment.Attachment.FileAttachment
 import org.example.project.core.data.model.attachment.toFileType
 import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.Result
@@ -142,7 +143,8 @@ class NotificationCreateViewModel(
                     title = currentState.title,
                     description = DynamicString(currentState.description),
                     author = User(uid = "current_user", name = "Текущий", surname = "Пользователь"),
-                    lastUpdateDateTime = System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+                    lastUpdateDateTime = System.now()
+                        .toLocalDateTime(TimeZone.currentSystemDefault()),
                     attachments = currentState.attachments,
                     receivers = currentState.pickedReceivers
                 )
@@ -180,22 +182,15 @@ class NotificationCreateViewModel(
             }
 
             is NotificationCreateAction.OnSourceSelected -> {
-                val file = when(action.source) {
+                val file = when (action.source) {
                     AttachmentSource.CAMERA -> FileKit.openCameraPicker()
                     AttachmentSource.GALLERY -> FileKit.openFilePicker(type = FileKitType.Image)
-                    AttachmentSource.FILE -> FileKit.openFilePicker(type = FileKitType.File())
+                    AttachmentSource.FILE -> FileKit.openFilePicker(type = File())
                 }
                 if (file != null) {
-                    _uiChannel.send(
-                        ShowErrorSnackbar(
-                            UiSnackbar(
-                                message = "${file.name} ${file.extension} ${file.size()}"
-                            )
-                        )
-                    )
                     _state.update {
                         it.copy(
-                            attachments = it.attachments + Attachment.FileAttachment(
+                            attachments = it.attachments + FileAttachment(
                                 id = it.attachments.size.toString(),
                                 url = file.path,
                                 fileName = file.name,
@@ -205,6 +200,10 @@ class NotificationCreateViewModel(
                         )
                     }
                 }
+            }
+
+            is NotificationCreateAction.OnAttachmentClick -> {
+                _navigationEvents.send(NotificationCreateNavigationEvent.OpenFile(action.attachment))
             }
         }
     }

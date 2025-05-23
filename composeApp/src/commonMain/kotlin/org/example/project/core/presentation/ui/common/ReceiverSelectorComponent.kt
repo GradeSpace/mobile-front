@@ -1,4 +1,4 @@
-package org.example.project.features.feed.presentation.notification_create.components
+package org.example.project.core.presentation.ui.common
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -38,11 +38,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.add
+import mobile_front.composeapp.generated.resources.add_recipient
+import mobile_front.composeapp.generated.resources.all_recipients_selected
+import mobile_front.composeapp.generated.resources.available_recipients
+import mobile_front.composeapp.generated.resources.close
+import mobile_front.composeapp.generated.resources.receivers
+import mobile_front.composeapp.generated.resources.remove_recipient
 import org.example.project.core.presentation.ui.theme.ChipBlue
 import org.example.project.core.presentation.ui.theme.ChipGreen
 import org.example.project.core.presentation.ui.theme.ChipPurple
 import org.example.project.core.presentation.ui.theme.ChipRed
 import org.example.project.core.presentation.ui.theme.ChipYellow
+import org.jetbrains.compose.resources.stringResource
 
 private val chipColors = listOf(
     ChipGreen,
@@ -67,7 +76,6 @@ fun ReceiverSelectorComponent(
     val canAddMore = selectedReceivers.size < maxReceivers
 
     Column(modifier = modifier) {
-        // Заголовок с информацией о максимальном количестве получателей
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -75,7 +83,7 @@ fun ReceiverSelectorComponent(
                 .padding(bottom = 8.dp)
         ) {
             Text(
-                text = "Получатели",
+                text = stringResource(Res.string.receivers),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
@@ -89,7 +97,6 @@ fun ReceiverSelectorComponent(
             )
         }
 
-        // Выбранные получатели и кнопка добавления
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp),
@@ -108,7 +115,7 @@ fun ReceiverSelectorComponent(
                     trailingIcon = {
                         Icon(
                             Icons.Default.Close,
-                            contentDescription = "Удалить получателя",
+                            contentDescription = stringResource(Res.string.remove_recipient),
                             modifier = Modifier
                                 .size(18.dp)
                         )
@@ -121,7 +128,6 @@ fun ReceiverSelectorComponent(
                 )
             }
 
-            // Кнопка добавления нового получателя
             if (canAddMore) {
                 AssistChip(
                     onClick = {
@@ -133,11 +139,11 @@ fun ReceiverSelectorComponent(
                             showAvailableReceivers = !showAvailableReceivers
                         }
                     },
-                    label = { Text("Добавить") },
+                    label = { Text(stringResource(Res.string.add)) },
                     leadingIcon = {
                         Icon(
                             Icons.Default.Add,
-                            contentDescription = "Добавить получателя",
+                            contentDescription = stringResource(Res.string.add_recipient),
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -146,7 +152,6 @@ fun ReceiverSelectorComponent(
 
         }
 
-        // Встроенный список доступных получателей (только если не передан внешний обработчик)
         if (onShowReceiversList == null) {
             AnimatedVisibility(
                 visible = showAvailableReceivers && canAddMore,
@@ -164,19 +169,18 @@ fun ReceiverSelectorComponent(
                         modifier = Modifier.padding(16.dp)
                     ) {
                         Text(
-                            text = "Доступные получатели",
+                            text = stringResource(Res.string.available_recipients),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
 
-                        // Если нет доступных получателей или все уже выбраны
                         val availableToSelect =
                             availableReceivers.filter { it !in selectedReceivers }
 
                         if (availableToSelect.isEmpty()) {
                             Text(
-                                text = "Все получатели уже выбраны",
+                                text = stringResource(Res.string.all_recipients_selected),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -204,7 +208,7 @@ fun ReceiverSelectorComponent(
 
                                         Icon(
                                             imageVector = Icons.Default.Add,
-                                            contentDescription = "Добавить",
+                                            contentDescription = stringResource(Res.string.add),
                                             tint = MaterialTheme.colorScheme.primary
                                         )
                                     }
@@ -223,7 +227,7 @@ fun ReceiverSelectorComponent(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Close,
-                                    contentDescription = "Закрыть",
+                                    contentDescription = stringResource(Res.string.close),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }

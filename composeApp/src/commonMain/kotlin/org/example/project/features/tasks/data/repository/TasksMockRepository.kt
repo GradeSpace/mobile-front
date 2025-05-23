@@ -19,6 +19,7 @@ import mobile_front.composeapp.generated.resources.rejected_tasks
 import mobile_front.composeapp.generated.resources.today
 import mobile_front.composeapp.generated.resources.under_check
 import mobile_front.composeapp.generated.resources.yesterday
+import org.example.project.core.data.datastore.DataStorePreferences
 import org.example.project.core.data.model.attachment.Attachment
 import org.example.project.core.data.model.note.Grade
 import org.example.project.core.data.model.note.GradeRange
@@ -31,14 +32,28 @@ import org.example.project.core.presentation.UiText
 import org.example.project.core.presentation.asList
 import org.example.project.features.feed.data.mock.FeedTextMock
 import org.example.project.features.feed.domain.FeedAction
+import org.example.project.features.tasks.data.clearTaskDraft
+import org.example.project.features.tasks.data.getTaskCreateDraft
+import org.example.project.features.tasks.data.saveTaskDraftAttachments
+import org.example.project.features.tasks.data.saveTaskDraftDescription
+import org.example.project.features.tasks.data.saveTaskDraftGradeRange
+import org.example.project.features.tasks.data.saveTaskDraftReceivers
+import org.example.project.features.tasks.data.saveTaskDraftTitle
+import org.example.project.features.tasks.data.saveTaskDraftVariantDistributionMode
+import org.example.project.features.tasks.data.saveTaskDraftVariants
+import org.example.project.features.tasks.domain.TaskCreateDraft
 import org.example.project.features.tasks.domain.TaskEventItem
 import org.example.project.features.tasks.domain.TaskStatus
+import org.example.project.features.tasks.domain.TaskVariant
 import org.example.project.features.tasks.domain.TasksEventsBlock
 import org.example.project.features.tasks.domain.TasksEventsBlock.BlockType
 import org.example.project.features.tasks.domain.TasksRepository
+import org.example.project.features.tasks.domain.VariantDistributionMode
 import kotlin.random.Random
 
-class TasksMockRepository : TasksRepository {
+class TasksMockRepository(
+    private val dataStorePreferences: DataStorePreferences
+) : TasksRepository {
 
     private val localTasks = mutableListOf<TaskEventItem>()
     val localTasksBlocks = mutableListOf<TasksEventsBlock>()
@@ -47,6 +62,41 @@ class TasksMockRepository : TasksRepository {
         init()
     }
 
+    override suspend fun getCreateTaskDraft(): TaskCreateDraft {
+        return dataStorePreferences.getTaskCreateDraft()
+    }
+
+    override suspend fun saveTaskDraftTitle(title: String) {
+        dataStorePreferences.saveTaskDraftTitle(title)
+    }
+
+    override suspend fun saveTaskDraftDescription(description: String) {
+        dataStorePreferences.saveTaskDraftDescription(description)
+    }
+
+    override suspend fun saveTaskDraftReceivers(receivers: List<String>) {
+        dataStorePreferences.saveTaskDraftReceivers(receivers)
+    }
+
+    override suspend fun saveTaskDraftAttachments(attachments: List<Attachment>) {
+        dataStorePreferences.saveTaskDraftAttachments(attachments)
+    }
+
+    override suspend fun saveTaskGradeRange(gradeRange: GradeRange) {
+        dataStorePreferences.saveTaskDraftGradeRange(gradeRange)
+    }
+
+    override suspend fun saveTaskVariantDistributionMode(mode: VariantDistributionMode) {
+        dataStorePreferences.saveTaskDraftVariantDistributionMode(mode)
+    }
+
+    override suspend fun saveVariants(variants: List<TaskVariant>) {
+        dataStorePreferences.saveTaskDraftVariants(variants)
+    }
+
+    override suspend fun clearNotificationDraft() {
+        dataStorePreferences.clearTaskDraft()
+    }
     private fun init() {
         val mockUser = User(
             uid = "teacher1",
@@ -338,6 +388,14 @@ class TasksMockRepository : TasksRepository {
     override fun fetchTasksEvents(filter: Set<BlockType>): Flow<List<TasksEventsBlock>> {
         return flow {
             emit(localTasksBlocks.filter { it.blockType in filter })
+        }
+    }
+
+    override fun fetchReceivers(): Flow<List<String>> {
+        return flow {
+            emit(listOf(
+                "ИУ9-62Б", "ИУ9-61Б", "ТралалелоТралала", "Баллерино Капучино"
+            ))
         }
     }
 
