@@ -18,6 +18,7 @@ import org.example.project.core.domain.onError
 import org.example.project.core.domain.onSuccess
 import org.example.project.core.presentation.toUiText
 import org.example.project.features.lessons.domain.LessonRepository
+import org.example.project.features.lessons.navigation.LessonRoutes
 import org.example.project.features.lessons.navigation.LessonRoutes.Lesson
 import org.example.project.features.lessons.presentation.calendar.CalendarScreenNavigationEvent.NavigateTo
 
@@ -106,6 +107,10 @@ class CalendarViewModel(
 
             CalendarScreenAction.OnPullToRefresh -> {
                 actualizeCalendar()
+            }
+
+            CalendarScreenAction.CreateNewLesson -> {
+                _navigationEvents.emit(NavigateTo(LessonRoutes.LessonCreate))
             }
         }
     }

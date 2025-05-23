@@ -7,4 +7,7 @@ sealed interface LessonRoutes : Route {
 
     @Serializable
     data class Lesson(val eventId: String? = null) : LessonRoutes
+
+    @Serializable
+    data object LessonCreate : LessonRoutes
 }

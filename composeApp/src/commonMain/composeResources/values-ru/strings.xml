@@ -108,6 +108,7 @@
     <string name="theme_change">Смена темы</string>
 
     <string name="create_notification">Создание уведомления</string>
+    <string name="create_task">Создание задания</string>
     <string name="back">Назад</string>
     <string name="send">Отправить</string>
     <string name="title">Заголовок</string>
@@ -150,4 +151,15 @@
     <string name="add_variant">Добавить вариант</string>
     <string name="select_receivers_for_variant">Выберите получателей для этого варианта</string>
 
+    <string name="create_lesson">Создать занятие</string>
+    <string name="subject">Предмет</string>
+    <string name="subject_placeholder">Введите название предмета</string>
+    <string name="lesson_date">Дата занятия</string>
+    <string name="start_time">Время начала</string>
+    <string name="end_time">Время окончания</string>
+    <string name="clear">Очистить</string>
+    <string name="online_location">Онлайн</string>
+    <string name="offline_location">Очно</string>
+    <string name="online_link">Ссылка на онлайн-занятие</string>
+    <string name="offline_place">Место проведения</string>
 </resources>

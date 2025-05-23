@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -329,7 +328,8 @@ private fun VariantItem(
                             variant.receivers?.toMutableList() ?: return@ReceiverSelectorComponent
                         currentReceivers.remove(receiver)
                         onVariantChange(variant.copy(receivers = currentReceivers.ifEmpty { null }))
-                    }
+                    },
+                    maxReceivers = 5
                 )
             }
         }
