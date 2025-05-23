@@ -1,4 +1,4 @@
-package org.example.project.features.feed.presentation.notification_create.components
+package org.example.project.core.presentation.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,12 +21,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import mobile_front.composeapp.generated.resources.Res
+import mobile_front.composeapp.generated.resources.add_attachment
+import mobile_front.composeapp.generated.resources.camera
+import mobile_front.composeapp.generated.resources.file
+import mobile_front.composeapp.generated.resources.gallery
 import mobile_front.composeapp.generated.resources.i24_add_a_photo
 import mobile_front.composeapp.generated.resources.i24_attach_file
 import mobile_front.composeapp.generated.resources.i24_photo_library
+import mobile_front.composeapp.generated.resources.select_document
+import mobile_front.composeapp.generated.resources.select_image
+import mobile_front.composeapp.generated.resources.take_photo
 import org.example.project.Platform
 import org.example.project.core.presentation.AttachmentSource
 import org.example.project.getPlatform
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,15 +57,15 @@ fun AttachmentSourceBottomSheet(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Добавить вложение",
+                    text = stringResource(Res.string.add_attachment),
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
                 AttachmentSourceItem(
                     icon = vectorResource(Res.drawable.i24_attach_file),
-                    title = "Файл",
-                    description = "Выбрать документ",
+                    title = stringResource(Res.string.file),
+                    description = stringResource(Res.string.select_document),
                     onClick = { onSourceSelected(AttachmentSource.FILE) }
                 )
 
@@ -66,16 +74,16 @@ fun AttachmentSourceBottomSheet(
 
                     AttachmentSourceItem(
                         icon = vectorResource(Res.drawable.i24_photo_library),
-                        title = "Галерея",
-                        description = "Выбрать изображение",
+                        title = stringResource(Res.string.gallery),
+                        description = stringResource(Res.string.select_image),
                         onClick = { onSourceSelected(AttachmentSource.GALLERY) }
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
                     AttachmentSourceItem(
                         icon = vectorResource(Res.drawable.i24_add_a_photo),
-                        title = "Камера",
-                        description = "Сделать фото",
+                        title = stringResource(Res.string.camera),
+                        description = stringResource(Res.string.take_photo),
                         onClick = { onSourceSelected(AttachmentSource.CAMERA) }
                     )
                 }

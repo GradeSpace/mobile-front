@@ -13,6 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.CoroutineScope
 import org.example.project.app.navigation.route.Route
 import org.example.project.app.navigation.route.TabRoute
+import org.example.project.core.data.model.attachment.Attachment
 import org.example.project.core.domain.EmptyResult
 import org.example.project.core.domain.NavigationError
 
@@ -62,3 +63,28 @@ class NavigationManager(val navController: NavHostController) {
 }
 
 expect fun NavigationManager.openUrl(url: String): EmptyResult<NavigationError>
+
+/**
+ * Открывает файл с учетом его типа
+ * @param fileUrl URL файла
+ * @param mimeType MIME-тип файла (опционально)
+ * @return Результат операции
+ */
+expect fun NavigationManager.openFile(fileUrl: String, mimeType: String? = null): EmptyResult<NavigationError>
+
+/**
+ * Открывает вложение с учетом его типа
+ * @param attachment Вложение для открытия
+ * @return Результат операции
+ */
+fun NavigationManager.openAttachment(attachment: Attachment): EmptyResult<NavigationError> {
+    val mimeType = when (attachment) {
+        is Attachment.FileAttachment -> when (attachment.fileType) {
+            Attachment.FileType.PDF -> "application/pdf"
+            Attachment.FileType.WORD -> "application/msword"
+            Attachment.FileType.IMAGE -> "image/*"
+            Attachment.FileType.UNKNOWN -> null
+        }
+    }
+    return openFile(attachment.url, mimeType)
+}

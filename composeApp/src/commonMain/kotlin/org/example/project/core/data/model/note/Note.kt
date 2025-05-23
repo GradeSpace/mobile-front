@@ -1,10 +1,12 @@
 package org.example.project.core.data.model.note
 
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
 /**
  * Представляет набор оценок для элемента
  */
+@Serializable
 data class GradeRange(
     val minGrade: Grade? = null,
     val maxGrade: Grade? = null,
@@ -15,6 +17,7 @@ data class GradeRange(
  * Представляет числовую оценку
  */
 @JvmInline
+@Serializable
 value class Grade(val value: Double) {
     override fun toString(): String {
         val intPart = value.toInt()

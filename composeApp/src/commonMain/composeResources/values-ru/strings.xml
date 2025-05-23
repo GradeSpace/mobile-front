@@ -106,4 +106,48 @@
 
     <string name="language_change">Смена языка</string>
     <string name="theme_change">Смена темы</string>
+
+    <string name="create_notification">Создание уведомления</string>
+    <string name="back">Назад</string>
+    <string name="send">Отправить</string>
+    <string name="title">Заголовок</string>
+    <string name="title_placeholder">Введите заголовок уведомления</string>
+    <string name="description">Описание</string>
+    <string name="description_placeholder">Введите текст уведомления</string>
+
+    <string name="add">Добавить</string>
+    <string name="add_recipient">Добавить получателя</string>
+    <string name="remove_recipient">Удалить получателя</string>
+    <string name="available_recipients">Доступные получатели</string>
+    <string name="all_recipients_selected">Все получатели уже выбраны</string>
+    <string name="close">Закрыть</string>
+
+    <string name="remove_attachment">Удалить вложение</string>
+    <string name="add_attachment">Добавить вложение</string>
+    <string name="file">Файл</string>
+    <string name="select_document">Выбрать документ</string>
+    <string name="gallery">Галерея</string>
+    <string name="select_image">Выбрать изображение</string>
+    <string name="camera">Камера</string>
+    <string name="take_photo">Сделать фото</string>
+
+    <!-- Grade Section -->
+    <string name="enable_grading">Включить оценивание</string>
+    <string name="min_grade">Минимальная оценка</string>
+    <string name="max_grade">Максимальная оценка</string>
+
+    <!-- Date Time Section -->
+    <string name="issue_time">Время выдачи</string>
+    <string name="not_set">Не задано</string>
+    <string name="set_date_time">Очистить</string>
+
+    <!-- Variants Section -->
+    <string name="enable_variants">Включить варианты</string>
+    <string name="random_distribution">Случайное распределение</string>
+    <string name="assign_to_receivers">Назначить получателям</string>
+    <string name="variant">Вариант</string>
+    <string name="variant_text">Текст варианта</string>
+    <string name="add_variant">Добавить вариант</string>
+    <string name="select_receivers_for_variant">Выберите получателей для этого варианта</string>
+
 </resources>

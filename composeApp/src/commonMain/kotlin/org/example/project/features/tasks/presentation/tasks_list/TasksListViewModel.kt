@@ -20,6 +20,7 @@ import org.example.project.core.domain.onError
 import org.example.project.core.domain.onSuccess
 import org.example.project.core.presentation.toUiText
 import org.example.project.features.tasks.domain.TasksRepository
+import org.example.project.features.tasks.navigation.TasksRoute
 import org.example.project.features.tasks.navigation.TasksRoute.TaskScreen
 import org.example.project.features.tasks.presentation.tasks_list.TasksListNavigationEvent.NavigateTo
 
@@ -94,6 +95,11 @@ class TasksListViewModel(
             )
 
             TasksListAction.CreateNewTask -> {
+                _navigationEvents.emit(
+                    NavigateTo(
+                        TasksRoute.TaskCreate
+                    )
+                )
             }
 
             TasksListAction.ToggleFilterMenu -> {
