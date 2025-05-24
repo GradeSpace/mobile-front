@@ -81,6 +81,9 @@ private object CommonMainDrawable0 {
   public val i24_schedule: DrawableResource by 
       lazy { init_i24_schedule() }
 
+  public val i24_school: DrawableResource by 
+      lazy { init_i24_school() }
+
   public val i24_tasks: DrawableResource by 
       lazy { init_i24_tasks() }
 
@@ -127,6 +130,7 @@ internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, Drawab
   map.put("i24_profile", CommonMainDrawable0.i24_profile)
   map.put("i24_routine", CommonMainDrawable0.i24_routine)
   map.put("i24_schedule", CommonMainDrawable0.i24_schedule)
+  map.put("i24_school", CommonMainDrawable0.i24_school)
   map.put("i24_tasks", CommonMainDrawable0.i24_tasks)
   map.put("i24_timer_off", CommonMainDrawable0.i24_timer_off)
   map.put("i24_today", CommonMainDrawable0.i24_today)
@@ -382,6 +386,16 @@ private fun init_i24_schedule(): DrawableResource = org.jetbrains.compose.resour
   "drawable:i24_schedule",
     setOf(
       org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_schedule.xml", -1, -1),
+    )
+)
+
+internal val Res.drawable.i24_school: DrawableResource
+  get() = CommonMainDrawable0.i24_school
+
+private fun init_i24_school(): DrawableResource = org.jetbrains.compose.resources.DrawableResource(
+  "drawable:i24_school",
+    setOf(
+      org.jetbrains.compose.resources.ResourceItem(setOf(), "composeResources/mobile_front.composeapp.generated.resources/drawable/i24_school.xml", -1, -1),
     )
 )
 

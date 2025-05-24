@@ -1,4 +1,3 @@
-// New file: DataStoreNotificationDraftExtension.kt
 package org.example.project.features.feed.data.database
 
 import kotlinx.coroutines.flow.Flow

@@ -78,7 +78,7 @@ class DataStorePreferencesImpl(
         }.firstOrNull() ?: defaultValue
     }
 
-    override fun getBooleanFlow(key: String, defaultValue: Boolean): Flow<Boolean> {
+    override fun getBooleanFlow(key: String, defaultValue: Boolean?): Flow<Boolean?> {
         return dataStore.data.map { preferences ->
             preferences[booleanPreferencesKey(key)] ?: defaultValue
         }

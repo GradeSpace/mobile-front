@@ -209,10 +209,6 @@ suspend fun DataStorePreferences.saveLessonDraftOnlineLocationEnabled(enabled: B
     setBoolean(LESSON_DRAFT_ONLINE_LOCATION_ENABLED_KEY, enabled)
 }
 
-fun DataStorePreferences.getLessonDraftOnlineLocationEnabledFlow(): Flow<Boolean> {
-    return getBooleanFlow(LESSON_DRAFT_ONLINE_LOCATION_ENABLED_KEY, false)
-}
-
 // Offline Location Enabled
 suspend fun DataStorePreferences.isLessonDraftOfflineLocationEnabled(): Boolean {
     return getBoolean(LESSON_DRAFT_OFFLINE_LOCATION_ENABLED_KEY, false)
@@ -220,10 +216,6 @@ suspend fun DataStorePreferences.isLessonDraftOfflineLocationEnabled(): Boolean 
 
 suspend fun DataStorePreferences.saveLessonDraftOfflineLocationEnabled(enabled: Boolean) {
     setBoolean(LESSON_DRAFT_OFFLINE_LOCATION_ENABLED_KEY, enabled)
-}
-
-fun DataStorePreferences.getLessonDraftOfflineLocationEnabledFlow(): Flow<Boolean> {
-    return getBooleanFlow(LESSON_DRAFT_OFFLINE_LOCATION_ENABLED_KEY, false)
 }
 
 // Online Link

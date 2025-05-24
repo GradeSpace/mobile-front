@@ -107,7 +107,7 @@ fun UserInfoCard(
 private fun UserRoleChip(role: UserRole) {
     val color = when (role) {
         is UserRole.Student -> ChipBlue
-        is UserRole.Tutor ->  ChipGreen
+        is UserRole.Teacher ->  ChipGreen
         is UserRole.Undefined -> MaterialTheme.colorScheme.outline
     }
 

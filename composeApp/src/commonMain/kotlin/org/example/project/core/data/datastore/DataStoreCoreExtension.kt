@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.example.project.core.data.model.Language
 import org.example.project.core.data.model.Theme
+import org.example.project.getSystemLanguage
 
 fun DataStorePreferences.getTheme(): Flow<Theme> {
     return this.getIntFlow(THEME_KEY, Theme.SYSTEM.id).map { themeId ->
@@ -18,10 +19,10 @@ suspend fun DataStorePreferences.setTheme(theme: Theme) {
 }
 
 fun DataStorePreferences.getLanguage(): Flow<Language> {
-    return this.getIntFlow(LANGUAGE_KEY, Language.RUSSIAN.id).map { languageId ->
+    return this.getIntFlow(LANGUAGE_KEY, -1).map { languageId ->
         Language.entries.firstOrNull { language ->
             languageId == language.id
-        } ?: Language.RUSSIAN
+        } ?: getSystemLanguage()
     }
 }
 

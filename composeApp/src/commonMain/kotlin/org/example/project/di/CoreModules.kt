@@ -7,6 +7,8 @@ import org.example.project.core.data.database.GradeSpaceDatabase
 import org.example.project.core.data.datastore.DataStorePreferences
 import org.example.project.core.data.datastore.DataStorePreferencesImpl
 import org.example.project.core.data.network.HttpClientFactory
+import org.example.project.core.data.repository.UserRepositoryImpl
+import org.example.project.core.domain.repository.UserRepository
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -27,5 +29,7 @@ val coreModule = module {
     single { get<GradeSpaceDatabase>().calendarDao }
     single { get<GradeSpaceDatabase>().profileDao }
     single { DataStorePreferencesImpl(get()) }.bind<DataStorePreferences>()
+
+    single { UserRepositoryImpl(get()) }.bind<UserRepository>()
     viewModelOf(::AppViewModel)
 }

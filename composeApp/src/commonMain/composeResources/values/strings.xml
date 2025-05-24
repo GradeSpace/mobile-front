@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="app_name">GradeSpace</string>
+    <string name="loading">Loading...</string>
+
+
     <string name="no_description">Oops, it seems the description is missing...</string>
     <string name="error_disk_full">Oops, your disk is out of space.</string>
     <string name="error_unknown">Oops, something went wrong.</string>
@@ -8,6 +12,9 @@
     <string name="error_too_many_requests">Too many requests.</string>
     <string name="error_serialization">Failed to parse data.</string>
     <string name="error_not_found">404 Not Found</string>
+    <string name="error_user_not_found">User not found</string>
+    <string name="error_invalid_password">Invalid password</string>
+    <string name="error_email_exists">Email already exists</string>
     <string name="before">Earlier</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
@@ -97,7 +104,7 @@
     <string name="system_mode">System</string>
     <string name="logout">Logout</string>
     <string name="student">Student</string>
-    <string name="tutor">Tutor</string>
+    <string name="teacher">Teacher</string>
     <string name="user">User</string>
 
     <string name="connect">Connect</string>
@@ -160,5 +167,27 @@
     <string name="offline_location">Offline</string>
     <string name="online_link">Online Link</string>
     <string name="offline_place">Location</string>
+
+    <!-- Auth -->
+    <string name="login_title">Login</string>
+    <string name="registration_title">Registration</string>
+    <string name="enter_email">Enter email or phone number</string>
+    <string name="email_hint">example@mail.com</string>
+    <string name="continue_button">Continue</string>
+    <string name="enter_password">Enter password</string>
+    <string name="password_hint">At least 9 characters</string>
+    <string name="password">Password</string>
+    <string name="back_to_email">Back to email input</string>
+    <string name="select_role">Select your role</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="middle_name">Middle name (optional)</string>
+    <string name="group">Group</string>
+    <string name="enter_first_name">Enter your first name</string>
+    <string name="enter_last_name">Enter your last name</string>
+    <string name="enter_middle_name">Enter your middle name</string>
+    <string name="enter_group">Enter your group</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="register">Register</string>
 
 </resources>

@@ -15,4 +15,6 @@ interface ProfileRepository {
     suspend fun changeTheme(theme: Theme)
     suspend fun changeLanguage(language: Language)
     suspend fun actualize(): EmptyResult<DataError.Remote>
+
+    suspend fun logout(): EmptyResult<DataError.Remote>
 }
