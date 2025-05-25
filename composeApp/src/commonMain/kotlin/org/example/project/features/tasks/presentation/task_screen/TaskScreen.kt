@@ -28,6 +28,7 @@ import mobile_front.composeapp.generated.resources.max
 import mobile_front.composeapp.generated.resources.min
 import org.example.project.Platform
 import org.example.project.app.navigation.utils.NavigationManager
+import org.example.project.app.navigation.utils.openFile
 import org.example.project.core.presentation.ui.common.DesktopRefreshButton
 import org.example.project.core.presentation.ui.common.EventAttachments
 import org.example.project.core.presentation.ui.common.EventDescription
@@ -47,6 +48,7 @@ fun TaskRootScreen(
         navigationEvents.collect { navEvent ->
             when (navEvent) {
                 TaskScreenNavigationEvent.NavigateBack -> navigationManager.navigateBack()
+                is TaskScreenNavigationEvent.OpenFile -> navigationManager.openFile(navEvent.url)
             }
         }
     }
@@ -147,6 +149,9 @@ fun TaskScreen(
                 }
                 EventAttachments(
                     state.taskItem.attachments,
+                    onClick = {
+                        onAction(TaskScreenAction.OpenAttachment(it))
+                    },
                     modifier = Modifier
                         .padding(top = 8.dp)
                 )

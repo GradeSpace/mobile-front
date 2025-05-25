@@ -241,12 +241,14 @@ fun CalendarScreen(
                     )
                 }
             }
-            FloatingActionButton(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(bottom = 16.dp, end = 16.dp),
-                onClick = { onAction(CalendarScreenAction.CreateNewLesson) },
-            ) { Icon(Icons.Default.Add, null) }
+            if (state.hasCreateButton) {
+                FloatingActionButton(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(bottom = 16.dp, end = 16.dp),
+                    onClick = { onAction(CalendarScreenAction.CreateNewLesson) },
+                ) { Icon(Icons.Default.Add, null) }
+            }
         }
     }
 }

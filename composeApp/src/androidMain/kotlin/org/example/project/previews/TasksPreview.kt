@@ -16,7 +16,7 @@ fun TasksPreview() {
             state = TasksListState(
                 isLoading = false,
                 error = null,
-                tasksBlocks = TasksMockRepository(koinInject()).localTasksBlocks
+                tasksBlocks = TasksMockRepository(koinInject(), koinInject()).localTasksBlocks
             ),
             onAction = {}
         )

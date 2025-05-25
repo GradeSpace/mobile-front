@@ -15,14 +15,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.example.project.core.data.model.user.UserRole
 import org.example.project.core.domain.onError
 import org.example.project.core.domain.onSuccess
+import org.example.project.core.domain.repository.UserRepository
 import org.example.project.core.presentation.toUiText
 import org.example.project.features.lessons.domain.LessonRepository
 import org.example.project.features.lessons.navigation.LessonRoutes
+import org.example.project.features.lessons.presentation.lesson.LessonScreenNavigationEvent.OpenFile
+import org.example.project.features.lessons.presentation.lesson.LessonScreenNavigationEvent.OpenLink
 
 class LessonScreenViewModel(
     private val repository: LessonRepository,
+    private val userRepository: UserRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -36,10 +41,24 @@ class LessonScreenViewModel(
 
     private var actualizeJob: Job? = null
     private var observeJob: Job? = null
+    private var userRoleJob: Job? = null
 
     init {
         observeLesson()
         actualizeLesson()
+        checkUserRole()
+    }
+
+    private fun checkUserRole() {
+        userRoleJob?.cancel()
+        userRoleJob = viewModelScope.launch {
+            val currentUser = userRepository.getCurrentUser()
+            _state.update {
+                it.copy(
+                    hasCreateButton = currentUser?.role == UserRole.Teacher
+                )
+            }
+        }
     }
 
     private fun actualizeLesson() {
@@ -93,9 +112,15 @@ class LessonScreenViewModel(
             LessonScreenAction.OpenLink -> {
                 _state.value.lessonEventItem?.location?.lessonUrl?.let { url ->
                     _navigationEvents.emit(
-                        LessonScreenNavigationEvent.OpenLink(url)
+                        OpenLink(url)
                     )
                 }
+            }
+
+            is LessonScreenAction.OpenAttachment -> {
+                _navigationEvents.emit(
+                    OpenFile(action.url)
+                )
             }
         }
     }

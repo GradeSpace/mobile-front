@@ -2,15 +2,18 @@ package org.example.project.features.feed.domain
 
 import kotlinx.coroutines.flow.Flow
 import org.example.project.core.data.model.attachment.Attachment
+import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
 
 interface FeedRepository {
     fun fetchReceivers(): Flow<List<String>>
 
-    fun fetchFeedEvents(): Flow<List<FeedEventsBlock>>
+    fun fetchFeedEvents(): Flow<List<FeedEventItem>>
 
     fun getEvent(eventId: String?): Flow<FeedEventItem?>
+
+    suspend fun getCurrentUser(): User?
 
     suspend fun actualizeEvents(): EmptyResult<DataError.Remote>
 

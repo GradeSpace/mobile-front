@@ -92,6 +92,12 @@ class TaskScreenViewModel(
             is TaskScreenAction.OnPullToRefresh -> {
                 actualizeTask()
             }
+
+            is TaskScreenAction.OpenAttachment -> {
+                _navigationEvents.emit(
+                    TaskScreenNavigationEvent.OpenFile(action.url)
+                )
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ fun NotificationScreenPreview() {
                 isRefreshing = false,
                 error = null,
                 notificationItem = FeedMockRepository(
+                    koinInject(),
                     koinInject()
                 ).localEvents[1]
             ),

@@ -28,7 +28,6 @@ import kotlinx.datetime.toLocalDateTime
 import org.example.project.app.navigation.launchers.openCameraPicker
 import org.example.project.core.data.model.attachment.Attachment.FileAttachment
 import org.example.project.core.data.model.attachment.toFileType
-import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.Result
 import org.example.project.core.presentation.AttachmentSource
 import org.example.project.core.presentation.UiSnackbar
@@ -39,7 +38,7 @@ import org.example.project.features.tasks.domain.TasksRepository
 import org.example.project.features.tasks.domain.VariantDistributionMode
 
 class TaskCreateViewModel(
-    private val repository: TasksRepository
+    private val repository: TasksRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(TaskCreateState())
     val state = _state.asStateFlow()
@@ -187,15 +186,14 @@ class TaskCreateViewModel(
                 val validationErrors = validateTaskData(currentState)
 
                 if (validationErrors.isEmpty()) {
+                    // Получаем текущего пользователя
+                    val currentUser = repository.currentUser() ?: return@launch
+
                     val event = TaskEventItem(
                         id = "new_event_${System.now()}",
                         title = currentState.title,
                         description = DynamicString(currentState.description),
-                        author = User(
-                            uid = "current_user",
-                            name = "Текущий",
-                            surname = "Пользователь"
-                        ),
+                        author = currentUser,
                         lastUpdateDateTime = System.now()
                             .toLocalDateTime(TimeZone.currentSystemDefault()),
                         attachments = currentState.attachments,
@@ -305,92 +303,91 @@ class TaskCreateViewModel(
         }
     }
 
-private fun validateTaskData(state: TaskCreateState): Map<String, String> {
-    val errors = mutableMapOf<String, String>()
-    val currentDateTime = System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    private fun validateTaskData(state: TaskCreateState): Map<String, String> {
+        val errors = mutableMapOf<String, String>()
+        val currentDateTime = System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-    // Проверка заголовка
-    if (state.title.isBlank()) {
-        errors["title"] = "Заголовок не может быть пустым"
-    } else if (state.title.length > 40) {
-        errors["title"] = "Заголовок не может быть длиннее 40 символов"
-    }
-
-    // Проверка описания
-    if (state.description.length > 5000) {
-        errors["description"] = "Описание не может быть длиннее 5000 символов"
-    }
-
-    // Проверка получателей
-    if (state.pickedReceivers.isEmpty()) {
-        errors["general"] = "Необходимо выбрать хотя бы одного получателя"
-    }
-
-    // Проверка времени выдачи
-    if (state.issueTime != null) {
-        if (state.issueTime.compareTo(currentDateTime) < 0) {
-            errors["general"] = "Время выдачи не может быть раньше текущего времени"
-        }
-    }
-
-    // Проверка дедлайна
-    if (state.deadline != null) {
-        // Проверка, что дедлайн не раньше текущего времени
-        if (state.deadline.compareTo(currentDateTime) < 0) {
-            errors["general"] = "Дедлайн не может быть раньше текущего времени"
+        // Проверка заголовка
+        if (state.title.isBlank()) {
+            errors["title"] = "Заголовок не может быть пустым"
+        } else if (state.title.length > 40) {
+            errors["title"] = "Заголовок не может быть длиннее 40 символов"
         }
 
-        // Проверка, что дедлайн не раньше времени выдачи (если время выдачи задано)
-        if (state.issueTime != null && state.deadline.compareTo(state.issueTime) < 0) {
-            errors["general"] = "Дедлайн не может быть раньше времени выдачи"
-        }
-    }
-
-    // Проверка оценок
-    if (state.gradeRange != null) {
-        val minGrade = state.gradeRange.minGrade?.value
-        val maxGrade = state.gradeRange.maxGrade?.value
-
-        if (maxGrade == null) {
-            errors["general"] = "Необходимо указать максимальную оценку"
-        } else if (minGrade != null && minGrade > maxGrade) {
-            errors["general"] = "Минимальная оценка не может быть больше максимальной"
-        }
-    }
-
-    // Проверка вариантов
-    if (state.variantDistributionMode != VariantDistributionMode.NONE && state.variants != null) {
-        // Проверяем, что все варианты имеют текст
-        val emptyVariants = state.variants.filter { it.text.isNullOrBlank() }
-        if (emptyVariants.isNotEmpty()) {
-            errors["general"] = "Все варианты должны содержать текст"
+        // Проверка описания
+        if (state.description.length > 5000) {
+            errors["description"] = "Описание не может быть длиннее 5000 символов"
         }
 
-        // Проверяем длину текста вариантов
-        val longVariants = state.variants.filter { (it.text?.length ?: 0) > 1000 }
-        if (longVariants.isNotEmpty()) {
-            errors["general"] = "Текст варианта не может быть длиннее 1000 символов"
+        // Проверка получателей
+        if (state.pickedReceivers.isEmpty()) {
+            errors["general"] = "Необходимо выбрать хотя бы одного получателя"
         }
 
-        // Если выбран режим распределения по получателям, проверяем, что все варианты имеют получателей
-        if (state.variantDistributionMode == VariantDistributionMode.VAR_TO_RECEIVER) {
-            val variantsWithoutReceivers = state.variants.filter { it.receivers.isNullOrEmpty() }
-            if (variantsWithoutReceivers.isNotEmpty()) {
-                errors["general"] = "Все варианты должны иметь назначенных получателей"
-            }
-
-            // Проверяем, что все получатели назначены на варианты
-            val assignedReceivers = state.variants.flatMap { it.receivers ?: emptyList() }
-            val unassignedReceivers = state.pickedReceivers.filter { it !in assignedReceivers }
-            if (unassignedReceivers.isNotEmpty()) {
-                errors["general"] = "Все получатели должны быть назначены на варианты"
+        // Проверка времени выдачи
+        if (state.issueTime != null) {
+            if (state.issueTime.compareTo(currentDateTime) < 0) {
+                errors["general"] = "Время выдачи не может быть раньше текущего времени"
             }
         }
+
+        // Проверка дедлайна
+        if (state.deadline != null) {
+            // Проверка, что дедлайн не раньше текущего времени
+            if (state.deadline.compareTo(currentDateTime) < 0) {
+                errors["general"] = "Дедлайн не может быть раньше текущего времени"
+            }
+
+            // Проверка, что дедлайн не раньше времени выдачи (если время выдачи задано)
+            if (state.issueTime != null && state.deadline.compareTo(state.issueTime) < 0) {
+                errors["general"] = "Дедлайн не может быть раньше времени выдачи"
+            }
+        }
+
+        // Проверка оценок
+        if (state.gradeRange != null) {
+            val minGrade = state.gradeRange.minGrade?.value
+            val maxGrade = state.gradeRange.maxGrade?.value
+
+            if (maxGrade == null) {
+                errors["general"] = "Необходимо указать максимальную оценку"
+            } else if (minGrade != null && minGrade > maxGrade) {
+                errors["general"] = "Минимальная оценка не может быть больше максимальной"
+            }
+        }
+
+        // Проверка вариантов
+        if (state.variantDistributionMode != VariantDistributionMode.NONE && state.variants != null) {
+            // Проверяем, что все варианты имеют текст
+            val emptyVariants = state.variants.filter { it.text.isNullOrBlank() }
+            if (emptyVariants.isNotEmpty()) {
+                errors["general"] = "Все варианты должны содержать текст"
+            }
+
+            // Проверяем длину текста вариантов
+            val longVariants = state.variants.filter { (it.text?.length ?: 0) > 1000 }
+            if (longVariants.isNotEmpty()) {
+                errors["general"] = "Текст варианта не может быть длиннее 1000 символов"
+            }
+
+            // Если выбран режим распределения по получателям, проверяем, что все варианты имеют получателей
+            if (state.variantDistributionMode == VariantDistributionMode.VAR_TO_RECEIVER) {
+                val variantsWithoutReceivers = state.variants.filter { it.receivers.isNullOrEmpty() }
+                if (variantsWithoutReceivers.isNotEmpty()) {
+                    errors["general"] = "Все варианты должны иметь назначенных получателей"
+                }
+
+                // Проверяем, что все получатели назначены на варианты
+                val assignedReceivers = state.variants.flatMap { it.receivers ?: emptyList() }
+                val unassignedReceivers = state.pickedReceivers.filter { it !in assignedReceivers }
+                if (unassignedReceivers.isNotEmpty()) {
+                    errors["general"] = "Все получатели должны быть назначены на варианты"
+                }
+            }
+        }
+
+        return errors
     }
-
-    return errors
-}
-
 
     override fun onCleared() {
         runBlocking {

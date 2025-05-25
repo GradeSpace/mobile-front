@@ -46,6 +46,7 @@ import org.jetbrains.compose.resources.vectorResource
 @Composable
 fun EventAttachments(
     attachments: List<Attachment>,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (attachments.isEmpty()) return
@@ -77,6 +78,7 @@ fun EventAttachments(
                 attachments.forEach { attachment ->
                     Attachment(
                         attachment = attachment,
+                        onClick = { onClick(attachment.url) },
                         modifier = Modifier
                             .widthIn(min = 300.dp, max = 500.dp)
                             .padding(vertical = 4.dp)

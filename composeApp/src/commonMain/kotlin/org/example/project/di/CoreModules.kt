@@ -26,7 +26,7 @@ val coreModule = module {
     }
     single { get<GradeSpaceDatabase>().feedDao }
     single { get<GradeSpaceDatabase>().tasksDao }
-    single { get<GradeSpaceDatabase>().calendarDao }
+    single { get<GradeSpaceDatabase>().lessonsDao }
     single { get<GradeSpaceDatabase>().profileDao }
     single { DataStorePreferencesImpl(get()) }.bind<DataStorePreferences>()
 
