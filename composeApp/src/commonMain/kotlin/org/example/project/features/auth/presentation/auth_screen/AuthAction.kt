@@ -4,6 +4,7 @@ import org.example.project.core.data.model.user.UserRole
 
 sealed interface AuthAction {
     data class EmailEntered(val email: String) : AuthAction
+    data class PhoneEntered(val phone: String) : AuthAction
     data class PasswordEntered(val password: String) : AuthAction
     data class RoleSelected(val role: UserRole) : AuthAction
     data class FirstNameEntered(val firstName: String) : AuthAction

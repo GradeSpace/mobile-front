@@ -14,11 +14,13 @@ class AuthMockRepository(
 ) : AuthRepository {
 
     private val registeredUsers = mutableMapOf<String, UserCredentials>()
+    private val phoneToEmailMap = mutableMapOf<String, String>() // Для связи телефона с email
 
     init {
         // Добавляем тестовых пользователей
-        registeredUsers["student@example.com"] = UserCredentials(
+        val studentCredentials = UserCredentials(
             email = "student@example.com",
+            phone = "+79001234567",
             password = "Password123",
             firstName = "Иван",
             lastName = "Студентов",
@@ -27,8 +29,9 @@ class AuthMockRepository(
             group = "ИУ9-62Б"
         )
 
-        registeredUsers["teacher@example.com"] = UserCredentials(
+        val teacherCredentials = UserCredentials(
             email = "teacher@example.com",
+            phone = "+79009876543",
             password = "Password123",
             firstName = "Петр",
             lastName = "Преподавателев",
@@ -36,19 +39,44 @@ class AuthMockRepository(
             role = UserRole.Teacher,
             group = null
         )
+
+        registeredUsers[studentCredentials.email] = studentCredentials
+        registeredUsers[teacherCredentials.email] = teacherCredentials
+
+        // Добавляем связь телефона с email
+        phoneToEmailMap[studentCredentials.phone!!] = studentCredentials.email
+        phoneToEmailMap[teacherCredentials.phone!!] = teacherCredentials.email
     }
 
     override suspend fun checkAuth(): Boolean {
         return userRepository.isAuthenticated()
     }
 
-    override suspend fun checkUserExists(email: String): Boolean {
+    override suspend fun checkUserExists(identifier: String): Boolean {
         delay(500) // Имитация сетевого запроса
-        return registeredUsers.containsKey(email)
+
+        // Проверяем, существует ли пользователь с таким email или телефоном
+        return if (isPhoneNumber(identifier)) {
+            phoneToEmailMap.containsKey(identifier)
+        } else {
+            registeredUsers.containsKey(identifier)
+        }
     }
 
-    override suspend fun login(email: String, password: String): AuthResult {
+    override suspend fun login(identifier: String, password: String): AuthResult {
         delay(1000) // Имитация сетевого запроса
+
+        // Определяем email пользователя (если вход по телефону, находим соответствующий email)
+        val email = if (isPhoneNumber(identifier)) {
+            phoneToEmailMap[identifier]
+        } else {
+            identifier
+        }
+
+        // Если email не найден, значит пользователь не существует
+        if (email == null) {
+            return AuthResult.UserNotFound
+        }
 
         val userCredentials = registeredUsers[email]
         return when {
@@ -61,6 +89,7 @@ class AuthMockRepository(
                 // Сохраняем данные пользователя через UserRepository
                 userRepository.saveUser(user)
                 userRepository.saveUserEmail(email)
+                userRepository.saveUserPhone(userCredentials.phone)
                 userRepository.saveUserAuthStatus(true)
 
                 AuthResult.Success
@@ -70,6 +99,7 @@ class AuthMockRepository(
 
     override suspend fun register(
         email: String,
+        phone: String?,
         password: String,
         firstName: String,
         lastName: String,
@@ -77,9 +107,14 @@ class AuthMockRepository(
         role: UserRole,
         group: String?
     ): AuthResult {
-
-        if (registeredUsers.containsKey(email)) {
+        // Проверяем, существует ли пользователь с таким email
+        if (email.isNotEmpty() && registeredUsers.containsKey(email)) {
             return AuthResult.Error("Пользователь с таким email уже существует")
+        }
+
+        // Проверяем, существует ли пользователь с таким телефоном
+        if (phone != null && phoneToEmailMap.containsKey(phone)) {
+            return AuthResult.Error("Пользователь с таким телефоном уже существует")
         }
 
         if (!isPasswordValid(password)) {
@@ -94,6 +129,7 @@ class AuthMockRepository(
 
         val userCredentials = UserCredentials(
             email = email,
+            phone = phone,
             password = password,
             firstName = firstName,
             lastName = lastName,
@@ -104,15 +140,20 @@ class AuthMockRepository(
 
         registeredUsers[email] = userCredentials
 
+        // Добавляем связь телефона с email, если телефон указан
+        if (phone != null) {
+            phoneToEmailMap[phone] = email
+        }
+
         // Создаем объект пользователя
         val user = createUserFromCredentials(userCredentials)
 
         // Сохраняем данные пользователя через UserRepository
         userRepository.saveUser(user)
         userRepository.saveUserEmail(email)
+        userRepository.saveUserPhone(phone)
         userRepository.saveUserAuthStatus(true)
 
-        // Сохраняем токен авторизации
         return AuthResult.Success
     }
 
@@ -156,8 +197,13 @@ class AuthMockRepository(
         return true
     }
 
+    private fun isPhoneNumber(identifier: String): Boolean {
+        return identifier.startsWith("+") && identifier.substring(1).all { it.isDigit() }
+    }
+
     private data class UserCredentials(
         val email: String,
+        val phone: String? = null,
         val password: String,
         val firstName: String,
         val lastName: String,

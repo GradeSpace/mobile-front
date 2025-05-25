@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import org.example.project.app.navigation.graph.AuthNavGraph
 import org.example.project.app.navigation.graph.RootNavGraph
@@ -31,36 +32,29 @@ fun App() {
     val appViewModel = koinViewModel<AppViewModel>()
     val userRepository = koinInject<UserRepository>()
 
-    // Состояние для отслеживания инициализации приложения
     var isAppInitialized by remember { mutableStateOf(false) }
 
-    // Получаем статус аутентификации как поток
     val authState by userRepository.isAuthenticatedAsFlow().collectAsStateWithLifecycle(null)
 
     // Инициализируем приложение при запуске
     LaunchedEffect(Unit) {
-        // Проверяем статус аутентификации и инициализируем его, если нужно
         val currentAuthStatus = userRepository.isAuthenticatedAsFlow().first()
         if (currentAuthStatus == null) {
             userRepository.saveUserAuthStatus(false)
         }
 
-        // Инициализируем тему и язык, если нужно
-        // Эти вызовы гарантируют, что данные будут загружены
         appViewModel.ensureThemeInitialized()
         appViewModel.ensureLanguageInitialized()
 
-        // Отмечаем, что инициализация завершена
+        delay(100L)
         isAppInitialized = true
     }
 
-    // Показываем SplashScreen, пока не завершена инициализация или не получен статус аутентификации
     if (!isAppInitialized || authState == null) {
         SplashScreen()
         return
     }
 
-    // Получаем тему после инициализации
     val isDarkThemeEnabled = rememberAppTheme(appViewModel)
 
     GradeSpaceTheme(

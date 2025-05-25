@@ -7,9 +7,13 @@ sealed class AuthState {
     data object Loading : AuthState()
     data object Authenticated : AuthState()
     data class EmailEntered(val email: String) : AuthState()
-    data class PasswordRequired(val email: String) : AuthState()
+    data class PasswordRequired(
+        val identifier: String,
+        val isPhone: Boolean = false
+    ) : AuthState()
     data class RegistrationRequired(
-        val email: String,
+        val identifier: String,
+        val isPhone: Boolean = false,
         val selectedRole: UserRole? = null,
         val firstName: String = "",
         val lastName: String = "",

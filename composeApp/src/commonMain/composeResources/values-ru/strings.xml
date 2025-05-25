@@ -172,7 +172,7 @@
     <!-- Auth -->
     <string name="login_title">Вход</string>
     <string name="registration_title">Регистрация</string>
-    <string name="enter_email">Введите email или номер телефона</string>
+    <string name="enter_email">Введите email</string>
     <string name="email_hint">example@mail.com</string>
     <string name="continue_button">Продолжить</string>
     <string name="enter_password">Введите пароль</string>
@@ -190,5 +190,10 @@
     <string name="enter_group">Введите вашу группу</string>
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="register">Зарегистрироваться</string>
+    <string name="email">Почта</string>
+    <string name="phone">Телефон</string>
+    <string name="enter_phone">Введите номер</string>
+    <string name="phone_hint">+78005553555</string>
 
+    <string name="email_format_error">Некорректный формат почты</string>
 </resources>

@@ -25,6 +25,7 @@ class AuthViewModel(
     fun onAction(action: AuthAction) {
         when (action) {
             is AuthAction.EmailEntered -> handleEmailEntered(action.email)
+            is AuthAction.PhoneEntered -> handlePhoneEntered(action.phone)
             is AuthAction.PasswordEntered -> handlePasswordEntered(action.password)
             is AuthAction.RoleSelected -> handleRoleSelected(action.role)
             is AuthAction.FirstNameEntered -> handleFirstNameEntered(action.firstName)
@@ -39,8 +40,10 @@ class AuthViewModel(
     }
 
     private fun handleEmailEntered(email: String) {
-        if (email.isBlank()) {
-            _state.value = AuthState.Initial
+        if (email.isBlank() || !email.contains('@')) {
+            viewModelScope.launch {
+                _navigationEvents.send(AuthNavigationEvent.ShowError("Введите корректный email"))
+            }
             return
         }
 
@@ -57,29 +60,64 @@ class AuthViewModel(
         }
     }
 
-    private fun handlePasswordEntered(password: String) {
-        val currentState = _state.value
-        if (currentState !is AuthState.PasswordRequired) return
+    private fun handlePhoneEntered(phone: String) {
+        if (phone.isBlank() || phone.length < 10) {
+            viewModelScope.launch {
+                _navigationEvents.send(AuthNavigationEvent.ShowError("Введите корректный номер телефона"))
+            }
+            return
+        }
 
         _state.value = AuthState.Loading
 
         viewModelScope.launch {
-            val result = repository.login(currentState.email, password)
+            // Здесь должна быть проверка существования пользователя по телефону
+            // Для примера используем ту же логику, что и для email
+            val userExists = repository.checkUserExists(phone)
+
+            _state.value = if (userExists) {
+                AuthState.PasswordRequired(phone, isPhone = true)
+            } else {
+                AuthState.RegistrationRequired(phone, isPhone = true)
+            }
+        }
+    }
+
+    private fun handlePasswordEntered(password: String) {
+        val currentState = _state.value
+        if (currentState !is AuthState.PasswordRequired) return
+
+        if (password.length < 6) {
+            viewModelScope.launch {
+                _navigationEvents.send(AuthNavigationEvent.ShowError("Пароль должен содержать не менее 6 символов"))
+            }
+            return
+        }
+
+        _state.value = AuthState.Loading
+
+        viewModelScope.launch {
+            // Используем email или телефон в зависимости от того, что было введено
+            val identifier = currentState.identifier
+            val result = repository.login(identifier, password)
 
             when (result) {
                 AuthResult.Success -> {
                     _state.value = AuthState.Authenticated
                 }
                 AuthResult.InvalidCredentials -> {
-                    _state.value = AuthState.PasswordRequired(currentState.email)
+                    _state.value = currentState
                     _navigationEvents.send(AuthNavigationEvent.ShowError("Неверный пароль"))
                 }
                 AuthResult.UserNotFound -> {
-                    _state.value = AuthState.RegistrationRequired(currentState.email)
+                    _state.value = AuthState.RegistrationRequired(
+                        identifier = currentState.identifier,
+                        isPhone = currentState.isPhone
+                    )
                     _navigationEvents.send(AuthNavigationEvent.ShowError("Пользователь не найден"))
                 }
                 is AuthResult.Error -> {
-                    _state.value = AuthState.PasswordRequired(currentState.email)
+                    _state.value = currentState
                     _navigationEvents.send(AuthNavigationEvent.ShowError(result.message))
                 }
             }
@@ -209,11 +247,22 @@ class AuthViewModel(
             return
         }
 
+        // Проверяем сложность пароля
+        if (currentState.password.length < 9 ||
+            !currentState.password.any { it.isLetter() } ||
+            !currentState.password.any { it.isDigit() }) {
+            viewModelScope.launch {
+                _navigationEvents.send(AuthNavigationEvent.ShowError("Пароль должен содержать не менее 9 символов, включая хотя бы одну букву и одну цифру"))
+            }
+            return
+        }
+
         _state.value = AuthState.Loading
 
         viewModelScope.launch {
             val result = repository.register(
-                email = currentState.email,
+                email = if (!currentState.isPhone) currentState.identifier else "",
+                phone = if (currentState.isPhone) currentState.identifier else null,
                 password = currentState.password,
                 firstName = currentState.firstName,
                 lastName = currentState.lastName,

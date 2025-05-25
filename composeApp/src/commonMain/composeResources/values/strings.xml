@@ -171,7 +171,7 @@
     <!-- Auth -->
     <string name="login_title">Login</string>
     <string name="registration_title">Registration</string>
-    <string name="enter_email">Enter email or phone number</string>
+    <string name="enter_email">Enter email</string>
     <string name="email_hint">example@mail.com</string>
     <string name="continue_button">Continue</string>
     <string name="enter_password">Enter password</string>
@@ -189,5 +189,10 @@
     <string name="enter_group">Enter your group</string>
     <string name="confirm_password">Confirm password</string>
     <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="enter_phone">Enter phone</string>
+    <string name="phone_hint">+78005553555</string>
 
+    <string name="email_format_error">Wrong email format</string>
 </resources>

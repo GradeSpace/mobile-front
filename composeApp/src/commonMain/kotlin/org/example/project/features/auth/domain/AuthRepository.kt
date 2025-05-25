@@ -7,10 +7,11 @@ interface AuthRepository {
     suspend fun checkAuth(): Boolean
 
     // Аутентификация и регистрация
-    suspend fun checkUserExists(email: String): Boolean
-    suspend fun login(email: String, password: String): AuthResult
+    suspend fun checkUserExists(identifier: String): Boolean
+    suspend fun login(identifier: String, password: String): AuthResult
     suspend fun register(
         email: String,
+        phone: String? = null,
         password: String,
         firstName: String,
         lastName: String,
@@ -18,5 +19,4 @@ interface AuthRepository {
         role: UserRole,
         group: String?
     ): AuthResult
-
 }

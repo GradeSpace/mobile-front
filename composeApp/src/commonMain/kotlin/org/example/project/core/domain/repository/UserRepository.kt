@@ -30,10 +30,9 @@ interface UserRepository {
     suspend fun getUserGroup(): String
     suspend fun saveUserGroup(group: String?)
 
+    // Authentication status
     suspend fun isAuthenticated(): Boolean
-
     suspend fun saveUserAuthStatus(isAuthenticated: Boolean): EmptyResult<DataError.Local>
-
     fun isAuthenticatedAsFlow(): Flow<Boolean?>
 
     // Clear user data
