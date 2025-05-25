@@ -21,6 +21,7 @@ import org.example.project.core.data.utils.getMonthResourceName
 import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
 import org.example.project.core.domain.Result
+import org.example.project.core.domain.repository.UserRepository
 import org.example.project.core.presentation.UiText
 import org.example.project.features.feed.data.database.clearNotificationDraft
 import org.example.project.features.feed.data.database.getNotificationDraftAttachments
@@ -40,7 +41,8 @@ import org.example.project.features.feed.domain.FeedRepository
 import kotlin.random.Random
 
 class FeedMockRepository(
-    private val dataStorePreferences: DataStorePreferences
+    private val dataStorePreferences: DataStorePreferences,
+    private val userRepository: UserRepository
 ) : FeedRepository {
 
     val localEvents = mutableListOf<FeedEventItem>()
@@ -275,9 +277,9 @@ class FeedMockRepository(
         }
     }
 
-    override fun fetchFeedEvents(): Flow<List<FeedEventsBlock>> {
+    override fun fetchFeedEvents(): Flow<List<FeedEventItem>> {
         return flow {
-            emit(localEventsBlocks)
+            emit(localEvents)
         }
     }
 
@@ -294,6 +296,10 @@ class FeedMockRepository(
                 it.id == eventId
             })
         }
+    }
+
+    override suspend fun getCurrentUser(): User? {
+        return userRepository.getCurrentUser()
     }
 
     override suspend fun actualizeEvent(notificationId: String?): EmptyResult<DataError.Remote> {

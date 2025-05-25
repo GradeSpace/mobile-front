@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.example.project.Platform
 import org.example.project.app.navigation.utils.NavigationManager
+import org.example.project.app.navigation.utils.openFile
 import org.example.project.core.presentation.ui.common.DesktopRefreshButton
 import org.example.project.core.presentation.ui.common.EventAttachments
 import org.example.project.core.presentation.ui.common.EventDescription
@@ -37,6 +38,9 @@ fun FeedNotificationScreenRoot(
             when (navEvent) {
                 is FeedNotificationNavigationEvent.NavigateBack ->
                     navigationManager.navigateBack()
+
+                is FeedNotificationNavigationEvent.OpenFile ->
+                    navigationManager.openFile(navEvent.url)
             }
         }
     }
@@ -101,6 +105,9 @@ fun FeedNotificationScreen(
                 )
                 EventAttachments(
                     state.notificationItem.attachments,
+                    onClick = {
+                        onAction(FeedNotificationAction.OnAttachmentClick(it))
+                    },
                     modifier = Modifier
                         .padding(top = 8.dp)
                 )

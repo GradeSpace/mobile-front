@@ -9,5 +9,6 @@ data class TasksListState(
     val isRefreshing: Boolean = false,
     val tasksBlocks: List<TasksEventsBlock> = emptyList(),
     val showFiltersMenu: Boolean = false,
-    val enabledBlockTypes: Set<TasksEventsBlock.BlockType> = TasksEventsBlock.BlockType.entries.toSet()
+    val enabledBlockTypes: Set<TasksEventsBlock.BlockType> = TasksEventsBlock.BlockType.entries.toSet(),
+    val hasCreateButton: Boolean = false
 )

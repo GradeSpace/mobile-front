@@ -22,5 +22,6 @@ data class CalendarScreenState(
         dayOfMonth = 1
     ),
     val selectedDay: LocalDate = Clock.System.now()
-        .toLocalDateTime(TimeZone.currentSystemDefault()).date
+        .toLocalDateTime(TimeZone.currentSystemDefault()).date,
+    val hasCreateButton: Boolean = false
 )

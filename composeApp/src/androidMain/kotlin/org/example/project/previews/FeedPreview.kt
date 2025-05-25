@@ -17,6 +17,7 @@ fun FeedListScreenPreview() {
                 isLoading = false,
                 error = null,
                 feedBlocks = FeedMockRepository(
+                    koinInject(),
                     koinInject()
                 ).localEventsBlocks
             ),

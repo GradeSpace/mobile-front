@@ -19,6 +19,7 @@ import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
 import org.example.project.core.domain.Result
+import org.example.project.core.domain.repository.UserRepository
 import org.example.project.core.presentation.UiText
 import org.example.project.features.feed.data.mock.FeedTextMock
 import org.example.project.features.lessons.data.database.clearLessonDraft
@@ -56,7 +57,8 @@ import org.example.project.features.lessons.domain.LessonStatus
 import kotlin.random.Random
 
 class LessonMockRepository(
-    private val dataStorePreferences: DataStorePreferences
+    private val dataStorePreferences: DataStorePreferences,
+    private val userRepository: UserRepository
 ) : LessonRepository {
 
     private val localLessons = mutableListOf<LessonEventItem>()
@@ -333,6 +335,10 @@ class LessonMockRepository(
 
     override suspend fun getLessonCreateDraft(): LessonCreateDraft {
         return dataStorePreferences.getLessonCreateDraft()
+    }
+
+    override suspend fun currentUser(): User? {
+        return userRepository.getCurrentUser()
     }
 
     override suspend fun clearLessonDraft() {

@@ -3,6 +3,7 @@ package org.example.project.features.tasks.domain
 import kotlinx.coroutines.flow.Flow
 import org.example.project.core.data.model.attachment.Attachment
 import org.example.project.core.data.model.note.GradeRange
+import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
 import org.example.project.features.tasks.domain.TasksEventsBlock.BlockType
@@ -36,4 +37,6 @@ interface TasksRepository {
     suspend fun saveVariants(variants: List<TaskVariant>)
 
     suspend fun clearNotificationDraft()
+
+    suspend fun currentUser(): User?
 }

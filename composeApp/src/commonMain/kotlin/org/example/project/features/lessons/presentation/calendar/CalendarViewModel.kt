@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.example.project.core.data.model.user.UserRole
 import org.example.project.core.domain.onError
 import org.example.project.core.domain.onSuccess
 import org.example.project.core.presentation.toUiText
@@ -23,7 +24,7 @@ import org.example.project.features.lessons.navigation.LessonRoutes.Lesson
 import org.example.project.features.lessons.presentation.calendar.CalendarScreenNavigationEvent.NavigateTo
 
 class CalendarViewModel(
-    val repository: LessonRepository
+    val repository: LessonRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CalendarScreenState())
@@ -34,10 +35,24 @@ class CalendarViewModel(
 
     private var actualizeJob: Job? = null
     private var observeJob: Job? = null
+    private var userRoleJob: Job? = null
 
     init {
         observeCalendar()
         actualizeCalendar()
+        checkUserRole()
+    }
+
+    private fun checkUserRole() {
+        userRoleJob?.cancel()
+        userRoleJob = viewModelScope.launch {
+            val currentUser = repository.currentUser()
+            _state.update {
+                it.copy(
+                    hasCreateButton = currentUser?.role == UserRole.Teacher
+                )
+            }
+        }
     }
 
     private fun actualizeCalendar() {
@@ -110,7 +125,9 @@ class CalendarViewModel(
             }
 
             CalendarScreenAction.CreateNewLesson -> {
-                _navigationEvents.emit(NavigateTo(LessonRoutes.LessonCreate))
+                if (_state.value.hasCreateButton) {
+                    _navigationEvents.emit(NavigateTo(LessonRoutes.LessonCreate))
+                }
             }
         }
     }

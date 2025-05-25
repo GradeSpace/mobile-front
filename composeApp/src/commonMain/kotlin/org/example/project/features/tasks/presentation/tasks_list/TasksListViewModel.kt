@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.example.project.core.data.model.user.UserRole
 import org.example.project.core.domain.onError
 import org.example.project.core.domain.onSuccess
 import org.example.project.core.presentation.toUiText
@@ -25,7 +26,7 @@ import org.example.project.features.tasks.navigation.TasksRoute.TaskScreen
 import org.example.project.features.tasks.presentation.tasks_list.TasksListNavigationEvent.NavigateTo
 
 class TasksListViewModel(
-    private val repository: TasksRepository
+    private val repository: TasksRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TasksListState())
@@ -36,10 +37,24 @@ class TasksListViewModel(
 
     private var actualizeJob: Job? = null
     private var observeJob: Job? = null
+    private var userRoleJob: Job? = null
 
     init {
         observeTasksList()
         actualizeTasksList()
+        checkUserRole()
+    }
+
+    private fun checkUserRole() {
+        userRoleJob?.cancel()
+        userRoleJob = viewModelScope.launch {
+            val currentUser = repository.currentUser()
+            _state.update {
+                it.copy(
+                    hasCreateButton = currentUser?.role == UserRole.Teacher
+                )
+            }
+        }
     }
 
     private fun actualizeTasksList() {
@@ -95,11 +110,13 @@ class TasksListViewModel(
             )
 
             TasksListAction.CreateNewTask -> {
-                _navigationEvents.emit(
-                    NavigateTo(
-                        TasksRoute.TaskCreate
+                if (_state.value.hasCreateButton) {
+                    _navigationEvents.emit(
+                        NavigateTo(
+                            TasksRoute.TaskCreate
+                        )
                     )
-                )
+                }
             }
 
             TasksListAction.ToggleFilterMenu -> {

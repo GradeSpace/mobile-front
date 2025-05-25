@@ -28,7 +28,6 @@ import kotlinx.datetime.toLocalDateTime
 import org.example.project.app.navigation.launchers.openCameraPicker
 import org.example.project.core.data.model.attachment.Attachment.FileAttachment
 import org.example.project.core.data.model.attachment.toFileType
-import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.Result
 import org.example.project.core.presentation.AttachmentSource
 import org.example.project.core.presentation.UiSnackbar
@@ -138,11 +137,12 @@ class NotificationCreateViewModel(
 
             NotificationCreateAction.OnSendClick -> {
                 val currentState = _state.value
+                val currentUser = repository.getCurrentUser() ?: return@launch
                 val event = FeedEventItem(
                     id = "new_event_${System.now()}",
                     title = currentState.title,
                     description = DynamicString(currentState.description),
-                    author = User(uid = "current_user", name = "Текущий", surname = "Пользователь"),
+                    author = currentUser,
                     lastUpdateDateTime = System.now()
                         .toLocalDateTime(TimeZone.currentSystemDefault()),
                     attachments = currentState.attachments,

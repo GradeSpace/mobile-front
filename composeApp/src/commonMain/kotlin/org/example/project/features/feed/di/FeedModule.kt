@@ -1,6 +1,6 @@
 package org.example.project.features.feed.di
 
-import org.example.project.features.feed.data.repository.FeedMockRepository
+import org.example.project.features.feed.data.repository.FeedRoomRepository
 import org.example.project.features.feed.domain.FeedRepository
 import org.example.project.features.feed.presentation.feed_list.FeedListViewModel
 import org.example.project.features.feed.presentation.feed_notification.FeedNotificationViewModel
@@ -11,7 +11,8 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val feedModule = module {
-    singleOf(::FeedMockRepository).bind<FeedRepository>()
+    // singleOf(::FeedMockRepository).bind<FeedRepository>()
+    singleOf(::FeedRoomRepository).bind<FeedRepository>()
     viewModelOf(::FeedListViewModel)
     viewModelOf(::FeedNotificationViewModel)
     viewModelOf(::NotificationCreateViewModel)

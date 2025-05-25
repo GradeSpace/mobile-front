@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import org.example.project.core.data.model.attachment.Attachment
+import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
 
@@ -57,6 +58,8 @@ interface LessonRepository {
     suspend fun saveLessonDraftOfflinePlace(place: String)
 
     suspend fun getLessonCreateDraft(): LessonCreateDraft
+
+    suspend fun currentUser(): User?
 
     suspend fun clearLessonDraft()
 }

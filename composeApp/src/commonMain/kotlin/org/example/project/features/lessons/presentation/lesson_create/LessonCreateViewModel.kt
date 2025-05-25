@@ -28,7 +28,6 @@ import org.example.project.app.navigation.launchers.openCameraPicker
 import org.example.project.core.data.model.attachment.Attachment.FileAttachment
 import org.example.project.core.data.model.attachment.toFileType
 import org.example.project.core.data.model.event.EventLocation
-import org.example.project.core.data.model.user.User
 import org.example.project.core.domain.Result
 import org.example.project.core.presentation.AttachmentSource
 import org.example.project.core.presentation.UiSnackbar
@@ -39,7 +38,7 @@ import org.example.project.features.lessons.domain.LessonRepository
 import org.example.project.features.lessons.domain.LessonStatus
 
 class LessonCreateViewModel(
-    private val repository: LessonRepository
+    private val repository: LessonRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(LessonCreateState())
     val state = _state.asStateFlow()
@@ -55,7 +54,7 @@ class LessonCreateViewModel(
 
     init {
         viewModelScope.launch {
-            // Здесь можно добавить загрузку черновика, если нужно
+            loadDraftData()
             observeReceivers()
         }
     }
@@ -100,7 +99,7 @@ class LessonCreateViewModel(
     private fun observeReceivers() {
         observeJob?.cancel()
         observeJob = repository
-            .fetchReceivers() // Предполагается, что такой метод есть в репозитории
+            .fetchReceivers()
             .distinctUntilChanged()
             .onEach { receivers ->
                 _state.update {
@@ -274,15 +273,14 @@ class LessonCreateViewModel(
                 val validationErrors = validateLessonData(currentState)
 
                 if (validationErrors.isEmpty()) {
+                    // Получаем текущего пользователя
+                    val currentUser = repository.currentUser() ?: return@launch
+
                     val event = LessonEventItem(
                         id = "new_lesson_${System.now()}",
                         title = currentState.title,
                         description = DynamicString(currentState.description),
-                        author = User(
-                            uid = "current_user",
-                            name = "Текущий",
-                            surname = "Пользователь"
-                        ),
+                        author = currentUser,
                         lastUpdateDateTime = System.now()
                             .toLocalDateTime(TimeZone.currentSystemDefault()),
                         attachments = currentState.attachments,

@@ -28,6 +28,7 @@ import org.example.project.core.data.utils.getMonthResourceName
 import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
 import org.example.project.core.domain.Result
+import org.example.project.core.domain.repository.UserRepository
 import org.example.project.core.presentation.UiText
 import org.example.project.core.presentation.asList
 import org.example.project.features.feed.data.mock.FeedTextMock
@@ -52,7 +53,8 @@ import org.example.project.features.tasks.domain.VariantDistributionMode
 import kotlin.random.Random
 
 class TasksMockRepository(
-    private val dataStorePreferences: DataStorePreferences
+    private val dataStorePreferences: DataStorePreferences,
+    private val userRepository: UserRepository
 ) : TasksRepository {
 
     private val localTasks = mutableListOf<TaskEventItem>()
@@ -97,6 +99,11 @@ class TasksMockRepository(
     override suspend fun clearNotificationDraft() {
         dataStorePreferences.clearTaskDraft()
     }
+
+    override suspend fun currentUser(): User? {
+        return userRepository.getCurrentUser()
+    }
+
     private fun init() {
         val mockUser = User(
             uid = "teacher1",

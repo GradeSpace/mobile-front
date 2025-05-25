@@ -7,5 +7,6 @@ data class FeedListState(
     val isLoading: Boolean = true,
     val isRefreshing: Boolean = false,
     val error: UiText? = null,
-    val feedBlocks: List<FeedEventsBlock> = emptyList()
+    val feedBlocks: List<FeedEventsBlock> = emptyList(),
+    val hasCreateButton: Boolean = false
 )

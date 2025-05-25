@@ -89,6 +89,12 @@ class FeedNotificationViewModel(
             FeedNotificationAction.OnPullToRefresh -> {
                 actualizeNotification()
             }
+
+            is FeedNotificationAction.OnAttachmentClick -> {
+                _navigationEvents.emit(
+                    FeedNotificationNavigationEvent.OpenFile(action.url)
+                )
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ fun CalendarPreview() {
         CalendarScreen(
             state = CalendarScreenState(
                 isRefreshing = false,
-                lessonBlocks = LessonMockRepository(koinInject()).localLessonBlocks
+                lessonBlocks = LessonMockRepository(koinInject(), koinInject()).localLessonBlocks
             ),
             onAction = {}
         )

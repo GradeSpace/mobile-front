@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.example.project.Platform
 import org.example.project.app.navigation.utils.NavigationManager
+import org.example.project.app.navigation.utils.openFile
 import org.example.project.app.navigation.utils.openUrl
 import org.example.project.core.domain.EventItemTimeFormat
 import org.example.project.core.presentation.ui.common.DesktopRefreshButton
@@ -43,6 +44,9 @@ fun LessonScreenRoot(
 
                 is LessonScreenNavigationEvent.OpenLink ->
                     navigationManager.openUrl(navEvent.url)
+
+                is LessonScreenNavigationEvent.OpenFile ->
+                    navigationManager.openFile(navEvent.url)
             }
         }
     }
@@ -121,6 +125,9 @@ fun LessonScreen(
 
                 EventAttachments(
                     state.lessonEventItem.attachments,
+                    onClick = {
+                        onAction(LessonScreenAction.OpenAttachment(it))
+                    },
                     modifier = Modifier
                         .padding(top = 8.dp)
                 )
