@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -17,6 +19,7 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+            freeCompilerArgs.add("-Xcontext-receivers")
         }
     }
 
@@ -28,18 +31,21 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            freeCompilerArgs += listOf(
+                "-Xbinary=bundleId=org.example.project"
+            )
         }
     }
 
     room {
         schemaDirectory("$projectDir/schemas")
     }
-    
+
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -52,14 +58,13 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(libs.material.icons.core)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.room.runtime)
@@ -70,6 +75,15 @@ kotlin {
 
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.coil)
+
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.androidx.datastore.preferences)
+            implementation(libs.androidx.datastore)
+
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs)
+            implementation(libs.filekit.dialogs.compose)
+            implementation(libs.filekit.coil)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -78,6 +92,14 @@ kotlin {
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
+        }
+
+        commonMain {
+            kotlin {
+                compilerOptions {
+                    freeCompilerArgs.add("-Xcontext-receivers")
+                }
+            }
         }
 
         dependencies {
@@ -125,6 +147,9 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "org.example.project"
             packageVersion = "1.0.0"
+            linux {
+                modules("jdk.security.auth")
+            }
         }
     }
 }

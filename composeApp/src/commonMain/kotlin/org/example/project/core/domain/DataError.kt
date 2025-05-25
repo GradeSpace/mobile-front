@@ -7,11 +7,18 @@ sealed interface DataError: Error {
         NO_INTERNET,
         SERVER,
         SERIALIZATION,
+        NOT_FOUND,
         UNKNOWN
     }
 
     enum class Local: DataError {
         DISK_FULL,
         UNKNOWN
+    }
+
+    enum class Auth : DataError {
+        USER_NOT_FOUND,
+        INVALID_PASSWORD,
+        EMAIL_EXISTS
     }
 }

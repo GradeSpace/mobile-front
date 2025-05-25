@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name">GradeSpace</string>
+    <string name="loading">Загрузка...</string>
+
+    <string name="no_description">Упс, кажется описание отсутствует...</string>
+    <string name="error_disk_full">Упс, на вашем диске нет места.</string>
+    <string name="error_unknown">Упс, что-то пошло не так.</string>
+    <string name="error_request_timeout">Время ожидания запроса вышло.</string>
+    <string name="error_no_internet">Нет доступа к серверу, проверьте Ваше подключение к интернету.</string>
+    <string name="error_too_many_requests">Слишком много запросов.</string>
+    <string name="error_serialization">Не получилось распарсить данные.</string>
+    <string name="error_not_found">404 Не найден</string>
+    <string name="error_user_not_found">Пользователь не найден</string>
+    <string name="error_invalid_password">Неверный пароль</string>
+    <string name="error_email_exists">Пользователь с таким email уже существует</string>
+    <string name="before">Ранее</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="receivers">Получатели</string>
+    <string name="attachments">Приложения</string>
+    <string name="press_to_open">Нажмите, чтобы открыть</string>
+
+
+    <string name="january">янв</string>
+    <string name="february">фев</string>
+    <string name="march">мар</string>
+    <string name="april">апр</string>
+    <string name="may">май</string>
+    <string name="june">июн</string>
+    <string name="july">июл</string>
+    <string name="august">авг</string>
+    <string name="september">сен</string>
+    <string name="october">окт</string>
+    <string name="november">ноя</string>
+    <string name="december">дек</string>
+    <string name="mon">пн</string>
+    <string name="tue">вт</string>
+    <string name="wed">ср</string>
+    <string name="thu">чт</string>
+    <string name="fri">пт</string>
+    <string name="sat">сб</string>
+    <string name="sun">вс</string>
+    <string name="week_accusative">неделя</string>
+    <string name="day">дн</string>
+    <string name="hour">ч</string>
+    <string name="minute">мин</string>
+    <string name="second">сек</string>
+
+
+    <string name="feed_title">Лента новостей</string>
+    <string name="current_tasks">Текущие</string>
+    <string name="calendar">Календарь</string>
+    <string name="tasks">Задания</string>
+    <string name="completed_tasks">Выполненные</string>
+    <string name="rejected_tasks">Отклоненные</string>
+    <string name="rejected">Отклоненно</string>
+    <string name="given_tasks">Выданные</string>
+    <string name="not_given_tasks">Не выданные</string>
+    <string name="under_check">На проверке</string>
+    <string name="description_title">Описание</string>
+    <string name="submit_before">Сдать до</string>
+    <string name="under_check_since">На проверке с</string>
+    <string name="task_not_issued">Задание еще не выдано</string>
+    <string name="task_will_be_issued">Задание будет выдано</string>
+    <string name="will_be_issued">Будет выдано</string>
+    <string name="issued">Выдано</string>
+    <string name="not_issued">Не выдано</string>
+    <string name="issue_time_not_specified">Время выдачи не указано</string>
+    <string name="since">с</string>
+    <string name="deadline_expired">Дедлайн истек!</string>
+    <string name="no_note">Без оценки</string>
+    <string name="deadline">Дедлайн</string>
+    <string name="remained">Осталось</string>
+    <string name="notes">Без оценки</string>
+    <string name="min">Мин</string>
+    <string name="max">Макс</string>
+    <string name="note">Оценка</string>
+    <string name="not_specified">не указана</string>
+    <string name="accepted">Зачтено</string>
+    <string name="points">Баллы</string>
+    <string name="deadline_not_specified">срок не указан</string>
+    <string name="no_lessons_for_today">На сегодня занятий нет</string>
+    <string name="reason">Причина</string>
+    <string name="check_in">Отметиться</string>
+
+    <string name="lesson_not_started">Занятие еще не началось</string>
+    <string name="lesson_in_progress">Занятие идет прямо сейчас</string>
+    <string name="lesson_ended">Занятие завершилось</string>
+    <string name="no_checkin_allowed">Отметка о посещении недоступна"</string>
+    <string name="lesson_missed">Вы не посетили это занятие</string>
+    <string name="checked_id_wait_for_verification">Вы отметились, ожидайте подтверждения</string>
+    <string name="lesson_visited">Вы посетили это занятие</string>
+
+    <string name="cab">каб.</string>
+    <string name="online">онлайн</string>
+
+    <string name="personal_data">Данные</string>
+    <string name="language">Язык</string>
+    <string name="russian">Русский</string>
+    <string name="english">Английский</string>
+    <string name="theme">Тема</string>
+    <string name="dark_mode">Темная</string>
+    <string name="light_mode">Светлая</string>
+    <string name="system_mode">Системная</string>
+    <string name="logout">Выход</string>
+    <string name="student">Студент</string>
+    <string name="teacher">Преподаватель</string>
+    <string name="user">Пользователь</string>
+
+    <string name="connect">Подключиться</string>
+
+    <string name="language_change">Смена языка</string>
+    <string name="theme_change">Смена темы</string>
+
+    <string name="create_notification">Создание уведомления</string>
+    <string name="create_task">Создание задания</string>
+    <string name="back">Назад</string>
+    <string name="send">Отправить</string>
+    <string name="title">Заголовок</string>
+    <string name="title_placeholder">Введите заголовок уведомления</string>
+    <string name="description">Описание</string>
+    <string name="description_placeholder">Введите текст уведомления</string>
+
+    <string name="add">Добавить</string>
+    <string name="add_recipient">Добавить получателя</string>
+    <string name="remove_recipient">Удалить получателя</string>
+    <string name="available_recipients">Доступные получатели</string>
+    <string name="all_recipients_selected">Все получатели уже выбраны</string>
+    <string name="close">Закрыть</string>
+
+    <string name="remove_attachment">Удалить вложение</string>
+    <string name="add_attachment">Добавить вложение</string>
+    <string name="file">Файл</string>
+    <string name="select_document">Выбрать документ</string>
+    <string name="gallery">Галерея</string>
+    <string name="select_image">Выбрать изображение</string>
+    <string name="camera">Камера</string>
+    <string name="take_photo">Сделать фото</string>
+
+    <!-- Grade Section -->
+    <string name="enable_grading">Включить оценивание</string>
+    <string name="min_grade">Минимальная оценка</string>
+    <string name="max_grade">Максимальная оценка</string>
+
+    <!-- Date Time Section -->
+    <string name="issue_time">Время выдачи</string>
+    <string name="not_set">Не задано</string>
+    <string name="set_date_time">Очистить</string>
+
+    <!-- Variants Section -->
+    <string name="enable_variants">Включить варианты</string>
+    <string name="random_distribution">Случайное распределение</string>
+    <string name="assign_to_receivers">Назначить получателям</string>
+    <string name="variant">Вариант</string>
+    <string name="variant_text">Текст варианта</string>
+    <string name="add_variant">Добавить вариант</string>
+    <string name="select_receivers_for_variant">Выберите получателей для этого варианта</string>
+
+    <string name="create_lesson">Создать занятие</string>
+    <string name="subject">Предмет</string>
+    <string name="subject_placeholder">Введите название предмета</string>
+    <string name="lesson_date">Дата занятия</string>
+    <string name="start_time">Время начала</string>
+    <string name="end_time">Время окончания</string>
+    <string name="clear">Очистить</string>
+    <string name="online_location">Онлайн</string>
+    <string name="offline_location">Очно</string>
+    <string name="online_link">Ссылка на онлайн-занятие</string>
+    <string name="offline_place">Место проведения</string>
+
+    <!-- Auth -->
+    <string name="login_title">Вход</string>
+    <string name="registration_title">Регистрация</string>
+    <string name="enter_email">Введите email</string>
+    <string name="email_hint">example@mail.com</string>
+    <string name="continue_button">Продолжить</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="password_hint">Не менее 9 символов</string>
+    <string name="password">Пароль</string>
+    <string name="back_to_email">Вернуться к вводу email</string>
+    <string name="select_role">Выберите вашу роль</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="middle_name">Отчество (необязательно)</string>
+    <string name="group">Группа</string>
+    <string name="enter_first_name">Введите ваше имя</string>
+    <string name="enter_last_name">Введите вашу фамилию</string>
+    <string name="enter_middle_name">Введите ваше отчество</string>
+    <string name="enter_group">Введите вашу группу</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="email">Почта</string>
+    <string name="phone">Телефон</string>
+    <string name="enter_phone">Введите номер</string>
+    <string name="phone_hint">+78005553555</string>
+
+    <string name="email_format_error">Некорректный формат почты</string>
+</resources>

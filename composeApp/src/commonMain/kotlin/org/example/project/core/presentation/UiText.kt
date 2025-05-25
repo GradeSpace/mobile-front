@@ -1,9 +1,8 @@
-package com.plcoding.bookpedia.core.presentation
+package org.example.project.core.presentation
 
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-
 
 sealed interface UiText {
     data class DynamicString(val value: String): UiText
@@ -20,3 +19,5 @@ sealed interface UiText {
         }
     }
 }
+
+fun UiText.asList() = listOf(this)

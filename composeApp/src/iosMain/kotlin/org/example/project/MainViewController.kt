@@ -8,4 +8,6 @@ fun MainViewController() = ComposeUIViewController(
     configure = {
         initKoin()
     }
-) { App() }
+) {
+    App()
+}

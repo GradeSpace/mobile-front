@@ -1,30 +1,40 @@
 [versions]
-agp = "8.5.2"
+agp = "8.6.1"
 android-compileSdk = "35"
 android-minSdk = "24"
 android-targetSdk = "35"
 androidx-activityCompose = "1.10.1"
 androidx-appcompat = "1.7.0"
-androidx-constraintlayout = "2.2.0"
-androidx-core-ktx = "1.15.0"
+androidx-constraintlayout = "2.2.1"
+androidx-core-ktx = "1.16.0"
 androidx-espresso-core = "3.6.1"
-androidx-lifecycle = "2.8.4"
+androidx-lifecycle = "2.9.0-beta01"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
-compose-plugin = "1.7.3"
+compose-plugin = "1.8.0"
+datastorePreferences = "1.1.6"
+filekitCore = "0.10.0-beta04"
 junit = "4.13.2"
-kotlin = "2.0.21"
-kotlinx-coroutines = "1.10.1"
-navigationCompose = "2.8.0-alpha10"
+kotlin = "2.1.21"
+kotlinx-coroutines = "1.10.2"
+kotlinxDatetime = "0.6.2"
+materialIconsCore = "1.7.3"
+navigationCompose = "2.9.0-beta01"
 kotlinSerialization = "1.7.3"
-koin = "4.0.0"
+koin = "4.1.0-RC1"
 ktor = "3.0.0"
 coil3 = "3.0.0-rc02"
-ksp = "2.0.21-1.0.28"
-sqlite = "2.5.0-alpha11"
-room = "2.7.0-alpha11"
+ksp = "2.1.20-1.0.32"
+sqlite = "2.5.1"
+room = "2.7.1"
 
 [libraries]
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastorePreferences" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+filekit-coil = { module = "io.github.vinceglb:filekit-coil", version.ref = "filekitCore" }
+filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "filekitCore" }
+filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version.ref = "filekitCore" }
+filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekitCore" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,6 +50,7 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 
 jetbrains-compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref= "navigationCompose"}
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -64,6 +75,7 @@ coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "materialIconsCore" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
 [plugins]
