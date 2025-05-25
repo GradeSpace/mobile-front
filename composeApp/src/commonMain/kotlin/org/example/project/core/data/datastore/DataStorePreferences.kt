@@ -17,7 +17,7 @@ interface DataStorePreferences {
     suspend fun setFloat(key: String, value: Float)
 
     suspend fun getBoolean(key: String, defaultValue: Boolean = false): Boolean
-    fun getBooleanFlow(key: String, defaultValue: Boolean = false): Flow<Boolean>
+    fun getBooleanFlow(key: String, defaultValue: Boolean? = null): Flow<Boolean?>
     suspend fun setBoolean(key: String, value: Boolean)
 
     suspend fun getLong(key: String, defaultValue: Long = 0L): Long

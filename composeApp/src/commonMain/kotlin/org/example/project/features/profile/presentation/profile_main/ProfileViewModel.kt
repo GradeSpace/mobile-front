@@ -124,7 +124,7 @@ class ProfileViewModel(
 
             ProfileItem.EXIT -> {
                 {
-
+                    onAction(ProfileAction.ExitApp)
                 }
             }
         }
@@ -210,6 +210,29 @@ class ProfileViewModel(
                         isBottomSheetVisible = false
                     )
                 }
+            }
+
+            ProfileAction.ExitApp -> {
+                _state.update {
+                    it.copy(
+                        isRefreshing = true
+                    )
+                }
+                repository.logout()
+                    .onSuccess {
+                        _state.update {
+                            it.copy(
+                                isRefreshing = false
+                            )
+                        }
+                    }
+                    .onError {
+                        _state.update {
+                            it.copy(
+                                isRefreshing = false
+                            )
+                        }
+                    }
             }
         }
     }

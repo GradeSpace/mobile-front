@@ -15,4 +15,10 @@ sealed interface DataError: Error {
         DISK_FULL,
         UNKNOWN
     }
+
+    enum class Auth : DataError {
+        USER_NOT_FOUND,
+        INVALID_PASSWORD,
+        EMAIL_EXISTS
+    }
 }

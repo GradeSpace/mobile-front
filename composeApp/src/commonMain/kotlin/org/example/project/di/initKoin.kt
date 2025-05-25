@@ -1,5 +1,6 @@
 package org.example.project.di
 
+import org.example.project.features.auth.di.authModule
 import org.example.project.features.feed.di.feedModule
 import org.example.project.features.lessons.di.lessonsModule
 import org.example.project.features.profile.di.profileModule
@@ -19,7 +20,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             feedModule,
             tasksModule,
             lessonsModule,
-            profileModule
+            profileModule,
+            authModule
         )
     }
 }

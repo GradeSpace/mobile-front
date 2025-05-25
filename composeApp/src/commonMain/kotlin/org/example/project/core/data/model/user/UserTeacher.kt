@@ -1,6 +1,6 @@
 package org.example.project.core.data.model.user
 
-class UserTutor(
+class UserTeacher(
     name: String,
     surname: String,
     middleName: String? = null,
@@ -12,5 +12,5 @@ class UserTutor(
     middleName,
     imageUrl,
     uid,
-    role = UserRole.Tutor
+    role = UserRole.Teacher
 )

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="app_name">GradeSpace</string>
+    <string name="loading">Загрузка...</string>
+
     <string name="no_description">Упс, кажется описание отсутствует...</string>
     <string name="error_disk_full">Упс, на вашем диске нет места.</string>
     <string name="error_unknown">Упс, что-то пошло не так.</string>
@@ -8,6 +11,9 @@
     <string name="error_too_many_requests">Слишком много запросов.</string>
     <string name="error_serialization">Не получилось распарсить данные.</string>
     <string name="error_not_found">404 Не найден</string>
+    <string name="error_user_not_found">Пользователь не найден</string>
+    <string name="error_invalid_password">Неверный пароль</string>
+    <string name="error_email_exists">Пользователь с таким email уже существует</string>
     <string name="before">Ранее</string>
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>
@@ -99,7 +105,7 @@
     <string name="system_mode">Системная</string>
     <string name="logout">Выход</string>
     <string name="student">Студент</string>
-    <string name="tutor">Преподаватель</string>
+    <string name="teacher">Преподаватель</string>
     <string name="user">Пользователь</string>
 
     <string name="connect">Подключиться</string>
@@ -162,4 +168,32 @@
     <string name="offline_location">Очно</string>
     <string name="online_link">Ссылка на онлайн-занятие</string>
     <string name="offline_place">Место проведения</string>
+
+    <!-- Auth -->
+    <string name="login_title">Вход</string>
+    <string name="registration_title">Регистрация</string>
+    <string name="enter_email">Введите email</string>
+    <string name="email_hint">example@mail.com</string>
+    <string name="continue_button">Продолжить</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="password_hint">Не менее 9 символов</string>
+    <string name="password">Пароль</string>
+    <string name="back_to_email">Вернуться к вводу email</string>
+    <string name="select_role">Выберите вашу роль</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="middle_name">Отчество (необязательно)</string>
+    <string name="group">Группа</string>
+    <string name="enter_first_name">Введите ваше имя</string>
+    <string name="enter_last_name">Введите вашу фамилию</string>
+    <string name="enter_middle_name">Введите ваше отчество</string>
+    <string name="enter_group">Введите вашу группу</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="email">Почта</string>
+    <string name="phone">Телефон</string>
+    <string name="enter_phone">Введите номер</string>
+    <string name="phone_hint">+78005553555</string>
+
+    <string name="email_format_error">Некорректный формат почты</string>
 </resources>

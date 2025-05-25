@@ -17,6 +17,7 @@ fun ScaffoldWithBottomBarWrapper(
     navigationManager: NavigationManager,
     snackbarHostState: SnackbarHostState,
     tabs: List<TabRoute>,
+    withBottomBar: Boolean,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(

@@ -10,4 +10,5 @@ sealed interface ProfileAction {
     data object HideBottomSheet : ProfileAction
     data class ChangeTheme(val theme: Theme) : ProfileAction
     data class ChangeLanguage(val language: Language) : ProfileAction
+    data object ExitApp : ProfileAction
 }

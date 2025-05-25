@@ -1,8 +1,8 @@
 package org.example.project.features.profile.data.repository
 
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import org.example.project.core.data.datastore.DataStorePreferences
 import org.example.project.core.data.datastore.getLanguage
@@ -12,26 +12,20 @@ import org.example.project.core.data.datastore.setTheme
 import org.example.project.core.data.model.Language
 import org.example.project.core.data.model.Theme
 import org.example.project.core.data.model.user.User
-import org.example.project.core.data.model.user.UserStudent
 import org.example.project.core.domain.DataError
 import org.example.project.core.domain.EmptyResult
 import org.example.project.core.domain.Result
+import org.example.project.core.domain.repository.UserRepository
 import org.example.project.features.profile.domain.ProfileItem
 import org.example.project.features.profile.domain.ProfileRepository
 
 class ProfileRepositoryImpl(
-    val dataStorePreferences: DataStorePreferences
+    val dataStorePreferences: DataStorePreferences,
+    val userRepository: UserRepository
 ) : ProfileRepository {
     override fun getUserInfo(): Flow<User> {
-        return flow {
-            emit(
-                UserStudent(
-                    name = "Test_Name",
-                    surname = "Test_Surname",
-                    middleName = "Test_MiddleName",
-                    group = "ИУ9-62Б"
-                )
-            )
+        return userRepository.getCurrentUserAsFlow().map { user ->
+            user ?: User(name = "Вася", surname = "Пупкин")
         }
     }
 
@@ -93,6 +87,13 @@ class ProfileRepositoryImpl(
     }
 
     override suspend fun actualize(): EmptyResult<DataError.Remote> {
+        return Result.Success(Unit)
+    }
+
+    override suspend fun logout(): EmptyResult<DataError.Remote> {
+        delay(2500L)
+        userRepository.saveUserAuthStatus(false)
+        userRepository.clearUserData()
         return Result.Success(Unit)
     }
 }

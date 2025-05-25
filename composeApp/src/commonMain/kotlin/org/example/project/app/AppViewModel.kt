@@ -11,6 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -31,7 +32,8 @@ class AppViewModel(
         observeLanguage()
     }
 
-    val theme: StateFlow<Theme> = dataStorePreferences.getTheme()
+    val theme: StateFlow<Theme> = dataStorePreferences
+        .getTheme()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,
@@ -48,6 +50,18 @@ class AppViewModel(
             }
             .launchIn(viewModelScope)
     }
+
+    suspend fun ensureThemeInitialized() {
+        val currentTheme = dataStorePreferences.getTheme().first()
+    }
+
+    /**
+     * Убеждается, что язык инициализирован
+     */
+    suspend fun ensureLanguageInitialized() {
+        val currentLanguage = dataStorePreferences.getLanguage().first()
+    }
+
 }
 
 @Composable
